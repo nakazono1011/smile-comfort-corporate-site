@@ -1,0 +1,7 @@
+public/
+  images/
+    services/
+      web-development.jpg  # Webサイト開発関連の画像
+      data-analytics.jpg   # データ分析関連の画像
+      automation.jpg       # 自動化ツール関連の画像
+      ec-support.jpg      # EC支援関連の画像 
