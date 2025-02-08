@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +19,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
+      <GoogleTagManager gtmId="GTM-KCSG3QM2" />
       <body className={inter.className}>
         <div className="min-h-screen flex flex-col">
           <main className="flex-grow">{children}</main>
         </div>
-        <GoogleAnalytics gaId="G-8HRNH9FQ9G" />
       </body>
+      <GoogleAnalytics gaId="G-8HRNH9FQ9G" />
     </html>
   );
 }
