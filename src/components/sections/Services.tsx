@@ -42,7 +42,7 @@ export function ServicesSection() {
           viewport={{ once: true }}
           className="text-4xl font-bold mb-12 text-center text-support-blue-dark"
         >
-          Services
+          サービス
         </motion.h2>
         <motion.div
           variants={staggerChildren}

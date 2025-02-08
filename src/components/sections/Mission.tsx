@@ -17,7 +17,7 @@ export function MissionSection() {
             variants={fadeInUp}
             className="text-4xl font-bold text-support-blue-dark"
           >
-            Mission
+            ミッション
           </motion.h2>
         </motion.div>
 
