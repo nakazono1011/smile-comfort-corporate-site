@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 const menuItems = [
   { name: "ミッション", id: "mission" },
@@ -14,17 +15,17 @@ const menuItems = [
 
 export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
 
-  const scrollToSection = (id: string) => {
+  const handleScroll = (id: string) => {
     setIsOpen(false);
-
     setTimeout(() => {
       const element = document.getElementById(id);
       if (element) {
         const offset = 80;
         const elementPosition =
           element.getBoundingClientRect().top + window.scrollY - offset;
-
         window.scrollTo({
           top: elementPosition,
           behavior: "smooth",
@@ -32,6 +33,56 @@ export function SiteHeader() {
       }
     }, 100);
   };
+
+  // ホームページ用のナビゲーションアイテム
+  const HomeNavItems = () => (
+    <>
+      <Link
+        href="/media"
+        className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+      >
+        メディア
+      </Link>
+      {menuItems.map((item) => (
+        <motion.button
+          key={item.id}
+          onClick={() => handleScroll(item.id)}
+          className="text-primary/80 hover:text-support-blue-dark transition-colors h-full flex items-center px-4 font-medium"
+          whileHover={{ y: -2 }}
+          whileTap={{ y: 0 }}
+        >
+          {item.name}
+        </motion.button>
+      ))}
+      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+        <Button
+          onClick={() => handleScroll("contact")}
+          className="bg-accent hover:bg-accent/90 text-white px-6 py-2 rounded-md"
+        >
+          お問い合わせ
+        </Button>
+      </motion.div>
+    </>
+  );
+
+  // メディアページ用のナビゲーションアイテム
+  const MediaNavItems = () => (
+    <>
+      <Link
+        href="/"
+        className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+      >
+        ホームに戻る
+      </Link>
+      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+        <Link href="/#contact">
+          <Button className="bg-accent hover:bg-accent/90 text-white px-6 py-2 rounded-md">
+            お問い合わせ
+          </Button>
+        </Link>
+      </motion.div>
+    </>
+  );
 
   return (
     <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md z-50 shadow-sm">
@@ -48,25 +99,7 @@ export function SiteHeader() {
 
         {/* デスクトップナビゲーション */}
         <nav className="hidden md:flex items-center space-x-8 h-full">
-          {menuItems.map((item) => (
-            <motion.button
-              key={item.id}
-              onClick={() => scrollToSection(item.id)}
-              className="text-primary/80 hover:text-support-blue-dark transition-colors h-full flex items-center px-4 font-medium"
-              whileHover={{ y: -2 }}
-              whileTap={{ y: 0 }}
-            >
-              {item.name}
-            </motion.button>
-          ))}
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button
-              onClick={() => scrollToSection("contact")}
-              className="bg-accent hover:bg-accent/90 text-white px-6 py-2 rounded-md"
-            >
-              お問い合わせ
-            </Button>
-          </motion.div>
+          {isHomePage ? <HomeNavItems /> : <MediaNavItems />}
         </nav>
 
         {/* ハンバーガーメニューボタン */}
@@ -100,22 +133,46 @@ export function SiteHeader() {
                 exit={{ opacity: 0, y: -20 }}
                 className="flex flex-col space-y-4"
               >
-                {menuItems.map((item) => (
-                  <motion.button
-                    key={item.id}
-                    onClick={() => scrollToSection(item.id)}
-                    className="text-primary/80 hover:text-support-blue-dark transition-colors py-2 text-left font-medium"
-                    whileHover={{ x: 4 }}
-                  >
-                    {item.name}
-                  </motion.button>
-                ))}
-                <Button
-                  onClick={() => scrollToSection("contact")}
-                  className="bg-accent hover:bg-accent/90 text-white w-full py-2 rounded-md"
-                >
-                  お問い合わせ
-                </Button>
+                {isHomePage ? (
+                  <>
+                    <Link
+                      href="/media"
+                      className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      メディア
+                    </Link>
+                    {menuItems.map((item) => (
+                      <motion.button
+                        key={item.id}
+                        onClick={() => handleScroll(item.id)}
+                        className="text-primary/80 hover:text-support-blue-dark transition-colors py-2 text-left font-medium"
+                        whileHover={{ x: 4 }}
+                      >
+                        {item.name}
+                      </motion.button>
+                    ))}
+                    <Button
+                      onClick={() => handleScroll("contact")}
+                      className="bg-accent hover:bg-accent/90 text-white w-full py-2 rounded-md"
+                    >
+                      お問い合わせ
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/"
+                      className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      ホームに戻る
+                    </Link>
+                    <Link href="/#contact">
+                      <Button className="bg-accent hover:bg-accent/90 text-white w-full py-2 rounded-md">
+                        お問い合わせ
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </motion.div>
             </div>
           </motion.div>
