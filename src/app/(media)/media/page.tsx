@@ -47,3 +47,5 @@ export default async function PostsPage({
     notFound();
   }
 }
+
+export const dynamic = "force-dynamic";
