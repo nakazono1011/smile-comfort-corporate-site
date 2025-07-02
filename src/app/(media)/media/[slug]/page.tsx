@@ -51,6 +51,16 @@ export default async function PostPage({
 
   const { content: mdxContent } = await compileMDX({
     source: content,
+    options: {
+      mdxOptions: {
+        remarkPlugins: [
+          // Import the plugin at the top of the file
+          (
+            await import("remark-gfm")
+          ).default,
+        ],
+      },
+    },
     components: {
       Link,
       // Add custom components for better styling
@@ -134,6 +144,43 @@ export default async function PostPage({
             {...props}
           />
         </span>
+      ),
+      table: ({ children, ...props }) => (
+        <div className="overflow-x-auto mb-6">
+          <table
+            className="min-w-full border-collapse border border-gray-300 bg-white shadow-sm rounded-lg"
+            {...props}
+          >
+            {children}
+          </table>
+        </div>
+      ),
+      thead: ({ children, ...props }) => (
+        <thead className="bg-gray-50" {...props}>
+          {children}
+        </thead>
+      ),
+      tbody: ({ children, ...props }) => <tbody {...props}>{children}</tbody>,
+      tr: ({ children, ...props }) => (
+        <tr className="border-b border-gray-200 hover:bg-gray-50" {...props}>
+          {children}
+        </tr>
+      ),
+      th: ({ children, ...props }) => (
+        <th
+          className="px-4 py-3 text-left text-sm font-semibold text-gray-900 border-r border-gray-300 last:border-r-0"
+          {...props}
+        >
+          {children}
+        </th>
+      ),
+      td: ({ children, ...props }) => (
+        <td
+          className="px-4 py-3 text-sm text-gray-700 border-r border-gray-300 last:border-r-0"
+          {...props}
+        >
+          {children}
+        </td>
       ),
     },
   });

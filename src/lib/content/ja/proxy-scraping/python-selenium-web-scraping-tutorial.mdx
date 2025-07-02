@@ -1,0 +1,653 @@
+---
+title: "Python + Seleniumスクレイピング実装例"
+date: "2024-12-19"
+summary: "Python + Seleniumを使った実践的なWebスクレイピングの実装方法。プロキシ設定、エラーハンドリング、最適化テクニックまで詳しく解説します。"
+slug: "python-selenium-web-scraping-tutorial"
+lang: "ja"
+tags: ["Python", "Selenium", "Webスクレイピング", "自動化", "プロキシ"]
+---
+
+# Python + Selenium スクレイピング実装例
+
+Selenium は Web ブラウザを自動化するツールで、JavaScript が多用されたモダンな Web サイトのスクレイピングに最適です。この記事では、Python と組み合わせた Selenium を使用して、実践的な Web スクレイピングシステムを構築する方法を詳しく解説します。
+
+## Selenium とは？
+
+Selenium は、Web ブラウザを自動化するためのフレームワークです。従来の HTTP リクエストベースのスクレイピングとは異なり、実際のブラウザを操作するため、以下の利点があります：
+
+### Selenium の主要メリット
+
+- **JavaScript 完全対応**: SPA や動的コンテンツも処理可能
+- **実ブラウザ環境**: ブラウザ検出回避に有効
+- **ユーザー操作の模倣**: クリック、フォーム入力などの操作
+- **待機処理**: 要素の読み込み完了を待機
+
+## 環境構築
+
+### 必要なパッケージのインストール
+
+```bash
+# 基本パッケージ
+pip install selenium beautifulsoup4 pandas
+
+# ブラウザドライバー管理
+pip install webdriver-manager
+
+# プロキシ管理
+pip install requests urllib3
+```
+
+### ブラウザドライバーの設定
+
+```python
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+
+def setup_chrome_driver(proxy=None, headless=True):
+    """Chrome WebDriverのセットアップ"""
+
+    chrome_options = Options()
+
+    # ヘッドレスモード設定
+    if headless:
+        chrome_options.add_argument('--headless')
+
+    # 基本設定
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--window-size=1920,1080')
+
+    # User-Agent設定
+    chrome_options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36')
+
+    # プロキシ設定
+    if proxy:
+        chrome_options.add_argument(f'--proxy-server={proxy}')
+
+    # ChromeDriverの自動ダウンロードと設定
+    service = Service(ChromeDriverManager().install())
+
+    return webdriver.Chrome(service=service, options=chrome_options)
+```
+
+## 基本的なスクレイピング実装
+
+### シンプルな例：ニュースサイトのスクレイピング
+
+```python
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+import json
+
+def scrape_news_site(url):
+    """ニュースサイトのスクレイピング例"""
+
+    driver = setup_chrome_driver()
+
+    try:
+        # ページアクセス
+        driver.get(url)
+
+        # ページ読み込み完了を待機
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "article"))
+        )
+
+        # 記事要素の取得
+        articles = driver.find_elements(By.CLASS_NAME, "article")
+
+        news_data = []
+        for article in articles:
+            try:
+                title = article.find_element(By.TAG_NAME, "h2").text
+                summary = article.find_element(By.CLASS_NAME, "summary").text
+                link = article.find_element(By.TAG_NAME, "a").get_attribute("href")
+
+                news_data.append({
+                    "title": title,
+                    "summary": summary,
+                    "link": link,
+                    "scraped_at": time.time()
+                })
+
+            except Exception as e:
+                print(f"記事解析エラー: {e}")
+                continue
+
+        return news_data
+
+    finally:
+        driver.quit()
+
+# 実行例
+if __name__ == "__main__":
+    news_url = "https://example-news-site.com"
+    results = scrape_news_site(news_url)
+
+    # 結果をJSONで保存
+    with open("news_data.json", "w", encoding="utf-8") as f:
+        json.dump(results, f, ensure_ascii=False, indent=2)
+
+    print(f"取得記事数: {len(results)}")
+```
+
+## プロキシ対応の高度な実装
+
+### プロキシローテーション機能
+
+```python
+import random
+from selenium.webdriver.common.proxy import Proxy, ProxyType
+
+class ProxyManager:
+    def __init__(self, proxy_list):
+        self.proxy_list = proxy_list
+        self.current_index = 0
+
+    def get_next_proxy(self):
+        """次のプロキシを取得"""
+        if not self.proxy_list:
+            return None
+
+        proxy = self.proxy_list[self.current_index]
+        self.current_index = (self.current_index + 1) % len(self.proxy_list)
+        return proxy
+
+    def get_random_proxy(self):
+        """ランダムなプロキシを取得"""
+        return random.choice(self.proxy_list) if self.proxy_list else None
+
+def setup_driver_with_proxy(proxy_string):
+    """プロキシ設定付きドライバーの設定"""
+
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+
+    if proxy_string:
+        # プロキシ設定
+        chrome_options.add_argument(f'--proxy-server={proxy_string}')
+
+        # 認証が必要な場合のextension設定
+        if '@' in proxy_string:
+            # プロキシ認証のためのextension作成
+            proxy_extension = create_proxy_auth_extension(proxy_string)
+            chrome_options.add_extension(proxy_extension)
+
+    service = Service(ChromeDriverManager().install())
+    return webdriver.Chrome(service=service, options=chrome_options)
+
+def create_proxy_auth_extension(proxy):
+    """プロキシ認証用のChrome拡張機能を作成"""
+    import zipfile
+    import os
+
+    # プロキシ情報の解析
+    if '@' in proxy:
+        auth_part, server_part = proxy.split('@')
+        username, password = auth_part.split(':')
+        host, port = server_part.split(':')
+    else:
+        return None
+
+    # 拡張機能のマニフェスト
+    manifest_json = """
+    {
+        "version": "1.0.0",
+        "manifest_version": 2,
+        "name": "Chrome Proxy",
+        "permissions": [
+            "proxy",
+            "tabs",
+            "unlimitedStorage",
+            "storage",
+            "<all_urls>",
+            "webRequest",
+            "webRequestBlocking"
+        ],
+        "background": {
+            "scripts": ["background.js"]
+        }
+    }
+    """
+
+    # 背景スクリプト
+    background_js = f"""
+    var config = {{
+        mode: "fixed_servers",
+        rules: {{
+            singleProxy: {{
+                scheme: "http",
+                host: "{host}",
+                port: parseInt({port})
+            }},
+            bypassList: ["localhost"]
+        }}
+    }};
+
+    chrome.proxy.settings.set({{value: config, scope: "regular"}}, function() {{}});
+
+    function callbackFn(details) {{
+        return {{
+            authCredentials: {{
+                username: "{username}",
+                password: "{password}"
+            }}
+        }};
+    }}
+
+    chrome.webRequest.onAuthRequired.addListener(
+        callbackFn,
+        {{urls: ["<all_urls>"]}},
+        ['blocking']
+    );
+    """
+
+    # 拡張機能ファイルの作成
+    extension_path = "proxy_auth_extension.zip"
+    with zipfile.ZipFile(extension_path, 'w') as zf:
+        zf.writestr("manifest.json", manifest_json)
+        zf.writestr("background.js", background_js)
+
+    return extension_path
+```
+
+### 実践的な EC サイトスクレイピング
+
+```python
+class EcommerceScraper:
+    def __init__(self, proxy_list=None):
+        self.proxy_manager = ProxyManager(proxy_list) if proxy_list else None
+        self.driver = None
+
+    def setup_driver(self):
+        """ドライバーの初期化"""
+        proxy = self.proxy_manager.get_next_proxy() if self.proxy_manager else None
+        self.driver = setup_driver_with_proxy(proxy)
+        return self.driver
+
+    def scrape_product_list(self, search_url, max_pages=5):
+        """商品リストのスクレイピング"""
+
+        if not self.driver:
+            self.setup_driver()
+
+        all_products = []
+
+        for page in range(1, max_pages + 1):
+            try:
+                # ページネーション対応
+                page_url = f"{search_url}&page={page}"
+                self.driver.get(page_url)
+
+                # ページ読み込み待機
+                WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.CLASS_NAME, "product-item"))
+                )
+
+                # 商品要素の取得
+                products = self.driver.find_elements(By.CLASS_NAME, "product-item")
+
+                if not products:  # 商品がない場合は終了
+                    break
+
+                page_products = []
+                for product in products:
+                    try:
+                        product_data = self.extract_product_data(product)
+                        if product_data:
+                            page_products.append(product_data)
+                    except Exception as e:
+                        print(f"商品データ抽出エラー: {e}")
+                        continue
+
+                all_products.extend(page_products)
+                print(f"ページ {page}: {len(page_products)}件の商品を取得")
+
+                # ページ間の遅延
+                time.sleep(random.uniform(2, 5))
+
+            except Exception as e:
+                print(f"ページ {page} でエラー: {e}")
+                continue
+
+        return all_products
+
+    def extract_product_data(self, product_element):
+        """商品データの抽出"""
+
+        try:
+            # 商品名
+            name_element = product_element.find_element(By.CLASS_NAME, "product-name")
+            name = name_element.text.strip()
+
+            # 価格
+            price_element = product_element.find_element(By.CLASS_NAME, "price")
+            price = price_element.text.strip()
+
+            # リンク
+            link_element = product_element.find_element(By.TAG_NAME, "a")
+            link = link_element.get_attribute("href")
+
+            # 画像URL
+            img_element = product_element.find_element(By.TAG_NAME, "img")
+            image_url = img_element.get_attribute("src")
+
+            # レビュー数（optional）
+            review_count = 0
+            try:
+                review_element = product_element.find_element(By.CLASS_NAME, "review-count")
+                review_count = int(review_element.text.replace("(", "").replace(")", ""))
+            except:
+                pass
+
+            return {
+                "name": name,
+                "price": price,
+                "link": link,
+                "image_url": image_url,
+                "review_count": review_count,
+                "scraped_at": time.time()
+            }
+
+        except Exception as e:
+            print(f"商品データ抽出エラー: {e}")
+            return None
+
+    def close(self):
+        """リソースのクリーンアップ"""
+        if self.driver:
+            self.driver.quit()
+
+# 使用例
+def main():
+    # プロキシリスト（例）
+    proxy_list = [
+        "proxy1.example.com:8080",
+        "proxy2.example.com:8080",
+        "proxy3.example.com:8080"
+    ]
+
+    scraper = EcommerceScraper(proxy_list)
+
+    try:
+        search_url = "https://example-shop.com/search?q=laptop"
+        products = scraper.scrape_product_list(search_url, max_pages=3)
+
+        # データ保存
+        import pandas as pd
+        df = pd.DataFrame(products)
+        df.to_csv("products.csv", index=False, encoding="utf-8")
+
+        print(f"取得商品数: {len(products)}")
+
+    finally:
+        scraper.close()
+
+if __name__ == "__main__":
+    main()
+```
+
+## エラーハンドリングとリトライ機能
+
+### 堅牢なエラーハンドリング
+
+```python
+from selenium.common.exceptions import (
+    TimeoutException,
+    NoSuchElementException,
+    WebDriverException,
+    StaleElementReferenceException
+)
+import time
+import logging
+
+# ログ設定
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+class RobustScraper:
+    def __init__(self, max_retries=3):
+        self.max_retries = max_retries
+        self.driver = None
+
+    def safe_find_element(self, by, value, timeout=10):
+        """安全な要素検索"""
+
+        for attempt in range(self.max_retries):
+            try:
+                element = WebDriverWait(self.driver, timeout).until(
+                    EC.presence_of_element_located((by, value))
+                )
+                return element
+
+            except TimeoutException:
+                logger.warning(f"要素が見つかりません (試行 {attempt + 1}/{self.max_retries}): {value}")
+                if attempt < self.max_retries - 1:
+                    time.sleep(2)
+                else:
+                    return None
+
+            except StaleElementReferenceException:
+                logger.warning("要素の参照が無効になりました。再試行します。")
+                time.sleep(1)
+                continue
+
+        return None
+
+    def safe_click(self, element, max_attempts=3):
+        """安全なクリック操作"""
+
+        for attempt in range(max_attempts):
+            try:
+                # 要素が表示されるまで待機
+                WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable(element)
+                )
+
+                # JavaScriptでクリック（より確実）
+                self.driver.execute_script("arguments[0].click();", element)
+                return True
+
+            except Exception as e:
+                logger.warning(f"クリック失敗 (試行 {attempt + 1}/{max_attempts}): {e}")
+                time.sleep(1)
+
+        return False
+
+    def retry_with_new_driver(self, func, *args, **kwargs):
+        """ドライバーを再起動してリトライ"""
+
+        for attempt in range(self.max_retries):
+            try:
+                if self.driver:
+                    self.driver.quit()
+
+                self.driver = setup_chrome_driver()
+                return func(*args, **kwargs)
+
+            except WebDriverException as e:
+                logger.error(f"WebDriverエラー (試行 {attempt + 1}/{self.max_retries}): {e}")
+                if attempt < self.max_retries - 1:
+                    time.sleep(5)
+                else:
+                    raise
+
+        return None
+```
+
+## パフォーマンス最適化
+
+### 並列処理による高速化
+
+```python
+import concurrent.futures
+import threading
+from queue import Queue
+
+class ParallelScraper:
+    def __init__(self, num_workers=3, proxy_list=None):
+        self.num_workers = num_workers
+        self.proxy_list = proxy_list or []
+        self.results_queue = Queue()
+
+    def worker(self, url_queue, worker_id):
+        """ワーカー関数"""
+
+        proxy = self.proxy_list[worker_id % len(self.proxy_list)] if self.proxy_list else None
+        driver = setup_driver_with_proxy(proxy)
+
+        try:
+            while True:
+                try:
+                    url = url_queue.get(timeout=1)
+                    if url is None:
+                        break
+
+                    result = self.scrape_single_page(driver, url)
+                    self.results_queue.put(result)
+
+                    url_queue.task_done()
+
+                except Exception as e:
+                    logger.error(f"ワーカー {worker_id} でエラー: {e}")
+                    url_queue.task_done()
+
+        finally:
+            driver.quit()
+
+    def scrape_multiple_urls(self, urls):
+        """複数URLの並列スクレイピング"""
+
+        url_queue = Queue()
+        for url in urls:
+            url_queue.put(url)
+
+        # ワーカースレッドの開始
+        threads = []
+        for i in range(self.num_workers):
+            thread = threading.Thread(
+                target=self.worker,
+                args=(url_queue, i)
+            )
+            thread.start()
+            threads.append(thread)
+
+        # 全タスクの完了を待機
+        url_queue.join()
+
+        # ワーカーの終了
+        for _ in range(self.num_workers):
+            url_queue.put(None)
+
+        for thread in threads:
+            thread.join()
+
+        # 結果の収集
+        results = []
+        while not self.results_queue.empty():
+            results.append(self.results_queue.get())
+
+        return results
+
+    def scrape_single_page(self, driver, url):
+        """単一ページのスクレイピング"""
+
+        try:
+            driver.get(url)
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.TAG_NAME, "body"))
+            )
+
+            # ここでページ固有のスクレイピング処理
+            title = driver.title
+            return {"url": url, "title": title, "status": "success"}
+
+        except Exception as e:
+            return {"url": url, "error": str(e), "status": "failed"}
+```
+
+## メモリ使用量の最適化
+
+```python
+def memory_efficient_scraping(urls, batch_size=10):
+    """メモリ効率的なスクレイピング"""
+
+    all_results = []
+
+    # バッチ処理
+    for i in range(0, len(urls), batch_size):
+        batch_urls = urls[i:i + batch_size]
+
+        driver = setup_chrome_driver()
+        batch_results = []
+
+        try:
+            for url in batch_urls:
+                try:
+                    driver.get(url)
+                    # 必要なデータのみ抽出
+                    result = extract_minimal_data(driver)
+                    batch_results.append(result)
+
+                    # DOM履歴のクリア
+                    driver.execute_script("window.history.pushState({}, '', window.location.href);")
+
+                except Exception as e:
+                    logger.error(f"URL処理エラー {url}: {e}")
+
+        finally:
+            driver.quit()
+
+        all_results.extend(batch_results)
+
+        # バッチ間のガベージコレクション
+        import gc
+        gc.collect()
+
+        print(f"バッチ {i//batch_size + 1} 完了: {len(batch_results)}件")
+
+    return all_results
+
+def extract_minimal_data(driver):
+    """最小限のデータ抽出"""
+    return {
+        "title": driver.title,
+        "url": driver.current_url,
+        "timestamp": time.time()
+    }
+```
+
+## まとめ
+
+Python + Selenium を使った Web スクレイピングは、現代の JavaScript 重要な Web サイトに対応する強力な手法です。成功のポイントは以下の通りです：
+
+### ベストプラクティス
+
+1. **適切な待機処理**: WebDriverWait を使用した動的要素の待機
+2. **エラーハンドリング**: 各種例外に対する適切な対処
+3. **プロキシローテーション**: IP ブロック回避のための仕組み
+4. **リソース管理**: メモリとブラウザプロセスの適切な管理
+5. **並列処理**: パフォーマンス向上のための工夫
+
+### 注意事項
+
+- サーバー負荷への配慮
+- robots.txt と利用規約の遵守
+- 適切な間隔でのリクエスト
+- 法的コンプライアンスの確保
+
+Selenium を効果的に活用することで、従来の HTTP リクエストベースのスクレイピングでは困難なサイトからも確実にデータを取得できます。
+
+## 関連記事
+
+- [プロキシサービス＆Web スクレイピング完全ガイド](/proxy-scraping/proxy-guide)
+- [ヘッドレスブラウザ比較：Puppeteer vs Playwright](/proxy-scraping/headless-browser-showdown-puppeteer-vs-playwright)
+- [IP ブロックを回避するテクニック](/proxy-scraping/techniques-to-avoid-ip-bans-when-scraping)
