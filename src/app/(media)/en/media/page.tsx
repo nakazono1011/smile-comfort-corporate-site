@@ -1,19 +1,19 @@
 import { getPostMeta, PostMeta } from "@/lib/mdx";
 import Link from "next/link";
 
-export const generateMetadata = () => ({ title: "メディア一覧" });
+export const generateMetadata = () => ({ title: "Media List" });
 export const revalidate = 60; // ISR: 60 秒
 
 export default async function MediaList() {
-  const posts = await getPostMeta("ja");
+  const posts = await getPostMeta("en");
 
   return (
     <main className="prose mx-auto">
-      <h1>最新記事</h1>
+      <h1>Latest Articles</h1>
       <ul>
         {posts.map((p: PostMeta) => (
           <li key={p.slug}>
-            <Link href={`/media/${p.slug}`}>{p.title}</Link>
+            <Link href={`/en/media/${p.slug}`}>{p.title}</Link>
             <small className="block opacity-70">{p.date}</small>
           </li>
         ))}

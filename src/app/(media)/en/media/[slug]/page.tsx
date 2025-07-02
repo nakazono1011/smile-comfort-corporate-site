@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
-  const posts = await getPostMeta("ja");
+  const posts = await getPostMeta("en");
   return posts.map((p: PostMeta) => ({ slug: p.slug }));
 }
 
@@ -14,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const { data } = await getPost(slug, "ja");
+  const { data } = await getPost(slug, "en");
   return { title: data.title, description: data.summary };
 }
 
@@ -26,7 +26,7 @@ export default async function PostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const { content, data } = await getPost(slug, "ja");
+  const { content, data } = await getPost(slug, "en");
   if (!data) notFound();
 
   const { content: mdxContent } = await compileMDX({
@@ -40,7 +40,7 @@ export default async function PostPage({
       <time dateTime={data.date}>{data.date}</time>
       {mdxContent}
       <hr />
-      <Link href="/media" className="text-sm">
+      <Link href="/en/media" className="text-sm">
         ← 記事一覧へ
       </Link>
     </article>

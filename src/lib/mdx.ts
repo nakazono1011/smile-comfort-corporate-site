@@ -11,7 +11,7 @@ export interface PostMeta {
   tags?: string[];
 }
 
-const CONTENT_ROOT = path.join(process.cwd(), "content");
+const CONTENT_ROOT = path.join(process.cwd(), "src", "lib", "content");
 
 export async function getPostMeta(lang: "ja" | "en"): Promise<PostMeta[]> {
   const dir = path.join(CONTENT_ROOT, lang, "media");
