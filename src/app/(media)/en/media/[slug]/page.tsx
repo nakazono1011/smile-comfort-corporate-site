@@ -89,12 +89,12 @@ export default async function PostPage({
         </blockquote>
       ),
       code: ({ children, ...props }) => (
-        <code className="bg-support-beige px-2 py-1 rounded text-sm font-mono text-primary" {...props}>
+        <code className="bg-slate-800 text-green-400 px-2 py-1 rounded text-sm font-mono border border-slate-700" {...props}>
           {children}
         </code>
       ),
       pre: ({ children, ...props }) => (
-        <pre className="bg-support-beige p-4 rounded-lg overflow-x-auto mb-4 text-sm" {...props}>
+        <pre className="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto mb-4 text-sm font-mono border border-slate-700 shadow-lg" {...props}>
           {children}
         </pre>
       ),
@@ -113,6 +113,9 @@ export default async function PostPage({
                 <article className="bg-white rounded-lg shadow-sm border border-support-beige/50 overflow-hidden">
                   <div className="p-6 md:p-8">
                     <ArticleHeader post={post} locale="en" readingTime={readingTime} />
+                    
+                    {/* Inline TOC for mobile */}
+                    <TableOfContents locale="en" variant="inline" />
                     
                     <div className="prose prose-lg max-w-none">
                       {mdxContent}

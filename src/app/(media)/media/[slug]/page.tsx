@@ -108,7 +108,7 @@ export default async function PostPage({
       ),
       code: ({ children, ...props }) => (
         <code
-          className="bg-support-beige px-2 py-1 rounded text-sm font-mono text-primary"
+          className="bg-slate-800 text-green-400 px-2 py-1 rounded text-sm font-mono border border-slate-700"
           {...props}
         >
           {children}
@@ -116,7 +116,7 @@ export default async function PostPage({
       ),
       pre: ({ children, ...props }) => (
         <pre
-          className="bg-support-beige p-4 rounded-lg overflow-x-auto mb-4 text-sm"
+          className="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto mb-4 text-sm font-mono border border-slate-700 shadow-lg"
           {...props}
         >
           {children}
@@ -141,6 +141,9 @@ export default async function PostPage({
                       locale="ja"
                       readingTime={readingTime}
                     />
+
+                    {/* Inline TOC for mobile */}
+                    <TableOfContents locale="ja" variant="inline" />
 
                     <div className="prose prose-lg max-w-none">
                       {mdxContent}
