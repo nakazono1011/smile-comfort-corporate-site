@@ -19,13 +19,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <GoogleTagManager gtmId="GTM-KCSG3QM2" />
       <body className={inter.className}>
         <div className="min-h-screen flex flex-col">
           <main className="flex-grow">{children}</main>
         </div>
       </body>
-      <GoogleAnalytics gaId="G-8HRNH9FQ9G" />
+      {process.env.NEXT_PUBLIC_VERCEL_ENV === "production" && (
+        <>
+          <GoogleAnalytics gaId="G-8HRNH9FQ9G" />
+          <GoogleTagManager gtmId="GTM-KCSG3QM2" />
+        </>
+      )}
     </html>
   );
 }
