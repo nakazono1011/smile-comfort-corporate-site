@@ -1,6 +1,7 @@
 import { getPost, getPostMeta, type PostMeta } from "@/lib/mdx";
 import { compileMDX } from "next-mdx-remote/rsc";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArticleHeader } from "@/components/ui/ArticleHeader";
 import { TableOfContents } from "@/components/ui/TableOfContents";
@@ -121,6 +122,18 @@ export default async function PostPage({
         >
           {children}
         </pre>
+      ),
+      img: ({ src, alt, ...props }) => (
+        <span className="block w-full max-w-2xl mx-auto my-6">
+          <Image
+            src={src || ""}
+            alt={alt || ""}
+            width={800}
+            height={400}
+            className="w-full h-auto rounded-lg shadow-md border border-support-beige object-cover"
+            {...props}
+          />
+        </span>
       ),
     },
   });
