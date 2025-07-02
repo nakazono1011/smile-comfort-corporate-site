@@ -22,6 +22,270 @@ AI 運用 5 原則
 #[n] times. # n = increment each chat, end line, etc(#1, #2...)
 </every_chat>
 
+# claude.md
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# PURPOSE
+
+# ▸ Tell Claude\* exactly how to turn each row of the topic-cluster spreadsheet
+
+# into a publish-ready MDX article for our Next.js 15 media section
+
+# ▸ \*Claude = Anthropic “Claude 3.5 Sonnet (code)” model
+
+# WHEN YOU CALL CLAUDE
+
+# 1. Give ONE spreadsheet row (or a custom prompt) + the locale (ja / en)
+
+# 2. Attach this claude.md file so Claude knows the house style
+
+# 3. Claude should answer only with the .mdx file content (no explanations)
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# 1. FILE & FOLDER RULES
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# • Output file path …… /lib/content/{locale}/media/{slug}.mdx
+
+# • Filename must exactly match ‹slug› column
+
+# • Images: /public/images/{slug}/{image-name}.webp (Claude ⇒ Playwright MCP)
+
+# • Use relative image paths in MDX: ![alt](/images/{slug}/{image-name}.webp)
+
+# • Locale:
+
+# ja → default site root → URL = /media/{slug}
+
+# en → sub-dir → URL = /en/media/{slug}
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# 2. FRONT-MATTER TEMPLATE
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# (Claude must fill every field. Keep order.)
+
+#
+
+# ---
+
+# title: "<JP or EN title>"
+
+# date: "YYYY-MM-DD"
+
+# summary: "<120 chars max – eye-catch blurb>"
+
+# slug: "<slug>"
+
+# lang: "<ja | en>"
+
+# tags: ["<Primary Keyword JP/EN>", "<Intent>", "<Product>", "<Tool>"]
+
+# cover: "/images/<slug>/cover.webp"
+
+# wordCountTarget: <pillar ? 1700 : 1100>
+
+# pillarSlug: "<parent pillar slug>" # empty for pillar itself
+
+# ---
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# 3. ARTICLE LAYOUT (Claude follows this outline)
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ## <H1 automatically rendered from title>
+
+#
+
+# ### 1. Lead-in (150-200 words)
+
+# • Hook + Pain point + Promise
+
+#
+
+# ### 2. Table of Contents <!--omit if < 800 words-->
+
+# <!-- mdx TOC plugin will pick up headings -->
+
+#
+
+# ### 3. Body Sections
+
+# • 3-7 H2 blocks
+
+# • Each H2 → 2-4 H3 sub-points
+
+# • Use ordered / unordered lists where it helps readability
+
+#
+
+# ### 4. Practical Example or Mini-Case Study
+
+# • Code, CLI, screenshot, KPI graphic etc.
+
+#
+
+# ### 5. FAQ (3-5 Q&A)
+
+#
+
+# ### 6. Conclusion & CTA
+
+# • CTA = “無料 30 分相談” OR “Try Bright Data free” etc. (match product)
+
+#
+
+# ### 7. Footnotes (Markdown footnote syntax)
+
+# [^1]: Official docs URL
+
+# [^2]: Industry report URL
+
+#
+
+# > Internal Links
+
+# > — Mention the parent pillar once in intro (“詳しくは〈link〉を参照”)
+
+# > — Link 2 sibling cluster articles if relevant (`/media/<slug>` or `/en/...`)
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# 4. PLAYWRIGHT MCP IMAGE DIRECTIVES
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# • Claude must embed _at least 2_ images:
+
+# 1. cover.webp → hero banner (1200×630 max)
+
+# 2. 1+ inline charts / screenshots
+
+# • For each image use this MDX directive:
+
+#
+
+# ```<PlaywrightMCP>
+
+# url: "https://<target-page>"
+
+# selector: "<css or xpath or viewport>"
+
+# saveAs: "01-pricing-table.webp"
+
+# width: 1200
+
+# height: 630
+
+# alt: "Bright Data official pricing table 2025"
+
+# caption: "Bright Data pricing as of 2025-07"
+
+# ```
+
+#
+
+# • Claude must reference ‹saveAs› in the article body via
+
+# `![Bright Data pricing table](/images/<slug>/01-pricing-table.webp)`
+
+#
+
+# • If a live screenshot is impossible, Claude generates a
+
+# remark-compatible diagram block (mermaid) **instead** of an image.
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# 5. STYLE GUIDE (EN & JA)
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# • Tone: authoritative yet friendly, no fluff, active voice.
+
+# • Code blocks: fenced triple back-ticks with language (`bash`, `python`, etc.)
+
+# • Use full-width punctuation in Japanese; half-width in English.
+
+# • Translate proper nouns consistently (see /glossary.json if provided).
+
+# • Quote official docs, academic papers, or ISO specs with footnote citations.
+
+# • Avoid passive “と思われる”. Assert with data or cite source.
+
+#
+
+# SEO on-page:
+
+# • Primary keyword appears in H1, first 100 words, 1 sub-heading,
+
+# file name, and cover alt text.
+
+# • Meta description auto uses `summary`.
+
+#
+
+# Accessibility:
+
+# • Every image must have meaningful `alt`.
+
+# • Use semantic headings hierarchy (no H4 if no H3 above).
+
+#
+
+# Length:
+
+# • Pillar → 1600-2000 words (wordCountTarget 1700)
+
+# • Cluster → 900-1300 words (wordCountTarget 1100)
+
+#
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# 6. HOW TO PROMPT CLAUDE (example)
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# 「以下の行で記事を書いて。locale は ja。claude.md に従え」
+
+#
+
+# Bright Data コスト最適化テクニック, Cost Optimization Tips for Bright Data, Bright Data コスト, bright data cost optimization, Low, How-to, cost-optimization-tips-for-bright-data
+
+#
+
+# Claude の返答 → **ONLY** the resulting `.mdx` file content.
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# 7. DO NOTS
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ✗ No external explanations, no “Here is your file” preamble
+
+# ✗ No raw screenshot binaries—only Playwright MCP directives
+
+# ✗ Do not break the front-matter format
+
+# ✗ No links to non-HTTPS sources
+
+#
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# END OF claude.md
+
+# ─────────────────────────────────────────────────────────────────────────────
+
 このファイルは、Claude Code (claude.ai/code) がこのリポジトリで作業する際のガイダンスを提供します。
 
 ## プロジェクト概要
