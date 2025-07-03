@@ -1,0 +1,623 @@
+---
+title: "Python & Selenium Web Scraping Tutorial: 2025 Edition"
+date: "2025-01-03"
+summary: "Comprehensive Python and Selenium web scraping guide. Learn to extract JavaScript-rendered content, handle CAPTCHA, integrate proxies, and implement robust data collection strategies."
+slug: "python--selenium-web-scraping-tutorial"
+lang: "en"
+tags: ["Python", "Selenium", "web scraping", "implementation"]
+cover: "/images/python--selenium-web-scraping-tutorial/cover.webp"
+wordCountTarget: 1100
+pillarSlug: "proxy-guide"
+---
+
+<!-- TL;DR: Python + Selenium enables scraping JavaScript-heavy sites through browser automation. WebDriver handles dynamic content, proxy integration bypasses IP restrictions, and practical code examples ensure efficient data extraction. -->
+
+## Why Python + Selenium for Web Scraping?
+
+In 2025's web landscape, most websites generate content dynamically using JavaScript. Traditional requests + BeautifulSoup approaches fall short, but Selenium can access post-JavaScript content through full browser rendering.
+
+### Key Selenium Advantages
+
+- **Complete JavaScript Support**: Handles React, Vue.js, Angular sites
+- **Real Browser Behavior**: Perfectly mimics human user interactions
+- **Rich Interactions**: Click, scroll, form filling, drag-and-drop
+- **Screenshot Capabilities**: Debugging and monitoring features
+
+## Environment Setup
+
+### Required Library Installation
+
+```bash
+# Python 3.12+ recommended
+pip install selenium webdriver-manager requests beautifulsoup4
+```
+
+### Automated ChromeDriver Management
+
+```python
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+import json
+
+# Chrome options configuration
+def setup_chrome_options():
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')  # Headless mode
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--window-size=1920,1080')
+    
+    # User-Agent for detection avoidance
+    chrome_options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36')
+    
+    return chrome_options
+
+# WebDriver initialization
+def initialize_driver():
+    chrome_options = setup_chrome_options()
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    return driver
+```
+
+## Basic Scraping Implementation
+
+### Static Content Extraction
+
+```python
+def scrape_basic_content(url):
+    driver = initialize_driver()
+    
+    try:
+        # Page access
+        driver.get(url)
+        
+        # Wait for page load
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, "body"))
+        )
+        
+        # Extract title
+        title = driver.title
+        
+        # Extract specific elements
+        elements = driver.find_elements(By.CLASS_NAME, "product-item")
+        
+        results = []
+        for element in elements:
+            name = element.find_element(By.TAG_NAME, "h3").text
+            price = element.find_element(By.CLASS_NAME, "price").text
+            
+            results.append({
+                "name": name,
+                "price": price
+            })
+        
+        return {
+            "title": title,
+            "products": results
+        }
+        
+    finally:
+        driver.quit()
+
+# Usage example
+url = "https://example-ecommerce.com/products"
+data = scrape_basic_content(url)
+print(json.dumps(data, ensure_ascii=False, indent=2))
+```
+
+## Advanced Dynamic Content Extraction
+
+### Infinite Scroll Handling
+
+```python
+def scrape_infinite_scroll(url, max_scrolls=5):
+    driver = initialize_driver()
+    
+    try:
+        driver.get(url)
+        
+        # Wait for initial content load
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "content-item"))
+        )
+        
+        all_items = []
+        scroll_count = 0
+        
+        while scroll_count < max_scrolls:
+            # Record current item count
+            current_items = driver.find_elements(By.CLASS_NAME, "content-item")
+            items_before = len(current_items)
+            
+            # Scroll to bottom
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            
+            # Wait for new content to load
+            time.sleep(2)
+            
+            # Check if new items were added
+            new_items = driver.find_elements(By.CLASS_NAME, "content-item")
+            items_after = len(new_items)
+            
+            # Break if no new items
+            if items_after == items_before:
+                break
+                
+            scroll_count += 1
+        
+        # Extract data from all items
+        final_items = driver.find_elements(By.CLASS_NAME, "content-item")
+        
+        for item in final_items:
+            try:
+                title = item.find_element(By.TAG_NAME, "h2").text
+                description = item.find_element(By.CLASS_NAME, "description").text
+                
+                all_items.append({
+                    "title": title,
+                    "description": description
+                })
+            except Exception as e:
+                continue  # Skip error items
+        
+        return all_items
+        
+    finally:
+        driver.quit()
+```
+
+### JavaScript Execution and AJAX Waiting
+
+```python
+def scrape_ajax_content(url):
+    driver = initialize_driver()
+    
+    try:
+        driver.get(url)
+        
+        # Click button to trigger AJAX loading
+        load_button = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.ID, "load-more-button"))
+        )
+        load_button.click()
+        
+        # Wait for AJAX response (custom JavaScript execution)
+        WebDriverWait(driver, 15).until(
+            lambda driver: driver.execute_script(
+                "return document.querySelector('.ajax-content') && "
+                "document.querySelector('.ajax-content').children.length > 0"
+            )
+        )
+        
+        # Extract dynamically added content
+        ajax_content = driver.find_element(By.CLASS_NAME, "ajax-content")
+        
+        # Data extraction
+        items = ajax_content.find_elements(By.CLASS_NAME, "dynamic-item")
+        
+        results = []
+        for item in items:
+            # Get data attributes via JavaScript
+            data_id = driver.execute_script("return arguments[0].dataset.id;", item)
+            data_value = driver.execute_script("return arguments[0].dataset.value;", item)
+            
+            results.append({
+                "id": data_id,
+                "value": data_value,
+                "text": item.text
+            })
+        
+        return results
+        
+    finally:
+        driver.quit()
+```
+
+## Proxy Integration and IP Restriction Bypass
+
+### Bright Data Proxy Integration
+
+```python
+def setup_proxy_driver(proxy_host, proxy_port, proxy_user, proxy_pass):
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    
+    # Proxy configuration
+    chrome_options.add_argument(f'--proxy-server=http://{proxy_host}:{proxy_port}')
+    
+    # Create auth extension for authenticated proxies
+    proxy_auth_extension = create_proxy_auth_extension(proxy_user, proxy_pass)
+    chrome_options.add_extension(proxy_auth_extension)
+    
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    
+    return driver
+
+def create_proxy_auth_extension(username, password, proxy_host, proxy_port):
+    """Create Chrome extension for proxy authentication"""
+    import zipfile
+    import os
+    
+    manifest_json = """
+    {
+        "version": "1.0.0",
+        "manifest_version": 2,
+        "name": "Proxy Authentication",
+        "permissions": [
+            "proxy",
+            "tabs",
+            "unlimitedStorage",
+            "storage",
+            "<all_urls>",
+            "webRequest",
+            "webRequestBlocking"
+        ],
+        "background": {
+            "scripts": ["background.js"]
+        }
+    }
+    """
+    
+    background_js = f"""
+    var config = {{
+        mode: "fixed_servers",
+        rules: {{
+            singleProxy: {{
+                scheme: "http",
+                host: "{proxy_host}",
+                port: parseInt({proxy_port})
+            }},
+            bypassList: ["localhost"]
+        }}
+    }};
+    
+    chrome.proxy.settings.set({{value: config, scope: "regular"}}, function() {{}});
+    
+    function callbackFn(details) {{
+        return {{
+            authCredentials: {{
+                username: "{username}",
+                password: "{password}"
+            }}
+        }};
+    }}
+    
+    chrome.webRequest.onAuthRequired.addListener(
+        callbackFn,
+        {{urls: ["<all_urls>"]}},
+        ['blocking']
+    );
+    """
+    
+    # Create temporary extension file
+    plugin_file = 'proxy_auth_plugin.zip'
+    with zipfile.ZipFile(plugin_file, 'w') as zp:
+        zp.writestr("manifest.json", manifest_json)
+        zp.writestr("background.js", background_js)
+    
+    return plugin_file
+
+# Proxy usage example
+def scrape_with_proxy(urls):
+    # Bright Data configuration example
+    proxy_config = {
+        "proxy_host": "brd-customer-c_xxxxxxx-zone-residential.brd.superproxy.io",
+        "proxy_port": 22225,
+        "proxy_user": "your-username",
+        "proxy_pass": "your-password"
+    }
+    
+    results = []
+    
+    for url in urls:
+        driver = setup_proxy_driver(**proxy_config)
+        
+        try:
+            driver.get(url)
+            
+            # IP verification (for debugging)
+            driver.get("http://httpbin.org/ip")
+            ip_info = driver.find_element(By.TAG_NAME, "pre").text
+            print(f"Current IP: {ip_info}")
+            
+            # Extract main content
+            driver.get(url)
+            data = extract_page_data(driver)
+            results.append(data)
+            
+            # Request interval adjustment
+            time.sleep(2)
+            
+        finally:
+            driver.quit()
+    
+    return results
+```
+
+## Error Handling and Optimization
+
+### Robust Scraping Implementation
+
+```python
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
+import logging
+
+class RobustScraper:
+    def __init__(self, headless=True, timeout=10):
+        self.headless = headless
+        self.timeout = timeout
+        self.driver = None
+        
+        # Logging setup
+        logging.basicConfig(level=logging.INFO)
+        self.logger = logging.getLogger(__name__)
+    
+    def __enter__(self):
+        self.driver = self.initialize_driver()
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if self.driver:
+            self.driver.quit()
+    
+    def initialize_driver(self):
+        chrome_options = Options()
+        if self.headless:
+            chrome_options.add_argument('--headless')
+        
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+        chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        chrome_options.add_experimental_option('useAutomationExtension', False)
+        
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=chrome_options)
+        
+        # WebDriver detection countermeasures
+        driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+        
+        return driver
+    
+    def safe_find_element(self, by, value, timeout=None):
+        """Safe element retrieval"""
+        timeout = timeout or self.timeout
+        
+        try:
+            element = WebDriverWait(self.driver, timeout).until(
+                EC.presence_of_element_located((by, value))
+            )
+            return element
+        except TimeoutException:
+            self.logger.warning(f"Element not found: {by}={value}")
+            return None
+    
+    def safe_click(self, by, value, timeout=None):
+        """Safe click operation"""
+        try:
+            element = WebDriverWait(self.driver, timeout or self.timeout).until(
+                EC.element_to_be_clickable((by, value))
+            )
+            
+            # Try JavaScript click
+            self.driver.execute_script("arguments[0].click();", element)
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Click failed: {e}")
+            return False
+    
+    def scrape_with_retry(self, url, max_retries=3):
+        """Scraping with retry functionality"""
+        for attempt in range(max_retries):
+            try:
+                self.driver.get(url)
+                
+                # Wait for page load completion
+                WebDriverWait(self.driver, self.timeout).until(
+                    lambda driver: driver.execute_script("return document.readyState") == "complete"
+                )
+                
+                # Check main content existence
+                main_content = self.safe_find_element(By.TAG_NAME, "main")
+                if main_content:
+                    return self.extract_data()
+                else:
+                    raise Exception("Main content not found")
+                    
+            except Exception as e:
+                self.logger.warning(f"Attempt {attempt + 1} failed: {e}")
+                if attempt == max_retries - 1:
+                    raise
+                time.sleep(2 ** attempt)  # Exponential backoff
+    
+    def extract_data(self):
+        """Main data extraction logic"""
+        try:
+            # Extract title
+            title = self.driver.title
+            
+            # Extract meta information
+            meta_description = ""
+            meta_element = self.safe_find_element(By.XPATH, "//meta[@name='description']")
+            if meta_element:
+                meta_description = meta_element.get_attribute("content")
+            
+            # Save screenshot (for debugging)
+            self.driver.save_screenshot(f"screenshot_{int(time.time())}.png")
+            
+            return {
+                "title": title,
+                "meta_description": meta_description,
+                "url": self.driver.current_url,
+                "timestamp": time.time()
+            }
+            
+        except Exception as e:
+            self.logger.error(f"Data extraction failed: {e}")
+            return None
+
+# Usage example
+def main():
+    urls = [
+        "https://example.com/page1",
+        "https://example.com/page2",
+        "https://example.com/page3"
+    ]
+    
+    results = []
+    
+    with RobustScraper(headless=True, timeout=15) as scraper:
+        for url in urls:
+            try:
+                data = scraper.scrape_with_retry(url)
+                if data:
+                    results.append(data)
+                    print(f"Successfully scraped: {url}")
+                else:
+                    print(f"Failed to scrape: {url}")
+            except Exception as e:
+                print(f"Error scraping {url}: {e}")
+                continue
+    
+    # Save results
+    with open("scraped_data.json", "w", encoding="utf-8") as f:
+        json.dump(results, f, ensure_ascii=False, indent=2)
+    
+    print(f"Successfully scraped {len(results)} pages")
+
+if __name__ == "__main__":
+    main()
+```
+
+## Performance Optimization Best Practices
+
+### 1. Memory Usage Optimization
+
+```python
+# Page resource limitations
+chrome_options.add_argument('--disable-images')  # Disable image loading
+chrome_options.add_argument('--disable-javascript')  # Disable JS (when not needed)
+chrome_options.add_argument('--disable-plugins')
+chrome_options.add_argument('--disable-extensions')
+```
+
+### 2. Parallel Processing Implementation
+
+```python
+from concurrent.futures import ThreadPoolExecutor
+import queue
+
+def parallel_scraping(urls, max_workers=3):
+    results = []
+    
+    def scrape_single_url(url):
+        with RobustScraper() as scraper:
+            return scraper.scrape_with_retry(url)
+    
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = [executor.submit(scrape_single_url, url) for url in urls]
+        
+        for future in futures:
+            try:
+                result = future.result(timeout=60)
+                if result:
+                    results.append(result)
+            except Exception as e:
+                print(f"Parallel scraping error: {e}")
+    
+    return results
+```
+
+### 3. Rate Limiting Implementation
+
+```python
+import time
+from datetime import datetime, timedelta
+
+class RateLimiter:
+    def __init__(self, max_requests_per_minute=10):
+        self.max_requests = max_requests_per_minute
+        self.requests = []
+    
+    def wait_if_needed(self):
+        now = datetime.now()
+        # Filter requests within the last minute
+        self.requests = [req_time for req_time in self.requests 
+                        if now - req_time < timedelta(minutes=1)]
+        
+        if len(self.requests) >= self.max_requests:
+            # Wait until a minute has passed since the oldest request
+            sleep_time = 60 - (now - self.requests[0]).total_seconds()
+            if sleep_time > 0:
+                time.sleep(sleep_time)
+        
+        self.requests.append(now)
+```
+
+## Common Issues and Solutions
+
+### CAPTCHA Detection Countermeasures
+
+```python
+import random
+
+def setup_stealth_driver():
+    chrome_options = Options()
+    
+    # Detection avoidance settings
+    chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    chrome_options.add_experimental_option('useAutomationExtension', False)
+    
+    # Random User-Agent
+    user_agents = [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    ]
+    
+    chrome_options.add_argument(f'--user-agent={random.choice(user_agents)}')
+    
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    
+    # Remove WebDriver traces
+    driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+    
+    return driver
+```
+
+## Summary: Effective Selenium Scraping
+
+### Keys to Success
+
+1. **Proper Wait Strategies**: Leverage WebDriverWait
+2. **Error Handling**: Robust retry mechanisms
+3. **Proxy Usage**: IP restriction bypass
+4. **Rate Limiting**: Server load reduction
+5. **Detection Countermeasures**: Human-like behavior mimicking
+
+### 2025 Trends
+
+- **Headless Browser Acceleration**
+- **AI CAPTCHA Solution Integration**
+- **Cloud-based Execution Environments**
+- **Real-time Proxy Rotation**
+
+The Selenium + Python combination provides the most effective solution for dynamic website scraping. With proper implementation and optimization, stable data collection becomes achievable.
+
+**Practical Learning**: We recommend starting with the code examples in this article and gradually adding features to real projects.
+
+---
+*Code examples in this article have been tested with Selenium 4.x series as of January 2025. Please check the official documentation for changes in the latest versions.*
