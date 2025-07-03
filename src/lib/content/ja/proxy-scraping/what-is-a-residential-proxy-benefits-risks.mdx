@@ -93,31 +93,14 @@ print(f"アクセス成功: {response.status_code}")
 - 自動的な IP ローテーション
 - ブロックリスト回避
 
-```python
-# ローテーション設定の例
-import time
-import random
+### IP ローテーションの仕組み
 
-def rotate_ip_scraping(urls, proxy_pool):
-    results = []
+住宅プロキシサービスでは、大規模なIPプールから自動的にIPアドレスを切り替えながらアクセスします：
 
-    for url in urls:
-        # ランダムに住宅プロキシを選択
-        proxy = random.choice(proxy_pool)
-
-        try:
-            response = requests.get(url, proxies=proxy)
-            results.append(response.text)
-
-            # リクエスト間にランダムな遅延
-            time.sleep(random.uniform(1, 3))
-
-        except Exception as e:
-            print(f"エラー: {e}")
-            continue
-
-    return results
-```
+- **大規模プール**: 数百万から数千万のIPアドレスを保有
+- **自動切り替え**: アクセスごとに異なるIPを使用
+- **地域分散**: 世界各国のIPアドレスを利用可能
+- **検出回避**: 自然なアクセスパターンを模倣
 
 ### 4. セッション管理
 

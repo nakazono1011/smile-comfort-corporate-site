@@ -37,22 +37,22 @@ pip install webdriver-manager
 pip install requests urllib3
 ```
 
-### ブラウザドライバーの設定
+### Selenium 4の新機能：自動ドライバー管理
+
+**2025年最新のSelenium 4では、Selenium Managerが自動でドライバーとブラウザを管理します。**
 
 ```python
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 
-def setup_chrome_driver(proxy=None, headless=True):
-    """Chrome WebDriverのセットアップ"""
+def setup_chrome_driver_selenium4(proxy=None, headless=True):
+    """新しいSelenium 4での簡単セットアップ"""
 
     chrome_options = Options()
 
-    # ヘッドレスモード設定
+    # ヘッドレスモード設定（2025年新形式）
     if headless:
-        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--headless=new')  # 新形式
 
     # 基本設定
     chrome_options.add_argument('--no-sandbox')
@@ -60,18 +60,41 @@ def setup_chrome_driver(proxy=None, headless=True):
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('--window-size=1920,1080')
 
-    # User-Agent設定
-    chrome_options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36')
+    # 2025年最新のUser-Agent
+    chrome_options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36')
 
     # プロキシ設定
     if proxy:
         chrome_options.add_argument(f'--proxy-server={proxy}')
 
-    # ChromeDriverの自動ダウンロードと設定
-    service = Service(ChromeDriverManager().install())
+    # Selenium 4.6+: 自動ドライバーダウンロード
+    # Selenium 4.11+: 自動ブラウザダウンロード
+    return webdriver.Chrome(options=chrome_options)  # Serviceの指定不要！
 
+# 旧来方式（非推奨）
+def setup_chrome_driver_legacy(proxy=None, headless=True):
+    """旧方式のセットアップ（参考用）"""
+    from selenium.webdriver.chrome.service import Service
+    from webdriver_manager.chrome import ChromeDriverManager
+
+    chrome_options = Options()
+    if headless:
+        chrome_options.add_argument('--headless')
+    
+    if proxy:
+        chrome_options.add_argument(f'--proxy-server={proxy}')
+
+    # 手動ドライバー管理（非推奨）
+    service = Service(ChromeDriverManager().install())
     return webdriver.Chrome(service=service, options=chrome_options)
 ```
+
+### Selenium 4の主要改善点
+
+- **自動ドライバー管理**: ChromeDriverの手動ダウンロード不要
+- **自動ブラウザダウンロード**: Chromeがインストールされていない場合も自動対応
+- **WebDriver BiDiプロトコル**: リアルタイムイベント取得が可能
+- **Chrome DevTools統合**: v129, v128, v127に対応
 
 ## 基本的なスクレイピング実装
 
