@@ -2,11 +2,11 @@ Pillar Type JP Title EN Title Primary Keyword JP Primary Keyword EN Volume Inten
 Proxy & Web-Scraping Pillar プロキシサービス＆Web スクレイピング完全ガイド Ultimate Guide to Proxy Services & Web Scraping プロキシ サービス 比較 residential proxy provider Mid Pillar proxy-guide
 EC OMS & Next Engine Pillar EC 一元管理ツール徹底比較＆導入手順 EC Order-Management Systems: Comparison & Implementation EC 一元管理 システム 比較 order management system japan Mid Pillar oms-guide
 Password Manager Pillar パスワード管理ツール入門：選び方と比較表 Password Managers 101: How to Choose the Right One パスワード管理ツール おすすめ best password manager High Pillar password-manager-guide
-Proxy & Web-Scraping Cluster Bright Data の料金体系と支払いモデル解説 Bright Data Pricing Explained Bright Data 料金 bright data pricing Mid Transactional bright-data-pricing-explained
-Proxy & Web-Scraping Cluster 住宅 IP プロキシとは？メリットとリスク What Is a Residential Proxy? Benefits & Risks 住宅 IP プロキシ residential proxy Mid Informational what-is-a-residential-proxy-benefits--risks
-Proxy & Web-Scraping Cluster Bright Data vs Oxylabs 徹底比較 Bright Data vs Oxylabs: Feature Comparison bright data oxylabs 比較 bright data vs oxylabs Low Comparative bright-data-vs-oxylabs-feature-comparison
-Proxy & Web-Scraping Cluster Python + Selenium スクレイピング実装例 Python & Selenium Web Scraping Tutorial Web スクレイピング Python web scraping python High How-to python--selenium-web-scraping-tutorial
-Proxy & Web-Scraping Cluster スクレイピングの法的問題 Q&A Legal Issues in Web Scraping: Q&A スクレイピング 法律 web scraping legal issues Mid Informational legal-issues-in-web-scraping-qa
+Proxy & Web-Scraping Cluster Bright Data の料金体系と支払いモデル解説 Bright Data Pricing Explained Bright Data 料金 bright data pricing Mid Transactional bright-data-pricing-explained ✅
+Proxy & Web-Scraping Cluster 住宅 IP プロキシとは？メリットとリスク What Is a Residential Proxy? Benefits & Risks 住宅 IP プロキシ residential proxy Mid Informational what-is-a-residential-proxy-benefits--risks ✅
+Proxy & Web-Scraping Cluster Bright Data vs Oxylabs 徹底比較 Bright Data vs Oxylabs: Feature Comparison bright data oxylabs 比較 bright data vs oxylabs Low Comparative bright-data-vs-oxylabs-feature-comparison ✅
+Proxy & Web-Scraping Cluster Python + Selenium スクレイピング実装例 Python & Selenium Web Scraping Tutorial Web スクレイピング Python web scraping python High How-to python--selenium-web-scraping-tutorial ✅
+Proxy & Web-Scraping Cluster スクレイピングの法的問題 Q&A Legal Issues in Web Scraping: Q&A スクレイピング 法律 web scraping legal issues Mid Informational legal-issues-in-web-scraping-qa ✅
 Proxy & Web-Scraping Cluster データセンタープロキシと住宅 IP の違い Datacenter vs Residential Proxies データセンター プロキシ datacenter proxy Low Comparative datacenter-vs-residential-proxies
 Proxy & Web-Scraping Cluster ローテーティングプロキシの活用法 How to Use Rotating Proxies Effectively ローテーティング プロキシ rotating proxy Low How-to how-to-use-rotating-proxies-effectively
 Proxy & Web-Scraping Cluster IP ブロックを回避するテクニック Techniques to Avoid IP Bans When Scraping IP ブロック 回避 avoid ip ban scraping Low How-to techniques-to-avoid-ip-bans-when-scraping
