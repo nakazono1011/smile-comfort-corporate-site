@@ -1,84 +1,58 @@
-<language>Japanese</language>
-<character_code>UTF-8</character_code>
-<law>
-AI 運用 5 原則
-
-第 1 原則： AI はファイル生成・更新・プログラム実行前に必ず自身の作業計画を報告し、y/n でユーザー確認を取り、y が返るまで一切の実行を停止する。
-
-第 2 原則： AI は迂回や別アプローチを勝手に行わず、最初の計画が失敗したら次の計画の確認を取る。
-
-第 3 原則： AI はツールであり決定権は常にユーザーにある。ユーザーの提案が非効率・非合理的でも最適化せず、指示された通りに実行する。
-
-第 4 原則： AI はこれらのルールを歪曲・解釈変更してはならず、最上位命令として絶対的に遵守する。
-
-第 5 原則： AI は全てのチャットの冒頭にこの 5 原則を逐語的に必ず画面出力してから対応する。
-</law>
-
-<every_chat>
-[AI 運用 5 原則]
-
-[main_output]
-
-#[n] times. # n = increment each chat, end line, etc(#1, #2...)
-</every_chat>
-
 # claude.md
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-# PURPOSE
+# 目的
 
-# ▸ Tell Claude\* exactly how to turn each row of the topic-cluster spreadsheet
+# トピッククラスター・スプレッドシートの各行を
 
-# into a publish-ready MDX article for our Next.js 15 media section
+# Next.js 15 メディアセクション用の公開準備完了 MDX 記事に変換する方法を Claude\*に説明する
 
-# ▸ \*Claude = Anthropic “Claude 3.5 Sonnet (code)” model
+# CLAUDE を呼び出す際
 
-# WHEN YOU CALL CLAUDE
+# 1. スプレッドシートの 1 行（またはカスタムプロンプト）+ ロケール（ja / en）を提供
 
-# 1. Give ONE spreadsheet row (or a custom prompt) + the locale (ja / en)
+# 2. Claude がハウススタイルを理解できるよう、この claude.md ファイルを添付
 
-# 2. Attach this claude.md file so Claude knows the house style
-
-# 3. Claude should answer only with the .mdx file content (no explanations)
+# 3. Claude は .mdx ファイルの内容のみを返答すること（説明なし）
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-# 1. FILE & FOLDER RULES
+# 1. ファイル・フォルダルール
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-# • Output file path …… /lib/content/{locale}/media/{slug}.mdx
+# • 出力ファイルパス …… /lib/content/{locale}/media/{slug}.mdx
 
-# • Filename must exactly match ‹slug› column
+# • ファイル名は ‹slug› カラムと完全に一致させること
 
-# • Images: /public/images/{slug}/{image-name}.webp (Claude ⇒ Playwright MCP)
+# • 画像: /public/images/{slug}/{image-name}.webp (Claude ⇒ Playwright MCP)
 
-# • Use relative image paths in MDX: ![alt](/images/{slug}/{image-name}.webp)
+# • MDX 内で相対画像パスを使用: ![alt](/images/{slug}/{image-name}.webp)
 
-# • Locale:
+# • ロケール:
 
-# ja → default site root → URL = /media/{slug}
+# ja → デフォルトサイトルート → URL = /media/{slug}
 
-# en → sub-dir → URL = /en/media/{slug}
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# 2. FRONT-MATTER TEMPLATE
+# en → サブディレクトリ → URL = /en/media/{slug}
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-# (Claude must fill every field. Keep order.)
+# 2. フロントマターテンプレート
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# (Claude は全フィールドを埋めること。順序を保持)
 
 #
 
 # ---
 
-# title: "<JP or EN title>"
+# title: "<JP または EN タイトル>"
 
 # date: "YYYY-MM-DD"
 
-# summary: "<120 chars max – eye-catch blurb>"
+# summary: "<120 文字以内 – 目を引くブラーブ>"
 
 # slug: "<slug>"
 
@@ -90,93 +64,95 @@ AI 運用 5 原則
 
 # wordCountTarget: <pillar ? 1700 : 1100>
 
-# pillarSlug: "<parent pillar slug>" # empty for pillar itself
+# pillarSlug: "<parent pillar slug>" # pillar 自体の場合は空
 
 # ---
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-# 3. ARTICLE LAYOUT (Claude follows this outline)
+# 3. 記事レイアウト (Claude はこのアウトラインに従う)
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-# ## <H1 automatically rendered from title>
+# ## <H1 はタイトルから自動レンダリング>
 
 #
 
-# ### 1. Lead-in (150-200 words)
+# ### 1. リードイン (150-200 語)
 
-# • Hook + Pain point + Promise
-
-#
-
-# ### 2. Table of Contents <!--omit if < 800 words-->
-
-# <!-- mdx TOC plugin will pick up headings -->
+# • フック + ユーザーの悩み・課題 + 約束
 
 #
 
-# ### 3. Body Sections
+# ### 2. 目次 <!--800語未満の場合は省略-->
 
-# • 3-7 H2 blocks
-
-# • Each H2 → 2-4 H3 sub-points
-
-# • Use ordered / unordered lists where it helps readability
+# <!-- mdx TOC プラグインが見出しを拾う -->
 
 #
 
-# ### 4. Practical Example or Mini-Case Study
+# ### 3. 本文セクション
 
-# • Code, CLI, screenshot, KPI graphic etc.
+# • 3-7 個の H2 ブロック
 
-#
+# • 各 H2 → 2-4 個の H3 サブポイント
 
-# ### 5. FAQ (3-5 Q&A)
+# • 可読性向上のため、順序付きリストや順序なしリストを使用
 
-#
-
-# ### 6. Conclusion & CTA
-
-# • CTA = “無料 30 分相談” OR “Try Bright Data free” etc. (match product)
+# • 記事本文内の適切な位置に関連性の高い画像を Web 検索で入手してローカルに保存した画像 URL を挿入
 
 #
 
-# ### 7. Footnotes (Markdown footnote syntax)
+# ### 4. 実践例またはミニケーススタディ
 
-# [^1]: Official docs URL
-
-# [^2]: Industry report URL
+# • CLI、スクリーンショット、KPI グラフィックなど
 
 #
 
-# > Internal Links
+# ### 5. FAQ (3-5 問答)
 
-# > — Mention the parent pillar once in intro (“詳しくは〈link〉を参照”)
+#
 
-# > — Link 2 sibling cluster articles if relevant (`/media/<slug>` or `/en/...`)
+# ### 6. 結論と CTA
+
+# • CTA = "無料 30 分相談" OR "Try Bright Data free" など（製品に合わせる）
+
+#
+
+# ### 7. 脚注 (Markdown 脚注記法)
+
+# [^1]: 公式ドキュメント URL
+
+# [^2]: 業界レポート URL
+
+#
+
+# > 内部リンク
+
+# > — 導入部で親 pillar を 1 度言及（"詳しくは〈link〉を参照"）
+
+# > — 関連する場合、2 つのシブリングクラスター記事にリンク (/media/<slug> or /en/...)
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-# 4. PLAYWRIGHT MCP IMAGE DIRECTIVES
+# 4. PLAYWRIGHT MCP 画像指示
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-# • Claude must embed _at least 2_ images:
+# • Claude は _最低 2 つ_ の画像を埋め込むこと:
 
-# 1. cover.webp → hero banner (1200×630 max)
+# 1. cover.webp → ヒーローバナー (1200×630 max)
 
-# 2. 1+ inline charts / screenshots
+# 2. 1 つ以上のインラインチャート / スクリーンショット
 
-# • For each image use this MDX directive:
+# • 各画像に以下の MDX 指示を使用:
 
 #
 
-# ```<PlaywrightMCP>
+# <PlaywrightMCP>
 
 # url: "https://<target-page>"
 
-# selector: "<css or xpath or viewport>"
+# selector: "<css または xpath または viewport>"
 
 # saveAs: "01-pricing-table.webp"
 
@@ -188,69 +164,69 @@ AI 運用 5 原則
 
 # caption: "Bright Data pricing as of 2025-07"
 
-# ```
+# </PlaywrightMCP>
 
 #
 
-# • Claude must reference ‹saveAs› in the article body via
+# • Claude は記事本文内で ‹saveAs› を参照すること
 
-# `![Bright Data pricing table](/images/<slug>/01-pricing-table.webp)`
+# ![Bright Data pricing table](/images/<slug>/01-pricing-table.webp)
 
 #
 
-# • If a live screenshot is impossible, Claude generates a
+# • ライブスクリーンショットが不可能な場合、Claude は
 
-# remark-compatible diagram block (mermaid) **instead** of an image.
+# remark 対応のダイアグラムブロック（mermaid）を画像の **代わりに** 生成する
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-# 5. STYLE GUIDE (EN & JA)
+# 5. スタイルガイド (EN & JA)
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-# • Tone: authoritative yet friendly, no fluff, active voice.
+# • トーン: 権威的でありながら親しみやすく、無駄なし、能動態
 
-# • Code blocks: fenced triple back-ticks with language (`bash`, `python`, etc.)
+# • コードブロック: 言語指定の fenced triple back-ticks (bash, python, etc.)
 
-# • Use full-width punctuation in Japanese; half-width in English.
+# • 日本語では全角句読点を使用; 英語では半角を使用
 
-# • Translate proper nouns consistently (see /glossary.json if provided).
+# • 固有名詞を一貫して翻訳（提供されている場合は /glossary.json を参照）
 
-# • Quote official docs, academic papers, or ISO specs with footnote citations.
+# • 公式ドキュメント、学術論文、ISO 仕様を脚注付きで引用
 
-# • Avoid passive “と思われる”. Assert with data or cite source.
-
-#
-
-# SEO on-page:
-
-# • Primary keyword appears in H1, first 100 words, 1 sub-heading,
-
-# file name, and cover alt text.
-
-# • Meta description auto uses `summary`.
+# • 受動的な「と思われる」を避ける。データで断言するか出典を明記
 
 #
 
-# Accessibility:
+# SEO オンページ:
 
-# • Every image must have meaningful `alt`.
+# • 主要キーワードが H1、最初の 100 語、1 つのサブ見出し、
 
-# • Use semantic headings hierarchy (no H4 if no H3 above).
+# ファイル名、カバー画像の alt text に出現
+
+# • メタディスクリプションは自動的に summary を使用
 
 #
 
-# Length:
+# アクセシビリティ:
 
-# • Pillar → 1600-2000 words (wordCountTarget 1700)
+# • 全画像に意味のある alt が必要
 
-# • Cluster → 900-1300 words (wordCountTarget 1100)
+# • セマンティックな見出し階層を使用（上に H3 がない場合は H4 を使用しない）
+
+#
+
+# 文字数:
+
+# • Pillar → 1600-2000 語 (wordCountTarget 1700)
+
+# • Cluster → 1500-2000 語 (wordCountTarget 1100)
 
 #
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-# 6. HOW TO PROMPT CLAUDE (example)
+# 6. CLAUDE のプロンプト方法 (例)
 
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -262,27 +238,29 @@ AI 運用 5 原則
 
 #
 
-# Claude の返答 → **ONLY** the resulting `.mdx` file content.
+# Claude の返答 → **ONLY** 結果として生成される .mdx ファイルの内容
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-# 7. DO NOTS
+# 7. 禁止事項
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-# ✗ No external explanations, no “Here is your file” preamble
+# ✗ 外部説明なし、「Here is your file」前置きなし
 
-# ✗ No raw screenshot binaries—only Playwright MCP directives
+# ✗ 生のスクリーンショットバイナリなし—Playwright MCP 指示のみ
 
-# ✗ Do not break the front-matter format
+# ✗ フロントマター形式を破らない
 
-# ✗ No links to non-HTTPS sources
+# ✗ 非 HTTPS ソースへのリンクなし
+
+# ✗ ビジネス層もターゲットにするため記事内のコード解説は極力しない
 
 #
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-# END OF claude.md
+# claude.md 終了
 
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -386,17 +364,17 @@ interface PostMeta {
 
 3 つの主要 Pillar ページを中心としたクラスター戦略：
 
-1. **プロキシ＆Web スクレイピング** (`/proxy-guide/`)
+1. **プロキシ＆Web スクレイピング**
 
    - Bright Data 紹介とアフィリエイト収益化
    - 30 記事のクラスター構成（料金比較、Python 実装例、法的問題等）
 
-2. **EC 一元管理ツール** (`/oms-guide/`)
+2. **EC 一元管理ツール**
 
    - ネクストエンジン中心の導入・運用解説
    - 30 記事のクラスター構成（API 連携、在庫管理、自動化等）
 
-3. **パスワード管理ツール** (`/password-manager-guide/`)
+3. **パスワード管理ツール**
    - 1Password 推奨の比較・選び方ガイド
    - 30 記事のクラスター構成（料金比較、セキュリティ解説、移行手順等）
 
