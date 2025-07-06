@@ -8,45 +8,49 @@ tags: ["ヘッドレスブラウザ 比較", "Puppeteer", "Playwright", "ブラ�
 ---
 
 {/* TL;DR */}
-クロスブラウザ対応と高度な機能が必要ならPlaywright、Chrome特化で軽量性を重視するならPuppeteerを選択。
+クロスブラウザ対応と高度な機能が必要なら Playwright、Chrome 特化で軽量性を重視するなら Puppeteer を選択。
 
 ## ヘッドレスブラウザ自動化の重要性
 
-ヘッドレスブラウザは、GUI なしでWebページを操作できる強力なツールです。Webスクレイピング、自動テスト、PDFレンダリングなど様々な用途で活用されています。
+ヘッドレスブラウザは、GUI なしで Web ページを操作できる強力なツールです。Web スクレイピング、自動テスト、PDF レンダリングなど様々な用途で活用されています。
 
-まず[Webスクレイピングの基本](/python--selenium-web-scraping-tutorial)を理解してから、具体的なツール選択を行いましょう。
+まず[Web スクレイピングの基本](/python--selenium-web-scraping-tutorial)を理解してから、具体的なツール選択を行いましょう。
 
 ![ブラウザ自動化ツール比較](https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80)
 
 ## 基本的な比較
 
-### Puppeteer概要
+### Puppeteer 概要
+
 - **開発元**: Google
 - **主なサポートブラウザ**: Chrome/Chromium
 - **言語サポート**: JavaScript/TypeScript
-- **リリース**: 2017年
+- **リリース**: 2017 年
 
-### Playwright概要
+### Playwright 概要
+
 - **開発元**: Microsoft
 - **主なサポートブラウザ**: Chrome, Firefox, Safari
 - **言語サポート**: JavaScript, Python, Java, C#
-- **リリース**: 2020年
+- **リリース**: 2020 年
 
 ## 詳細比較
 
 ### ブラウザサポート
 
 **Puppeteer**
+
 ```javascript
 // Chrome/Chromiumのみ
-const puppeteer = require('puppeteer');
+const puppeteer = require("puppeteer");
 const browser = await puppeteer.launch();
 ```
 
 **Playwright**
+
 ```javascript
 // 複数ブラウザ対応
-const { chromium, firefox, webkit } = require('playwright');
+const { chromium, firefox, webkit } = require("playwright");
 const browser = await chromium.launch();
 // const browser = await firefox.launch();
 // const browser = await webkit.launch();
@@ -54,53 +58,55 @@ const browser = await chromium.launch();
 
 ### パフォーマンス比較
 
-| 項目 | Puppeteer | Playwright |
-|------|-----------|------------|
-| 起動速度 | 高速 | 中程度 |
-| メモリ使用量 | 少ない | 中程度 |
-| 並列処理 | 良好 | 優秀 |
-| ネットワーク制御 | 基本的 | 高度 |
+| 項目             | Puppeteer | Playwright |
+| ---------------- | --------- | ---------- |
+| 起動速度         | 高速      | 中程度     |
+| メモリ使用量     | 少ない    | 中程度     |
+| 並列処理         | 良好      | 優秀       |
+| ネットワーク制御 | 基本的    | 高度       |
 
 ## 実装例比較
 
 ### 基本的なスクレイピング
 
-**Puppeteer実装**
+**Puppeteer 実装**
+
 ```javascript
-const puppeteer = require('puppeteer');
+const puppeteer = require("puppeteer");
 
 async function scrapePuppeteer() {
-    const browser = await puppeteer.launch({ headless: true });
-    const page = await browser.newPage();
-    
-    await page.goto('https://example.com');
-    
-    const title = await page.evaluate(() => {
-        return document.title;
-    });
-    
-    console.log('Title:', title);
-    
-    await browser.close();
+  const browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage();
+
+  await page.goto("https://example.com");
+
+  const title = await page.evaluate(() => {
+    return document.title;
+  });
+
+  console.log("Title:", title);
+
+  await browser.close();
 }
 
 scrapePuppeteer();
 ```
 
-**Playwright実装**
+**Playwright 実装**
+
 ```javascript
-const { chromium } = require('playwright');
+const { chromium } = require("playwright");
 
 async function scrapePlaywright() {
-    const browser = await chromium.launch({ headless: true });
-    const page = await browser.newPage();
-    
-    await page.goto('https://example.com');
-    
-    const title = await page.title();
-    console.log('Title:', title);
-    
-    await browser.close();
+  const browser = await chromium.launch({ headless: true });
+  const page = await browser.newPage();
+
+  await page.goto("https://example.com");
+
+  const title = await page.title();
+  console.log("Title:", title);
+
+  await browser.close();
 }
 
 scrapePlaywright();
@@ -110,13 +116,15 @@ scrapePlaywright();
 
 ## 選択の指針
 
-### Puppeteerを選ぶべき場合
-- Chrome環境に特化した開発
+### Puppeteer を選ぶべき場合
+
+- Chrome 環境に特化した開発
 - 軽量で高速な処理が必要
 - シンプルなタスクが中心
 - 豊富なコミュニティサポートを重視
 
-### Playwrightを選ぶべき場合
+### Playwright を選ぶべき場合
+
 - クロスブラウザテストが必要
 - 複雑な自動化タスク
 - 多言語サポートが重要
@@ -127,60 +135,66 @@ scrapePlaywright();
 ### ネットワーク制御
 
 **Playwright**
+
 ```javascript
 // 高度なネットワーク制御
-await page.route('**/*.jpg', route => route.abort());
-await page.route('**/api/data', route => {
-    route.fulfill({
-        status: 200,
-        body: JSON.stringify({ mock: 'data' })
-    });
+await page.route("**/*.jpg", (route) => route.abort());
+await page.route("**/api/data", (route) => {
+  route.fulfill({
+    status: 200,
+    body: JSON.stringify({ mock: "data" }),
+  });
 });
 ```
 
 ### 並列処理
 
 **Playwright**
+
 ```javascript
 // 効率的な並列処理
 const browser = await chromium.launch();
 const context = await browser.newContext();
 
 const pages = await Promise.all([
-    context.newPage(),
-    context.newPage(),
-    context.newPage()
+  context.newPage(),
+  context.newPage(),
+  context.newPage(),
 ]);
 
-await Promise.all(pages.map(page => 
+await Promise.all(
+  pages.map((page) =>
     page.goto(`https://example.com/page${pages.indexOf(page)}`)
-));
+  )
+);
 ```
 
 ## コミュニティとエコシステム
 
-### 人気度（2024年）
+### 人気度（2024 年）
+
 - **Puppeteer**: GitHub 85.7k stars
 - **Playwright**: GitHub 58k stars
 
 ### 学習リソース
+
 両ツールとも豊富なドキュメントとコミュニティサポートがあります。
 
-詳細な実装については、[IPブロック回避テクニック](/techniques-to-avoid-ip-bans-when-scraping)も合わせてご確認ください。
+詳細な実装については、[IP ブロック回避テクニック](/media/techniques-to-avoid-ip-bans-when-scraping)も合わせてご確認ください。
 
 ## よくある質問
 
 **Q1. 初心者にはどちらがおすすめですか？**
-A. シンプルなタスクならPuppeteer、将来的な拡張性を考慮するならPlaywrightをお勧めします。
+A. シンプルなタスクなら Puppeteer、将来的な拡張性を考慮するなら Playwright をお勧めします。
 
 **Q2. パフォーマンスの差は大きいですか？**
-A. 単純なタスクではPuppeteerが高速ですが、複雑なタスクではPlaywrightの並列処理能力が有利です。
+A. 単純なタスクでは Puppeteer が高速ですが、複雑なタスクでは Playwright の並列処理能力が有利です。
 
 **Q3. 移行は困難ですか？**
-A. 基本的なAPIは似ているため、移行は比較的容易です。
+A. 基本的な API は似ているため、移行は比較的容易です。
 
 ---
 
 **まとめ**
 
-PuppeteerとPlaywrightはそれぞれ異なる強みを持つ優秀なツールです。プロジェクトの要件に応じて最適な選択を行ってください。
+Puppeteer と Playwright はそれぞれ異なる強みを持つ優秀なツールです。プロジェクトの要件に応じて最適な選択を行ってください。

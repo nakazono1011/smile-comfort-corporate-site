@@ -1,0 +1,41 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "Smartproxy",
+    "smartproxy", 
+    "Decodo",
+    "decodo",
+    "Oxylabs",
+    "oxylabs",
+    "webp",
+    "RESI",
+    "brightdata",
+    "proxies",
+    "CAPTCHA",
+    "captcha",
+    "scraping",
+    "mdx",
+    "postgres",
+    "postgresql",
+    "nextjs",
+    "shadcn",
+    "tailwindcss",
+    "framer",
+    "lucide",
+    "gmail",
+    "linkedin",
+    "github",
+    "youtube",
+    "instagram",
+    "facebook",
+    "twitter"
+  ],
+  "ignorePaths": [
+    "node_modules/**",
+    "public/**",
+    ".next/**",
+    "dist/**",
+    "build/**"
+  ]
+}
