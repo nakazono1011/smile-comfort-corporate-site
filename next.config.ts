@@ -9,7 +9,13 @@ const baseConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "xs876367.xsrv.jp",
+        hostname: "*",
+        pathname: "/**",
+        port: "",
+      },
+      {
+        protocol: "http",
+        hostname: "*",
         pathname: "/**",
         port: "",
       },
