@@ -7,6 +7,8 @@ import { ArticleHeader } from "@/components/ui/ArticleHeader";
 import { TableOfContents } from "@/components/ui/TableOfContents";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { AffiliateCTA } from "@/components/ui/AffiliateCTA";
+import { Citation } from "@/components/ui/Citation";
 
 export async function generateStaticParams() {
   const posts = await getPostMeta("ja");
@@ -63,6 +65,9 @@ export default async function PostPage({
     },
     components: {
       Link,
+      Image,
+      AffiliateCTA,
+      Citation,
       // Add custom components for better styling
       h1: ({ children, ...props }) => (
         <h1

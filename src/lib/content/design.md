@@ -17,11 +17,11 @@ Proxy & Web-Scraping Cluster AWS Lambda と Bright Data でスケーリング Sc
 Proxy & Web-Scraping Cluster Bright Data vs Smartproxy 比較 Bright Data vs Smartproxy: Which Wins? Bright Data Smartproxy bright data vs smartproxy Low Comparative bright-data-vs-smartproxy-which-wins ✅
 Proxy & Web-Scraping Cluster Bright Data Chrome 拡張機能入門 Getting Started with Bright Data Chrome Extension Bright Data Chrome 拡張 bright data chrome extension Low How-to getting-started-with-bright-data-chrome-extension ✅
 Proxy & Web-Scraping Cluster スクレイピング倫理ガイドライン Ethical Guidelines for Web Scraping スクレイピング 倫理 ethical web scraping Low Informational ethical-guidelines-for-web-scraping ✅
-Proxy & Web-Scraping Cluster 市場調査のためのスクレイピング事例 Case Study: Web Scraping for Market Research スクレイピング 事例 web scraping case study Low Informational case-study-web-scraping-for-market-research
-Proxy & Web-Scraping Cluster Requests vs Selenium vs Playwright Requests vs Selenium vs Playwright for Scraping Requests Selenium 比較 requests vs selenium vs playwright Low Comparative requests-vs-selenium-vs-playwright-for-scraping
-Proxy & Web-Scraping Cluster プロキシ品質を監視する方法 How to Monitor Proxy Quality & Performance プロキシ 品質 監視 proxy quality monitoring Low How-to how-to-monitor-proxy-quality--performance
-Proxy & Web-Scraping Cluster Bright Data コスト最適化テクニック Cost Optimization Tips for Bright Data Bright Data コスト bright data cost optimization Low How-to cost-optimization-tips-for-bright-data
-Proxy & Web-Scraping Cluster モバイルプロキシの仕組みと用途 Mobile Proxies Explained モバイル プロキシ mobile proxy Low Informational mobile-proxies-explained
+Proxy & Web-Scraping Cluster 市場調査のためのスクレイピング事例 Case Study: Web Scraping for Market Research スクレイピング 事例 web scraping case study Low Informational case-study-web-scraping-for-market-research ✅
+Proxy & Web-Scraping Cluster Requests vs Selenium vs Playwright Requests vs Selenium vs Playwright for Scraping Requests Selenium 比較 requests vs selenium vs playwright Low Comparative requests-vs-selenium-vs-playwright-for-scraping ✅
+Proxy & Web-Scraping Cluster プロキシ品質を監視する方法 How to Monitor Proxy Quality & Performance プロキシ 品質 監視 proxy quality monitoring Low How-to how-to-monitor-proxy-quality--performance ✅
+Proxy & Web-Scraping Cluster Bright Data コスト最適化テクニック Cost Optimization Tips for Bright Data Bright Data コスト bright data cost optimization Low How-to cost-optimization-tips-for-bright-data ✅
+Proxy & Web-Scraping Cluster モバイルプロキシの仕組みと用途 Mobile Proxies Explained モバイル プロキシ mobile proxy Low Informational mobile-proxies-explained ✅
 Proxy & Web-Scraping Cluster 地域ターゲティングプロキシの選び方 How to Choose Geo-Targeted Proxies 地域 プロキシ geo targeted proxy Low How-to how-to-choose-geo-targeted-proxies
 Proxy & Web-Scraping Cluster Bright Data API 認証方法 Authenticating with the Bright Data API Bright Data API 認証 bright data api authentication Low How-to authenticating-with-the-bright-data-api
 Proxy & Web-Scraping Cluster GDPR と Web スクレイピングの関係 GDPR Compliance for Web Scraping スクレイピング GDPR gdpr web scraping Low Informational gdpr-compliance-for-web-scraping
