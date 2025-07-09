@@ -22,9 +22,9 @@ Proxy & Web-Scraping Cluster Requests vs Selenium vs Playwright Requests vs Sele
 Proxy & Web-Scraping Cluster プロキシ品質を監視する方法 How to Monitor Proxy Quality & Performance プロキシ 品質 監視 proxy quality monitoring Low How-to how-to-monitor-proxy-quality--performance ✅
 Proxy & Web-Scraping Cluster Bright Data コスト最適化テクニック Cost Optimization Tips for Bright Data Bright Data コスト bright data cost optimization Low How-to cost-optimization-tips-for-bright-data ✅
 Proxy & Web-Scraping Cluster モバイルプロキシの仕組みと用途 Mobile Proxies Explained モバイル プロキシ mobile proxy Low Informational mobile-proxies-explained ✅
-Proxy & Web-Scraping Cluster 地域ターゲティングプロキシの選び方 How to Choose Geo-Targeted Proxies 地域 プロキシ geo targeted proxy Low How-to how-to-choose-geo-targeted-proxies
-Proxy & Web-Scraping Cluster Bright Data API 認証方法 Authenticating with the Bright Data API Bright Data API 認証 bright data api authentication Low How-to authenticating-with-the-bright-data-api
-Proxy & Web-Scraping Cluster GDPR と Web スクレイピングの関係 GDPR Compliance for Web Scraping スクレイピング GDPR gdpr web scraping Low Informational gdpr-compliance-for-web-scraping
+Proxy & Web-Scraping Cluster 地域ターゲティングプロキシの選び方 How to Choose Geo-Targeted Proxies 地域 プロキシ geo targeted proxy Low How-to how-to-choose-geo-targeted-proxies ✅
+Proxy & Web-Scraping Cluster Bright Data API 認証方法 Authenticating with the Bright Data API Bright Data API 認証 bright data api authentication Low How-to authenticating-with-the-bright-data-api ✅
+Proxy & Web-Scraping Cluster GDPR と Web スクレイピングの関係 GDPR Compliance for Web Scraping スクレイピング GDPR gdpr web scraping Low Informational gdpr-compliance-for-web-scraping ✅
 Proxy & Web-Scraping Cluster 取得データのパイプラインとクレンジング Data Parsing & Cleaning Pipelines Post-Scraping データ クレンジング スクレイピング scraped data cleaning Low How-to data-parsing--cleaning-pipelines-post-scraping
 Proxy & Web-Scraping Cluster Google 検索結果を合法的にスクレイピング How to Legally Scrape Google Search Results Google スクレイピング scrape google search results Low How-to how-to-legally-scrape-google-search-results
 Proxy & Web-Scraping Cluster 価格インテリジェンスワークフロー Workflow for Price Intelligence via Scraping 価格 調査 スクレイピング price intelligence scraping Low How-to workflow-for-price-intelligence-via-scraping
