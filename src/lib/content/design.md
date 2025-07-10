@@ -25,8 +25,8 @@ Proxy & Web-Scraping Cluster モバイルプロキシの仕組みと用途 Mobil
 Proxy & Web-Scraping Cluster 地域ターゲティングプロキシの選び方 How to Choose Geo-Targeted Proxies 地域 プロキシ geo targeted proxy Low How-to how-to-choose-geo-targeted-proxies ✅
 Proxy & Web-Scraping Cluster Bright Data API 認証方法 Authenticating with the Bright Data API Bright Data API 認証 bright data api authentication Low How-to authenticating-with-the-bright-data-api ✅
 Proxy & Web-Scraping Cluster GDPR と Web スクレイピングの関係 GDPR Compliance for Web Scraping スクレイピング GDPR gdpr web scraping Low Informational gdpr-compliance-for-web-scraping ✅
-Proxy & Web-Scraping Cluster 取得データのパイプラインとクレンジング Data Parsing & Cleaning Pipelines Post-Scraping データ クレンジング スクレイピング scraped data cleaning Low How-to data-parsing--cleaning-pipelines-post-scraping
-Proxy & Web-Scraping Cluster Google 検索結果を合法的にスクレイピング How to Legally Scrape Google Search Results Google スクレイピング scrape google search results Low How-to how-to-legally-scrape-google-search-results
+Proxy & Web-Scraping Cluster 取得データのパイプラインとクレンジング Data Parsing & Cleaning Pipelines Post-Scraping データ クレンジング スクレイピング scraped data cleaning Low How-to data-parsing--cleaning-pipelines-post-scraping ✅
+Proxy & Web-Scraping Cluster Google 検索結果を合法的にスクレイピング How to Legally Scrape Google Search Results Google スクレイピング scrape google search results Low How-to how-to-legally-scrape-google-search-results ✅
 Proxy & Web-Scraping Cluster 価格インテリジェンスワークフロー Workflow for Price Intelligence via Scraping 価格 調査 スクレイピング price intelligence scraping Low How-to workflow-for-price-intelligence-via-scraping
 Proxy & Web-Scraping Cluster ハニーポット罠を避ける方法 Avoiding Honeypot Traps in Scraping ハニーポット 回避 honeypot scraping Low How-to avoiding-honeypot-traps-in-scraping
 Proxy & Web-Scraping Cluster スクレイピングボットのログ解析 Log Analysis for Scraping Bots スクレイピング ログ解析 scraping log analysis Low How-to log-analysis-for-scraping-bots
