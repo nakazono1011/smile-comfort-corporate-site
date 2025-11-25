@@ -1,69 +1,86 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* ロゴに合わせた緑〜青グラデーションパレット */
+  --brand-green: #3eb991;
+  --brand-teal: #2fb5a3;
+  --brand-cyan: #22b1b1;
+  --brand-blue: #21aacc;
+  --brand-deep-blue: #0f2350;
+  
+  /* グラデーション */
+  --gradient-brand: linear-gradient(135deg, var(--brand-green) 0%, var(--brand-teal) 25%, var(--brand-cyan) 50%, var(--brand-blue) 100%);
+  --gradient-brand-reverse: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-cyan) 50%, var(--brand-green) 100%);
+  --gradient-subtle: linear-gradient(180deg, #f0fdf9 0%, #e0f7ff 100%);
+}
+
 body {
-  font-family: "Noto Sans JP", sans-serif;
+  font-family: "Zen Kaku Gothic New", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-display {
+  font-family: "Outfit", "Zen Kaku Gothic New", sans-serif;
 }
 
 @layer base {
   :root {
-    --primary: 217 62% 29%; /* #1B3D7C */
+    --primary: 210 67% 19%; /* Deep Navy */
     --primary-foreground: 210 40% 98%;
 
-    --accent: 201 100% 46%; /* #00A0E9 */
+    --accent: 168 57% 47%; /* Brand Teal */
     --accent-foreground: 210 40% 98%;
 
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 210 25% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 210 25% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 210 25% 15%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 168 30% 96%;
+    --secondary-foreground: 210 25% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 168 15% 95%;
+    --muted-foreground: 210 10% 45%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 168 20% 90%;
+    --input: 168 20% 90%;
+    --ring: 168 57% 47%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
+  
   .dark {
-    --background: 0 0% 3.9%;
+    --background: 210 25% 8%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
+    --card: 210 25% 10%;
     --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
+    --popover: 210 25% 10%;
     --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
+    --primary: 168 57% 47%;
     --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
+    --secondary: 210 25% 15%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
+    --muted: 210 25% 15%;
     --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
+    --accent: 168 57% 47%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --border: 210 25% 20%;
+    --input: 210 25% 20%;
+    --ring: 168 57% 47%;
   }
 }
 
@@ -76,6 +93,109 @@ body {
   }
 }
 
+/* Custom utilities */
+.text-gradient {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gradient-brand {
+  background: var(--gradient-brand);
+}
+
+.bg-gradient-subtle {
+  background: var(--gradient-subtle);
+}
+
+/* Geometric pattern background */
+.pattern-dots {
+  background-image: radial-gradient(circle, rgba(62, 185, 145, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.pattern-grid {
+  background-image: 
+    linear-gradient(to right, rgba(62, 185, 145, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(62, 185, 145, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-dark {
+  background: rgba(15, 35, 80, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(62, 185, 145, 0.2);
+}
+
 .perspective-1000 {
   perspective: 1000px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0fdf9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--brand-green), var(--brand-blue));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--brand-teal), var(--brand-cyan));
+}
+
+/* Animated gradient border */
+@keyframes gradient-rotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animated-border {
+  background: linear-gradient(90deg, var(--brand-green), var(--brand-teal), var(--brand-cyan), var(--brand-blue), var(--brand-green));
+  background-size: 300% 100%;
+  animation: gradient-rotate 4s ease infinite;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Pulse glow */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(62, 185, 145, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(33, 170, 204, 0.4); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
 }

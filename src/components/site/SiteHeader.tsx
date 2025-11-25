@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Menu, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 
@@ -15,10 +16,19 @@ const menuItems = [
 
 export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
-  const handleScroll = (id: string) => {
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleScrollTo = (id: string) => {
     setIsOpen(false);
     setTimeout(() => {
       const element = document.getElementById(id);
@@ -39,27 +49,33 @@ export function SiteHeader() {
     <>
       <Link
         href="/media"
-        className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+        className="relative text-sm font-medium text-brand-deep/70 hover:text-brand-teal transition-colors group"
       >
         メディア
+        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-brand group-hover:w-full transition-all duration-300" />
       </Link>
       {menuItems.map((item) => (
         <motion.button
           key={item.id}
-          onClick={() => handleScroll(item.id)}
-          className="text-primary/80 hover:text-support-blue-dark transition-colors h-full flex items-center px-4 font-medium"
+          onClick={() => handleScrollTo(item.id)}
+          className="relative text-sm font-medium text-brand-deep/70 hover:text-brand-teal transition-colors group"
           whileHover={{ y: -2 }}
           whileTap={{ y: 0 }}
         >
           {item.name}
+          <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-brand group-hover:w-full transition-all duration-300" />
         </motion.button>
       ))}
-      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
         <Button
-          onClick={() => handleScroll("contact")}
-          className="bg-accent hover:bg-accent/90 text-white px-6 py-2 rounded-md"
+          onClick={() => handleScrollTo("contact")}
+          className="relative overflow-hidden bg-gradient-brand text-white px-6 py-2.5 rounded-full font-medium shadow-lg shadow-brand-green/20 hover:shadow-xl hover:shadow-brand-teal/30 transition-all duration-300 group"
         >
-          お問い合わせ
+          <span className="relative z-10 flex items-center gap-2">
+            お問い合わせ
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </span>
+          <div className="absolute inset-0 bg-gradient-brand-reverse opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </Button>
       </motion.div>
     </>
@@ -70,14 +86,19 @@ export function SiteHeader() {
     <>
       <Link
         href="/"
-        className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+        className="relative text-sm font-medium text-brand-deep/70 hover:text-brand-teal transition-colors group"
       >
         ホームに戻る
+        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-brand group-hover:w-full transition-all duration-300" />
       </Link>
-      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
         <Link href="/#contact">
-          <Button className="bg-accent hover:bg-accent/90 text-white px-6 py-2 rounded-md">
-            お問い合わせ
+          <Button className="relative overflow-hidden bg-gradient-brand text-white px-6 py-2.5 rounded-full font-medium shadow-lg shadow-brand-green/20 hover:shadow-xl hover:shadow-brand-teal/30 transition-all duration-300 group">
+            <span className="relative z-10 flex items-center gap-2">
+              お問い合わせ
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </span>
+            <div className="absolute inset-0 bg-gradient-brand-reverse opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </Button>
         </Link>
       </motion.div>
@@ -85,20 +106,43 @@ export function SiteHeader() {
   );
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md z-50 shadow-sm">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled
+          ? "glass shadow-lg shadow-brand-green/5 border-b border-brand-green/10"
+          : "bg-transparent"
+      }`}
+    >
       <div className="container mx-auto px-6 h-20 flex justify-between items-center">
-        <Link href="/" className="flex items-center h-full">
-          <motion.span
-            className="text-2xl font-bold text-support-blue-dark italic tracking-wider"
-            whileHover={{ scale: 1.05 }}
+        <Link href="/" className="flex items-center h-full py-4">
+          <motion.div
+            className="relative h-12 w-12"
+            whileHover={{ scale: 1.05, rotate: 5 }}
             whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            <Image
+              src="/logo.png"
+              alt="Smile Comfort"
+              fill
+              className="object-contain"
+              priority
+            />
+          </motion.div>
+          <motion.span 
+            className={`ml-3 font-display font-bold text-lg tracking-tight transition-colors duration-300 ${
+              isScrolled ? "text-brand-deep" : "text-white"
+            }`}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
           >
             Smile Comfort
           </motion.span>
         </Link>
 
         {/* デスクトップナビゲーション */}
-        <nav className="hidden md:flex items-center space-x-8 h-full">
+        <nav className="hidden md:flex items-center gap-8 h-full">
           {isHomePage ? <HomeNavItems /> : <MediaNavItems />}
         </nav>
 
@@ -106,14 +150,17 @@ export function SiteHeader() {
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden"
+          className={`md:hidden rounded-full ${
+            isScrolled ? "text-brand-deep" : "text-white"
+          } hover:bg-brand-green/10`}
           onClick={() => setIsOpen(!isOpen)}
         >
-          {isOpen ? (
-            <X className="h-6 w-6 text-support-blue-dark" />
-          ) : (
-            <Menu className="h-6 w-6 text-support-blue-dark" />
-          )}
+          <motion.div
+            animate={{ rotate: isOpen ? 180 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </motion.div>
         </Button>
       </div>
 
@@ -124,51 +171,67 @@ export function SiteHeader() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-gray-100 overflow-hidden"
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="md:hidden glass border-t border-brand-green/10 overflow-hidden"
           >
-            <div className="container mx-auto px-6 py-4">
+            <div className="container mx-auto px-6 py-6">
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
+                transition={{ delay: 0.1 }}
                 className="flex flex-col space-y-4"
               >
                 {isHomePage ? (
                   <>
                     <Link
                       href="/media"
-                      className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                      className="text-brand-deep/70 hover:text-brand-teal transition-colors py-2 font-medium"
                     >
                       メディア
                     </Link>
-                    {menuItems.map((item) => (
+                    {menuItems.map((item, index) => (
                       <motion.button
                         key={item.id}
-                        onClick={() => handleScroll(item.id)}
-                        className="text-primary/80 hover:text-support-blue-dark transition-colors py-2 text-left font-medium"
-                        whileHover={{ x: 4 }}
+                        onClick={() => handleScrollTo(item.id)}
+                        className="text-brand-deep/70 hover:text-brand-teal transition-colors py-2 text-left font-medium"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1 * (index + 1) }}
                       >
                         {item.name}
                       </motion.button>
                     ))}
-                    <Button
-                      onClick={() => handleScroll("contact")}
-                      className="bg-accent hover:bg-accent/90 text-white w-full py-2 rounded-md"
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4 }}
                     >
-                      お問い合わせ
-                    </Button>
+                      <Button
+                        onClick={() => handleScrollTo("contact")}
+                        className="w-full bg-gradient-brand text-white py-3 rounded-full font-medium shadow-lg shadow-brand-green/20"
+                      >
+                        <span className="flex items-center justify-center gap-2">
+                          お問い合わせ
+                          <ArrowRight className="w-4 h-4" />
+                        </span>
+                      </Button>
+                    </motion.div>
                   </>
                 ) : (
                   <>
                     <Link
                       href="/"
-                      className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                      className="text-brand-deep/70 hover:text-brand-teal transition-colors py-2 font-medium"
                     >
                       ホームに戻る
                     </Link>
                     <Link href="/#contact">
-                      <Button className="bg-accent hover:bg-accent/90 text-white w-full py-2 rounded-md">
-                        お問い合わせ
+                      <Button className="w-full bg-gradient-brand text-white py-3 rounded-full font-medium shadow-lg shadow-brand-green/20">
+                        <span className="flex items-center justify-center gap-2">
+                          お問い合わせ
+                          <ArrowRight className="w-4 h-4" />
+                        </span>
                       </Button>
                     </Link>
                   </>

@@ -1,6 +1,5 @@
 import { HeroSection } from "@/components/sections/Hero";
 import { MissionSection } from "@/components/sections/Mission";
-// import { ValuesSection } from "@/components/sections/Values";
 import { ServicesSection } from "@/components/sections/Services";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
@@ -9,14 +8,15 @@ import { ContactSection } from "@/components/sections/Contact";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white pt-20">
+    <div className="min-h-screen bg-white">
       <SiteHeader />
-      <HeroSection />
-      <MissionSection />
-      {/* <ValuesSection /> */}
-      <ServicesSection />
-      <CompanySection />
-      <ContactSection />
+      <main>
+        <HeroSection />
+        <MissionSection />
+        <ServicesSection />
+        <CompanySection />
+        <ContactSection />
+      </main>
       <SiteFooter />
     </div>
   );

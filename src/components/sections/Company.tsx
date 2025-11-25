@@ -12,8 +12,12 @@ export function CompanySection() {
   ];
 
   return (
-    <section id="company" className="py-16 bg-white">
-      <div className="container mx-auto px-6">
+    <section id="company" className="relative py-32 overflow-hidden">
+      {/* 背景 */}
+      <div className="absolute inset-0 bg-gradient-subtle" />
+      <div className="absolute inset-0 pattern-dots" />
+      
+      <div className="relative container mx-auto px-6">
         <CompanyContent data={companyData} />
       </div>
     </section>

@@ -11,21 +11,32 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Zen Kaku Gothic New", "Hiragino Sans", "sans-serif"],
+        display: ["Outfit", "Zen Kaku Gothic New", "sans-serif"],
+      },
       colors: {
+        brand: {
+          green: "#3eb991",
+          teal: "#2fb5a3",
+          cyan: "#22b1b1",
+          blue: "#21aacc",
+          deep: "#0f2350",
+        },
         primary: {
-          DEFAULT: "#1B3D7C",
+          DEFAULT: "#0f2350",
           foreground: "hsl(var(--primary-foreground))",
         },
         accent: {
-          DEFAULT: "#00A0E9",
+          DEFAULT: "#3eb991",
           foreground: "hsl(var(--accent-foreground))",
         },
         support: {
           gray: "#6B7280",
           beige: "#F3F4F6",
           blue: {
-            light: "#E6F3FF",
-            dark: "#0F2350",
+            light: "#e0f7ff",
+            dark: "#0f2350",
           },
         },
         background: "hsl(var(--background))",
@@ -65,6 +76,34 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      backgroundImage: {
+        "gradient-brand":
+          "linear-gradient(135deg, #3eb991 0%, #2fb5a3 25%, #22b1b1 50%, #21aacc 100%)",
+        "gradient-brand-reverse":
+          "linear-gradient(135deg, #21aacc 0%, #22b1b1 50%, #3eb991 100%)",
+        "gradient-radial":
+          "radial-gradient(ellipse at center, var(--tw-gradient-stops))",
+      },
+      animation: {
+        float: "float 6s ease-in-out infinite",
+        "pulse-glow": "pulse-glow 3s ease-in-out infinite",
+        gradient: "gradient-rotate 4s ease infinite",
+      },
+      keyframes: {
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        "pulse-glow": {
+          "0%, 100%": { boxShadow: "0 0 20px rgba(62, 185, 145, 0.3)" },
+          "50%": { boxShadow: "0 0 40px rgba(33, 170, 204, 0.4)" },
+        },
+        "gradient-rotate": {
+          "0%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+          "100%": { backgroundPosition: "0% 50%" },
+        },
       },
     },
   },
