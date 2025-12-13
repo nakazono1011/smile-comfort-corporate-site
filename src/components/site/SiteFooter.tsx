@@ -50,9 +50,7 @@ export function SiteFooter() {
             <p className="text-white/60 leading-relaxed max-w-sm">
               テクノロジーですべての人の自由な時間を増やし、個々の能力を解き放ち、幸福を最大化する。
             </p>
-            <p className="text-white/40 text-sm">
-              {COMPANY_INFO.name}
-            </p>
+            <p className="text-white/40 text-sm">{COMPANY_INFO.name}</p>
           </motion.div>
 
           {/* ナビゲーション */}
@@ -110,7 +108,11 @@ export function SiteFooter() {
               <span>トップに戻る</span>
               <motion.span
                 animate={{ y: [0, -3, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
               >
                 ↑
               </motion.span>
@@ -136,11 +138,9 @@ export function SiteFooter() {
           className="flex flex-col md:flex-row justify-between items-center gap-4"
         >
           <p className="text-sm text-white/40">
-            © {new Date().getFullYear()} {COMPANY_INFO.name}. All rights reserved.
+            © {new Date().getFullYear()} {COMPANY_INFO.name}. All rights
+            reserved.
           </p>
-          <div className="flex items-center gap-6 text-sm text-white/40">
-            <span>Made with ❤️ in Japan</span>
-          </div>
         </motion.div>
       </div>
     </footer>

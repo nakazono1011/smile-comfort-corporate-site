@@ -1,9 +1,8 @@
-import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 import nextIntlPlugin from "next-intl/plugin";
-import remarkGfm from "remark-gfm";
 
-const baseConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const baseConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
@@ -29,7 +28,10 @@ const baseConfig: NextConfig = {
 
 /** MDXラッパーを用意 */
 const withMDX = createMDX({
-  options: { remarkPlugins: [remarkGfm] },
+  // Turbopack環境でのシリアライズエラーを回避するため、
+  // next.config.mjs内でのremarkPlugins設定は一時的に無効化しています。
+  // 実際のMDXコンテンツ（next-mdx-remote使用）のプラグイン設定は各ページコンポーネント内で行われています。
+  options: {},
 });
 
 /** next-intl設定を適用 */

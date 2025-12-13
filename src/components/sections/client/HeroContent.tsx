@@ -38,7 +38,7 @@ export function HeroContent() {
   };
 
   return (
-    <div className="relative h-full">
+    <div className="relative flex-1 w-full">
       {/* パノラマ背景のコンテナ */}
       <div className="absolute inset-0 overflow-hidden">
         {/* パノラマ画像 */}
@@ -62,7 +62,7 @@ export function HeroContent() {
 
         {/* グラデーションオーバーレイ - ロゴカラーに合わせた緑〜青 */}
         <div className="absolute inset-0 bg-gradient-to-br from-brand-deep/90 via-brand-deep/70 to-brand-blue/60" />
-        
+
         {/* メッシュグラデーション効果 */}
         <div className="absolute inset-0 opacity-40">
           <div className="absolute top-1/4 -left-20 w-96 h-96 bg-brand-green/30 rounded-full blur-3xl" />
@@ -75,31 +75,16 @@ export function HeroContent() {
       </div>
 
       {/* コンテンツ */}
-      <div className="relative z-10 container mx-auto px-6 h-full flex items-center">
+      <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center pt-24 pb-20">
         <div className="max-w-5xl">
-          {/* バッジ */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-brand-deep text-sm font-medium">
-              <Sparkles className="w-4 h-4 text-brand-green" />
-              テクノロジーで自由な時間を創造する
-            </span>
-          </motion.div>
-
           {/* メインタイトル */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold mb-8 leading-[1.1] tracking-tight"
+            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold mb-8 leading-[1.1] tracking-tight"
           >
-            <span className="block text-white">
-              テクノロジーで、
-            </span>
+            <span className="block text-white">テクノロジーで、</span>
             <span className="block mt-2">
               <span className="text-gradient">自由な時間</span>
               <span className="text-white">を創造する。</span>
@@ -111,7 +96,7 @@ export function HeroContent() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg sm:text-xl md:text-2xl mb-12 leading-relaxed text-white/80 max-w-2xl"
+            className="text-base sm:text-xl mb-12 leading-relaxed text-white/80 max-w-2xl"
           >
             すべての人の自由な時間を増やし、
             <br className="hidden sm:block" />
@@ -142,7 +127,9 @@ export function HeroContent() {
                 if (element) {
                   const offset = 80;
                   const elementPosition =
-                    element.getBoundingClientRect().top + window.scrollY - offset;
+                    element.getBoundingClientRect().top +
+                    window.scrollY -
+                    offset;
                   window.scrollTo({
                     top: elementPosition,
                     behavior: "smooth",
@@ -180,7 +167,9 @@ export function HeroContent() {
                 >
                   <div className="text-2xl sm:text-3xl font-display font-bold text-white">
                     {stat.value}
-                    <span className="text-brand-green text-lg ml-1">{stat.suffix}</span>
+                    <span className="text-brand-green text-lg ml-1">
+                      {stat.suffix}
+                    </span>
                   </div>
                   <div className="text-white/60 text-sm mt-1">{stat.label}</div>
                 </motion.div>

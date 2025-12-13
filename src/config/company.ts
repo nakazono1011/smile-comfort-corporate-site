@@ -4,8 +4,8 @@ export const COMPANY_INFO = {
   nameEn: "Smile Comfort LLC",
   corporateNumber: "9020003027311",
   address: {
-    full: "神奈川県横浜市神奈川区六角橋４丁目２３－８フロール横浜三ツ沢２番館４０７号",
-    postalCode: "221-0802",
+    full: "東京都目黒区下目黒１丁目１番１４号 コノトラビル７Ｆ",
+    postalCode: "153-0064",
   },
   representative: "中園 啓佑",
   tel: "080-5217-0560",
