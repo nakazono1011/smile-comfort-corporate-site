@@ -1,10 +1,24 @@
+import type { Metadata } from "next";
 import { HeroSection } from "@/components/sections/Hero";
 import { MissionSection } from "@/components/sections/Mission";
 import { ServicesSection } from "@/components/sections/Services";
+import { ProductsSection } from "@/components/sections/Products";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { CompanySection } from "@/components/sections/Company";
 import { ContactSection } from "@/components/sections/Contact";
+
+export const metadata: Metadata = {
+  title:
+    "アイデアをプロダクトに | 合同会社スマイルコンフォート",
+  description:
+    "AIでアイデアが形になる時代。自社プロダクト開発から受託AI開発・EC運営支援まで、少数精鋭のエンジニアチームが構想を現実にする合同会社スマイルコンフォート。",
+  openGraph: {
+    title: "アイデアをプロダクトに | 合同会社スマイルコンフォート",
+    description:
+      "自社プロダクト開発から受託開発まで。少数精鋭のエンジニアチームが構想を現実にします。",
+  },
+};
 
 export default function Home() {
   return (
@@ -12,8 +26,9 @@ export default function Home() {
       <SiteHeader />
       <main>
         <HeroSection />
-        <MissionSection />
         <ServicesSection />
+        <ProductsSection />
+        <MissionSection />
         <CompanySection />
         <ContactSection />
       </main>

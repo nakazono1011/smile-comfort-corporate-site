@@ -7,10 +7,15 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 const navigation = [
-  { name: "ミッション", href: "#mission" },
   { name: "サービス", href: "#services" },
+  { name: "プロダクト", href: "#products" },
   { name: "会社概要", href: "#company" },
   { name: "お問い合わせ", href: "#contact" },
+] as const;
+
+const serviceLinks = [
+  { name: "AI開発", href: "#services" },
+  { name: "EC構築・運営支援", href: "#services" },
 ] as const;
 
 export function SiteFooter() {
@@ -32,7 +37,7 @@ export function SiteFooter() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="md:col-span-5 space-y-6"
+            className="md:col-span-4 space-y-6"
           >
             <Link href="/" className="inline-flex items-center gap-3 group">
               <div className="relative w-12 h-12">
@@ -48,7 +53,7 @@ export function SiteFooter() {
               </span>
             </Link>
             <p className="text-white/60 leading-relaxed max-w-sm">
-              テクノロジーですべての人の自由な時間を増やし、個々の能力を解き放ち、幸福を最大化する。
+              AI開発・EC支援で、中小企業のDXを加速する技術パートナー。
             </p>
             <p className="text-white/40 text-sm">{COMPANY_INFO.name}</p>
           </motion.div>
@@ -64,12 +69,36 @@ export function SiteFooter() {
             <h3 className="font-display font-bold text-white">Navigation</h3>
             <ul className="space-y-3">
               {navigation.map((item) => (
-                <li key={item.href}>
+                <li key={item.name}>
                   <a
                     href={item.href}
                     className="group flex items-center gap-2 text-white/60 hover:text-brand-green transition-colors"
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-green/50 group-hover:bg-brand-green transition-colors" />
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* サービス・リンク */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="md:col-span-3 space-y-6"
+          >
+            <h3 className="font-display font-bold text-white">Services</h3>
+            <ul className="space-y-3">
+              {serviceLinks.map((item) => (
+                <li key={item.name}>
+                  <a
+                    href={item.href}
+                    className="group flex items-center gap-2 text-white/60 hover:text-brand-green transition-colors"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan/50 group-hover:bg-brand-cyan transition-colors" />
                     {item.name}
                   </a>
                 </li>
@@ -83,7 +112,7 @@ export function SiteFooter() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="md:col-span-4 space-y-6"
+            className="md:col-span-2 space-y-6"
           >
             <h3 className="font-display font-bold text-white">Links</h3>
             <ul className="space-y-3">
@@ -95,6 +124,17 @@ export function SiteFooter() {
                   メディア
                   <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
+              </li>
+              <li>
+                <a
+                  href="https://note.com/smilecomfort"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-2 text-white/60 hover:text-brand-green transition-colors"
+                >
+                  note
+                  <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </a>
               </li>
             </ul>
 
@@ -138,7 +178,7 @@ export function SiteFooter() {
           className="flex flex-col md:flex-row justify-between items-center gap-4"
         >
           <p className="text-sm text-white/40">
-            © {new Date().getFullYear()} {COMPANY_INFO.name}. All rights
+            &copy; {new Date().getFullYear()} {COMPANY_INFO.name}. All rights
             reserved.
           </p>
         </motion.div>

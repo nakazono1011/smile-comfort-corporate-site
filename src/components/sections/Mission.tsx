@@ -2,25 +2,28 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Target, Lightbulb, Rocket } from "lucide-react";
+import { Layers, BarChart3, Handshake } from "lucide-react";
 
 const values = [
   {
-    icon: Target,
-    title: "ビジョン",
-    description: "すべての人の自由な時間を増やし、幸福を最大化する未来を創る",
+    icon: Layers,
+    title: "0→1のプロダクト開発",
+    description:
+      "企画段階からの設計・開発をワンストップで実現。最新のフルスタック技術で、ビジネスアイデアを形にします",
     gradient: "from-brand-green to-brand-teal",
   },
   {
-    icon: Lightbulb,
-    title: "イノベーション",
-    description: "最先端技術を駆使し、ビジネスプロセスの高度化を実現する",
+    icon: BarChart3,
+    title: "データドリブンな意思決定",
+    description:
+      "データ収集・分析基盤を構築し、経営判断に必要な洞察を可視化。数字に基づく意思決定を支えます",
     gradient: "from-brand-teal to-brand-cyan",
   },
   {
-    icon: Rocket,
-    title: "成長",
-    description: "お客様と共に歩み、予測不可能な時代を切り開くパートナーとして成長",
+    icon: Handshake,
+    title: "伴走型パートナーシップ",
+    description:
+      "お客様と共に歩み成長する長期的なパートナーとして、事業課題の発見から解決まで寄り添います",
     gradient: "from-brand-cyan to-brand-blue",
   },
 ];
@@ -38,7 +41,7 @@ export function MissionSection() {
       {/* 背景 */}
       <div className="absolute inset-0 bg-gradient-subtle" />
       <div className="absolute inset-0 pattern-grid" />
-      
+
       {/* 装飾的なグラデーション */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-brand-green/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-brand-blue/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
@@ -68,12 +71,13 @@ export function MissionSection() {
           className="max-w-4xl mx-auto text-center mb-20"
         >
           <p className="text-xl md:text-2xl text-brand-deep/80 leading-relaxed">
-            私たちは、<span className="text-gradient font-bold">最先端テクノロジー</span>を駆使し、
-            お客様のビジネスプロセスと意思決定の高度化のサポートを提供いたします。
+            私たちは、
+            <span className="text-gradient font-bold">最先端テクノロジー</span>
+            を駆使し、お客様のビジネスプロセスと意思決定の高度化を支援いたします。
           </p>
           <p className="text-lg md:text-xl text-brand-deep/60 leading-relaxed mt-6">
-            確かな技術力と豊富な経験を活かし、お客様と共に歩み成長しながら、
-            予測不可能な時代を切り開くパートナーとして、お客様の成功に貢献してまいります。
+            Web開発・データ分析・EC支援を通じて、確かな技術力で
+            お客様のDXを推進し、ビジネスの成長に貢献してまいります。
           </p>
         </motion.div>
 
@@ -89,7 +93,9 @@ export function MissionSection() {
             >
               <div className="relative h-full p-8 rounded-3xl bg-white shadow-xl shadow-brand-green/5 border border-brand-green/10 hover:shadow-2xl hover:shadow-brand-teal/10 transition-all duration-500 hover:-translate-y-2">
                 {/* アイコン */}
-                <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${value.gradient} mb-6 shadow-lg`}>
+                <div
+                  className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${value.gradient} mb-6 shadow-lg`}
+                >
                   <value.icon className="w-7 h-7 text-white" />
                 </div>
 
@@ -102,7 +108,9 @@ export function MissionSection() {
                 </p>
 
                 {/* ホバー時のグラデーションライン */}
-                <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${value.gradient} rounded-b-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                <div
+                  className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${value.gradient} rounded-b-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                />
               </div>
             </motion.div>
           ))}

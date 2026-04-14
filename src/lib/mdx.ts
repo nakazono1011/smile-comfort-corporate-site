@@ -10,6 +10,7 @@ export interface PostMeta {
   lang: "ja" | "en";
   tags?: string[];
   category?: string;
+  cover?: string;
 }
 
 const CONTENT_ROOT = path.join(process.cwd(), "src", "lib", "content");

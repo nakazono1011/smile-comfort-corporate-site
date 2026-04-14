@@ -7,49 +7,30 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { scrollToElement } from "@/lib/scroll";
 
 const menuItems = [
-  { name: "ミッション", id: "mission" },
   { name: "サービス", id: "services" },
+  { name: "プロダクト", id: "products" },
   { name: "会社概要", id: "company" },
 ] as const;
 
-export function SiteHeader() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const pathname = usePathname();
-  const isHomePage = pathname === "/";
+function HomeNavItems({
+  onScrollTo,
+  isScrolled,
+}: {
+  onScrollTo: (id: string) => void;
+  isScrolled: boolean;
+}) {
+  const linkColor = isScrolled
+    ? "text-brand-deep/70 hover:text-brand-teal"
+    : "text-white/80 hover:text-white";
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const handleScrollTo = (id: string) => {
-    setIsOpen(false);
-    setTimeout(() => {
-      const element = document.getElementById(id);
-      if (element) {
-        const offset = 80;
-        const elementPosition =
-          element.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({
-          top: elementPosition,
-          behavior: "smooth",
-        });
-      }
-    }, 100);
-  };
-
-  // ホームページ用のナビゲーションアイテム
-  const HomeNavItems = () => (
+  return (
     <>
       <Link
         href="/media"
-        className="relative text-sm font-medium text-brand-deep/70 hover:text-brand-teal transition-colors group"
+        className={`relative text-sm font-medium transition-colors group ${linkColor}`}
       >
         メディア
         <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-brand group-hover:w-full transition-all duration-300" />
@@ -57,8 +38,8 @@ export function SiteHeader() {
       {menuItems.map((item) => (
         <motion.button
           key={item.id}
-          onClick={() => handleScrollTo(item.id)}
-          className="relative text-sm font-medium text-brand-deep/70 hover:text-brand-teal transition-colors group"
+          onClick={() => onScrollTo(item.id)}
+          className={`relative text-sm font-medium transition-colors group ${linkColor}`}
           whileHover={{ y: -2 }}
           whileTap={{ y: 0 }}
         >
@@ -68,7 +49,7 @@ export function SiteHeader() {
       ))}
       <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
         <Button
-          onClick={() => handleScrollTo("contact")}
+          onClick={() => onScrollTo("contact")}
           className="relative overflow-hidden bg-gradient-brand text-white px-6 py-2.5 rounded-full font-medium shadow-lg shadow-brand-green/20 hover:shadow-xl hover:shadow-brand-teal/30 transition-all duration-300 group"
         >
           <span className="relative z-10 flex items-center gap-2">
@@ -80,9 +61,10 @@ export function SiteHeader() {
       </motion.div>
     </>
   );
+}
 
-  // メディアページ用のナビゲーションアイテム
-  const MediaNavItems = () => (
+function MediaNavItems() {
+  return (
     <>
       <Link
         href="/"
@@ -104,6 +86,26 @@ export function SiteHeader() {
       </motion.div>
     </>
   );
+}
+
+export function SiteHeader() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleScrollTo = (id: string) => {
+    setIsOpen(false);
+    setTimeout(() => scrollToElement(id), 100);
+  };
 
   return (
     <header
@@ -129,9 +131,9 @@ export function SiteHeader() {
               priority
             />
           </motion.div>
-          <motion.span 
+          <motion.span
             className={`ml-3 font-display font-bold text-lg tracking-tight transition-colors duration-300 ${
-              isScrolled ? "text-brand-deep" : "text-white"
+              isScrolled || !isHomePage ? "text-brand-deep" : "text-white"
             }`}
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
@@ -143,7 +145,11 @@ export function SiteHeader() {
 
         {/* デスクトップナビゲーション */}
         <nav className="hidden md:flex items-center gap-8 h-full">
-          {isHomePage ? <HomeNavItems /> : <MediaNavItems />}
+          {isHomePage ? (
+            <HomeNavItems onScrollTo={handleScrollTo} isScrolled={isScrolled} />
+          ) : (
+            <MediaNavItems />
+          )}
         </nav>
 
         {/* ハンバーガーメニューボタン */}
@@ -151,7 +157,7 @@ export function SiteHeader() {
           variant="ghost"
           size="icon"
           className={`md:hidden rounded-full ${
-            isScrolled ? "text-brand-deep" : "text-white"
+            isScrolled || !isHomePage ? "text-brand-deep" : "text-white"
           } hover:bg-brand-green/10`}
           onClick={() => setIsOpen(!isOpen)}
         >

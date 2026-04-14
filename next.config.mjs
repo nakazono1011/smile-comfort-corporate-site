@@ -5,20 +5,7 @@ import nextIntlPlugin from "next-intl/plugin";
 const baseConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "*",
-        pathname: "/**",
-        port: "",
-      },
-      {
-        protocol: "http",
-        hostname: "*",
-        pathname: "/**",
-        port: "",
-      },
-    ],
+    remotePatterns: [],
   },
 
   // MDX設定

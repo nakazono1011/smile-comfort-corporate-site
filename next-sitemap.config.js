@@ -1,18 +1,17 @@
 /** @type {import('next-sitemap').IConfig} */
+const SITE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL || "https://smilecomfort.jp";
+
 module.exports = {
-  siteUrl: process.env.NEXT_PUBLIC_BASE_URL,
-  generateRobotsTxt: true,
+  siteUrl: SITE_URL,
+  generateRobotsTxt: false,
   changefreq: "weekly",
   sitemapSize: 7000,
   exclude: ["/api/*"],
-  alternateRefs: [
-    {
-      href: process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
-      hreflang: "ja",
-    },
-    {
-      href: `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/en`,
-      hreflang: "en",
-    },
-  ],
+  transform: async (config, path) => ({
+    loc: path,
+    changefreq: config.changefreq,
+    priority: path === "/" ? 1.0 : 0.7,
+    lastmod: new Date().toISOString(),
+  }),
 };

@@ -1,66 +1,33 @@
 "use client";
 
-import { motion, useSpring, useTransform, useMotionValue } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
-import { useEffect } from "react";
-import { ArrowDown, Clock, Sparkles } from "lucide-react";
+import { ArrowDown, Clock, Brain, Bot, ShoppingCart, Cog } from "lucide-react";
+import { scrollToElement } from "@/lib/scroll";
+
+const serviceChips = [
+  { icon: Brain, label: "AI開発" },
+  { icon: Bot, label: "生成AI / LLM" },
+  { icon: Cog, label: "業務自動化" },
+  { icon: ShoppingCart, label: "EC支援" },
+] as const;
 
 export function HeroContent() {
-  const mouseX = useMotionValue(0);
-  const x = useTransform(mouseX, [-1000, 1000], [-80, 80]);
-  const springX = useSpring(x, {
-    stiffness: 50,
-    damping: 30,
-    mass: 1,
-  });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const x = e.clientX - window.innerWidth / 2;
-      mouseX.set(x);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX]);
-
-  const scrollToMission = () => {
-    const element = document.getElementById("mission");
-    if (element) {
-      const offset = 80;
-      const elementPosition =
-        element.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({
-        top: elementPosition,
-        behavior: "smooth",
-      });
-    }
-  };
-
   return (
     <div className="relative flex-1 w-full">
-      {/* パノラマ背景のコンテナ */}
+      {/* 背景画像 */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* パノラマ画像 */}
-        <motion.div
-          className="absolute inset-0 scale-[1.3]"
-          style={{
-            x: springX,
-            width: "130%",
-            left: "-15%",
-          }}
-        >
-          <Image
-            src="/hero.jpg"
-            alt="Tokyo cityscape"
-            fill
-            className="object-cover"
-            priority
-            quality={100}
-          />
-        </motion.div>
+        <Image
+          src="/hero.jpg"
+          alt="合同会社スマイルコンフォート - アイデアをプロダクトに"
+          fill
+          className="object-cover"
+          priority
+          quality={75}
+          sizes="100vw"
+        />
 
-        {/* グラデーションオーバーレイ - ロゴカラーに合わせた緑〜青 */}
+        {/* グラデーションオーバーレイ */}
         <div className="absolute inset-0 bg-gradient-to-br from-brand-deep/90 via-brand-deep/70 to-brand-blue/60" />
 
         {/* メッシュグラデーション効果 */}
@@ -75,19 +42,37 @@ export function HeroContent() {
       </div>
 
       {/* コンテンツ */}
-      <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center pt-24 pb-20">
-        <div className="max-w-5xl">
+      <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center items-center pt-24 pb-20 text-center">
+        <div className="max-w-4xl">
+          {/* サービスチップ */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8"
+          >
+            {serviceChips.map((chip) => (
+              <span
+                key={chip.label}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/90 text-xs sm:text-sm font-medium"
+              >
+                <chip.icon className="w-3.5 h-3.5" />
+                {chip.label}
+              </span>
+            ))}
+          </motion.div>
+
           {/* メインタイトル */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold mb-8 leading-[1.1] tracking-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 leading-[1.15] tracking-tight"
           >
-            <span className="block text-white">テクノロジーで、</span>
+            <span className="block text-white">アイデアを、</span>
             <span className="block mt-2">
-              <span className="text-gradient">自由な時間</span>
-              <span className="text-white">を創造する。</span>
+              <span className="text-gradient">プロダクト</span>
+              <span className="text-white">に。</span>
             </span>
           </motion.h1>
 
@@ -96,11 +81,11 @@ export function HeroContent() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-base sm:text-xl mb-12 leading-relaxed text-white/80 max-w-2xl"
+            className="text-base sm:text-lg md:text-xl mb-12 leading-relaxed text-white/80 max-w-2xl mx-auto"
           >
-            すべての人の自由な時間を増やし、
+            AIでアイデアが形になる時代。
             <br className="hidden sm:block" />
-            個々の能力を解き放ち、幸福を最大化する。
+            自社プロダクト開発から受託開発まで、少数精鋭のエンジニアチームが構想を現実にします。
           </motion.p>
 
           {/* CTAボタン */}
@@ -108,34 +93,21 @@ export function HeroContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4"
+            className="flex flex-col sm:flex-row justify-center gap-4"
           >
             <motion.button
-              onClick={scrollToMission}
+              onClick={() => scrollToElement("services")}
               className="group relative inline-flex items-center justify-center gap-3 h-14 px-8 rounded-full bg-gradient-brand text-white font-medium shadow-2xl shadow-brand-green/30 overflow-hidden"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <span className="relative z-10">私たちについて</span>
+              <span className="relative z-10">サービスを見る</span>
               <ArrowDown className="relative z-10 w-5 h-5 group-hover:translate-y-1 transition-transform" />
               <div className="absolute inset-0 bg-gradient-brand-reverse opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </motion.button>
 
             <motion.button
-              onClick={() => {
-                const element = document.getElementById("contact");
-                if (element) {
-                  const offset = 80;
-                  const elementPosition =
-                    element.getBoundingClientRect().top +
-                    window.scrollY -
-                    offset;
-                  window.scrollTo({
-                    top: elementPosition,
-                    behavior: "smooth",
-                  });
-                }
-              }}
+              onClick={() => scrollToElement("contact")}
               className="group inline-flex items-center justify-center gap-3 h-14 px-8 rounded-full border-2 border-white/30 text-white font-medium backdrop-blur-sm hover:bg-white/10 transition-all duration-300"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -145,37 +117,6 @@ export function HeroContent() {
             </motion.button>
           </motion.div>
 
-          {/* 統計情報 */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="mt-16 pt-8 border-t border-white/10"
-          >
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-8">
-              {[
-                { label: "業務効率化", value: "最大80%", suffix: "削減" },
-                { label: "導入実績", value: "多数", suffix: "の企業様" },
-                { label: "技術領域", value: "フルスタック", suffix: "対応" },
-              ].map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.9 + index * 0.1 }}
-                  className="text-center sm:text-left"
-                >
-                  <div className="text-2xl sm:text-3xl font-display font-bold text-white">
-                    {stat.value}
-                    <span className="text-brand-green text-lg ml-1">
-                      {stat.suffix}
-                    </span>
-                  </div>
-                  <div className="text-white/60 text-sm mt-1">{stat.label}</div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
         </div>
       </div>
 

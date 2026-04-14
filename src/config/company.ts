@@ -1,3 +1,6 @@
+export const BASE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL || "https://smilecomfort.jp";
+
 export const COMPANY_INFO = {
   name: "合同会社スマイルコンフォート",
   nameKana: "スマイルコンフォート",
@@ -10,4 +13,9 @@ export const COMPANY_INFO = {
   representative: "中園 啓佑",
   tel: "080-5217-0560",
   establishedDate: "2024年11月22日",
+} as const;
+
+export const ANALYTICS = {
+  gaId: "G-8HRNH9FQ9G",
+  gtmId: "GTM-KCSG3QM2",
 } as const;
