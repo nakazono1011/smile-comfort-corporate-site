@@ -3,7 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
-import { ExternalLink, Bell, TrendingDown, Mail } from "lucide-react";
+import { ExternalLink, Bell, TrendingDown, Mail, Map, Tag, ArrowLeftRight } from "lucide-react";
 
 const products = [
   {
@@ -20,6 +20,21 @@ const products = [
       { icon: Mail, label: "LINE/メール連携" },
     ],
     gradient: "from-brand-green to-brand-teal",
+  },
+  {
+    name: "型マップ",
+    tagline: "複数モールのカテゴリ変換を、一度きりの定義で。",
+    description:
+      "ECモール間のカテゴリ変換・商品属性マッピングを一元管理するSaaSサービス。楽天・Amazon・Yahoo!ショッピングなど複数モールへの出品時に生じるカテゴリ構造の違いや属性項目のズレを、「型」として定義するだけで自動変換。手作業によるカテゴリ付け替えや属性の再入力をゼロにし、マルチモール運営の効率を大幅に向上させます。",
+    image: "/products/catamap.png",
+    url: "https://catamap.app",
+    status: "New",
+    features: [
+      { icon: Map, label: "カテゴリマッピング" },
+      { icon: Tag, label: "商品属性管理" },
+      { icon: ArrowLeftRight, label: "モール間変換" },
+    ],
+    gradient: "from-brand-cyan to-brand-blue",
   },
 ] as const;
 
