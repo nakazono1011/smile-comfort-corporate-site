@@ -1,13 +1,34 @@
+import type { Metadata } from "next";
 import { getPostMeta, PostMeta } from "@/lib/mdx";
 import { ArticleCard } from "@/components/ui/ArticleCard";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { ItemListJsonLd } from "@/components/seo/JsonLd";
+import { OG_IMAGE } from "@/config/company";
 import { FileText, Rss } from "lucide-react";
 
-export const generateMetadata = () => ({ 
-  title: "Media & Articles | Smile Comfort LLC",
-  description: "Practical articles on web development, e-commerce operations, and security. Featuring topics on proxies, web scraping, OMS tools, password management, and more business-focused content."
-});
+export function generateMetadata(): Metadata {
+  return {
+    title: "Media & Articles | Smile Comfort LLC",
+    description:
+      "Practical articles on web development, e-commerce operations, and security. Featuring topics on proxies, web scraping, OMS tools, password management, and more business-focused content.",
+    alternates: {
+      canonical: "/en/media",
+      languages: { ja: "/media", en: "/en/media" },
+    },
+    openGraph: {
+      title: "Media & Articles | Smile Comfort LLC",
+      description:
+        "Practical articles on web development, e-commerce operations, and security.",
+      url: "/en/media",
+      images: [OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      images: [OG_IMAGE.url],
+    },
+  };
+}
 export const revalidate = 60; // ISR: 60 seconds
 
 export default async function MediaList() {
@@ -15,6 +36,13 @@ export default async function MediaList() {
 
   return (
     <div className="min-h-screen bg-white pt-20">
+      <ItemListJsonLd
+        name="Media & Articles"
+        description="Practical articles on web development, e-commerce, and security"
+        urlPath="/en/media"
+        posts={posts}
+        lang="en"
+      />
       <SiteHeader />
       <main className="min-h-screen bg-gradient-to-b from-white to-support-beige/30">
         {/* Hero Section */}
@@ -29,12 +57,15 @@ export default async function MediaList() {
                   Media & Articles
                 </h1>
               </div>
-              
+
               <p className="text-lg text-support-gray leading-relaxed mb-8">
-                Practical articles on web development, e-commerce operations, and security.<br />
-                Delivering information to support business efficiency and growth.
+                Practical articles on web development, e-commerce operations,
+                and security.
+                <br />
+                Delivering information to support business efficiency and
+                growth.
               </p>
-              
+
               <div className="flex items-center justify-center gap-2 text-sm text-support-gray">
                 <Rss className="w-4 h-4" />
                 <span>{posts.length} articles total</span>
@@ -56,7 +87,9 @@ export default async function MediaList() {
               <div className="p-4 bg-support-beige/50 rounded-lg inline-block mb-4">
                 <FileText className="w-8 h-8 text-support-gray mx-auto" />
               </div>
-              <h3 className="text-lg font-semibold text-primary mb-2">No articles yet</h3>
+              <h3 className="text-lg font-semibold text-primary mb-2">
+                No articles yet
+              </h3>
               <p className="text-support-gray">
                 New articles are being prepared. Please check back later.
               </p>

@@ -80,32 +80,64 @@ export async function getPost(sourceSlug: string, lang: "ja" | "en") {
   throw new Error(`Post with slug "${sourceSlug}" not found in any category`);
 }
 
-export async function getPostsByCategory(
-  category: string,
-  lang: "ja" | "en"
-): Promise<PostMeta[]> {
-  const dir = path.join(CONTENT_ROOT, lang, category);
+export interface FaqPair {
+  question: string;
+  answer: string;
+}
 
-  try {
-    const files = await fs.readdir(dir);
+const FAQ_HEADING_RE =
+  /^##\s+(?:よくある質問|FAQ\b|Frequently\s+Asked\s+Questions\b)/i;
+const FAQ_QUESTION_PREFIX_RE = /^Q\d+[.\s、]\s*/i;
+const FAQ_ANSWER_MAX = 8000;
 
-    const posts = await Promise.all(
-      files
-        .filter((filename) => filename.endsWith(".mdx"))
-        .map(async (filename) => {
-          const source = await fs.readFile(path.join(dir, filename), "utf8");
-          const { data } = matter(source);
-          return {
-            ...data,
-            category,
-            slug: filename.replace(".mdx", ""),
-          } as PostMeta;
-        })
-    );
+/** MDX本文から「よくある質問」セクションの Q/A を抽出（FAQPage JSON-LD 用） */
+export function extractFaqsFromMdx(content: string): FaqPair[] {
+  const faqs: FaqPair[] = [];
+  let inFaq = false;
+  let question: string | null = null;
+  let answerLines: string[] = [];
 
-    return posts.sort((a, b) => +new Date(b.date) - +new Date(a.date));
-  } catch {
-    console.warn(`Category ${category} not found, returning empty array`);
-    return [];
+  const flush = () => {
+    if (!question) return;
+    const answer = normalizeFaqAnswer(answerLines.join("\n"));
+    if (answer) faqs.push({ question: question.trim(), answer });
+    question = null;
+    answerLines = [];
+  };
+
+  for (const line of content.split(/\r?\n/)) {
+    if (!inFaq) {
+      if (FAQ_HEADING_RE.test(line)) inFaq = true;
+      continue;
+    }
+
+    if (line.startsWith("## ")) {
+      flush();
+      break;
+    }
+
+    if (line.startsWith("### ")) {
+      flush();
+      const raw = line.slice(4).trim();
+      question = raw.replace(FAQ_QUESTION_PREFIX_RE, "").trim() || raw;
+      continue;
+    }
+
+    if (question) answerLines.push(line);
   }
+  flush();
+  return faqs;
+}
+
+function normalizeFaqAnswer(raw: string): string {
+  const stripped = raw
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+  if (!stripped) return "";
+  return stripped.length > FAQ_ANSWER_MAX
+    ? `${stripped.slice(0, FAQ_ANSWER_MAX - 3)}...`
+    : stripped;
 }

@@ -95,11 +95,20 @@ export function SiteHeader() {
   const isHomePage = pathname === "/";
 
   useEffect(() => {
+    let raf = 0;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        setIsScrolled(window.scrollY > 20);
+      });
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   const handleScrollTo = (id: string) => {

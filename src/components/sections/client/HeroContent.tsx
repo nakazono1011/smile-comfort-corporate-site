@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { ArrowDown, Clock, Brain, Bot, ShoppingCart, Cog } from "lucide-react";
 import { scrollToElement } from "@/lib/scroll";
@@ -13,17 +13,22 @@ const serviceChips = [
 ] as const;
 
 export function HeroContent() {
+  const prefersReducedMotion = useReducedMotion();
+  const scrollLoop = prefersReducedMotion
+    ? { duration: 0 as const }
+    : { duration: 1.5, repeat: Infinity, ease: "easeInOut" as const };
+
   return (
     <div className="relative flex-1 w-full">
       {/* 背景画像 */}
       <div className="absolute inset-0 overflow-hidden">
         <Image
-          src="/hero.jpg"
+          src="/hero.webp"
           alt="合同会社スマイルコンフォート - アイデアをプロダクトに"
           fill
           className="object-cover"
           priority
-          quality={75}
+          quality={70}
           sizes="100vw"
         />
 
@@ -116,7 +121,6 @@ export function HeroContent() {
               <span>お問い合わせ</span>
             </motion.button>
           </motion.div>
-
         </div>
       </div>
 
@@ -131,13 +135,17 @@ export function HeroContent() {
           Scroll
         </span>
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          animate={prefersReducedMotion ? { y: 0 } : { y: [0, 8, 0] }}
+          transition={scrollLoop}
           className="w-6 h-10 rounded-full border-2 border-white/30 flex justify-center pt-2"
         >
           <motion.div
-            animate={{ opacity: [1, 0.3, 1], y: [0, 12, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            animate={
+              prefersReducedMotion
+                ? { y: 0, opacity: 0.4 }
+                : { y: [0, 12, 0], opacity: [1, 0.3, 1] }
+            }
+            transition={scrollLoop}
             className="w-1 h-2 bg-white/70 rounded-full"
           />
         </motion.div>

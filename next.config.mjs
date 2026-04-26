@@ -3,6 +3,9 @@ import nextIntlPlugin from "next-intl/plugin";
 
 /** @type {import('next').NextConfig} */
 const baseConfig = {
+  experimental: {
+    optimizePackageImports: ["lucide-react", "framer-motion"],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [],

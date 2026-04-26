@@ -1,6 +1,9 @@
 /** @type {import('next-sitemap').IConfig} */
+const fromEnv = process.env.NEXT_PUBLIC_BASE_URL;
 const SITE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL || "https://smilecomfort.jp";
+  fromEnv && !fromEnv.includes("localhost")
+    ? fromEnv
+    : "https://www.smile-comfort.com";
 
 module.exports = {
   siteUrl: SITE_URL,

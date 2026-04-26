@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Outfit, Zen_Kaku_Gothic_New } from "next/font/google";
 import "./globals.css";
-import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import Providers from "@/app/providers";
 import { OrganizationJsonLd } from "@/components/seo/JsonLd";
-import { ANALYTICS, BASE_URL } from "@/config/company";
+import { ANALYTICS, BASE_URL, OG_IMAGE } from "@/config/company";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -38,9 +38,11 @@ export const metadata: Metadata = {
     locale: "ja_JP",
     alternateLocale: "en_US",
     siteName: "合同会社スマイルコンフォート",
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
+    images: [OG_IMAGE.url],
   },
 };
 
@@ -56,15 +58,12 @@ export default function RootLayout({
       </head>
       <body className={zenKaku.className} suppressHydrationWarning>
         <div className="min-h-screen flex flex-col">
-          <main className="flex-grow">
+          <div className="flex-grow">
             <Providers locale="ja">{children}</Providers>
-          </main>
+          </div>
         </div>
         {process.env.NEXT_PUBLIC_VERCEL_ENV === "production" && (
-          <>
-            <GoogleAnalytics gaId={ANALYTICS.gaId} />
-            <GoogleTagManager gtmId={ANALYTICS.gtmId} />
-          </>
+          <GoogleTagManager gtmId={ANALYTICS.gtmId} />
         )}
       </body>
     </html>

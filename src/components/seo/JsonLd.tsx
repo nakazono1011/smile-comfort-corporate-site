@@ -1,4 +1,22 @@
-import { BASE_URL, COMPANY_INFO } from "@/config/company";
+import {
+  BASE_URL,
+  COMPANY_INFO,
+  EXTERNAL_LINKS,
+  OG_IMAGE,
+} from "@/config/company";
+import type { FaqPair, PostMeta } from "@/lib/mdx";
+
+const ORG_SAME_AS = [
+  EXTERNAL_LINKS.note,
+  EXTERNAL_LINKS.traBell,
+  EXTERNAL_LINKS.catamap,
+] as const;
+
+const mediaUrl = (slug: string, lang: "ja" | "en") =>
+  lang === "en" ? `${BASE_URL}/en/media/${slug}` : `${BASE_URL}/media/${slug}`;
+
+const absoluteUrl = (path: string) =>
+  `${BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 
 export function OrganizationJsonLd() {
   const schema = {
@@ -22,7 +40,15 @@ export function OrganizationJsonLd() {
     },
     foundingDate: "2024-11-22",
     telephone: COMPANY_INFO.tel,
-    sameAs: [],
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: COMPANY_INFO.tel,
+        contactType: "customer service",
+        availableLanguage: ["ja", "en"],
+      },
+    ],
+    sameAs: [...ORG_SAME_AS],
   };
 
   return (
@@ -52,10 +78,7 @@ export function ArticleJsonLd({
   tags,
   cover,
 }: ArticleJsonLdProps) {
-  const url =
-    lang === "en"
-      ? `${BASE_URL}/en/media/${slug}`
-      : `${BASE_URL}/media/${slug}`;
+  const url = mediaUrl(slug, lang);
 
   const schema = {
     "@context": "https://schema.org",
@@ -66,7 +89,7 @@ export function ArticleJsonLd({
     datePublished: date,
     dateModified: date,
     inLanguage: lang === "en" ? "en-US" : "ja-JP",
-    image: cover ? `${BASE_URL}${cover}` : undefined,
+    image: absoluteUrl(cover ?? OG_IMAGE.url),
     keywords: tags?.join(", "),
     author: {
       "@type": "Organization",
@@ -81,6 +104,68 @@ export function ArticleJsonLd({
         url: `${BASE_URL}/logo.png`,
       },
     },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+export function FaqJsonLd({ faqs }: { faqs: FaqPair[] }) {
+  if (faqs.length === 0) return null;
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: f.answer,
+      },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+export function ItemListJsonLd({
+  name,
+  description,
+  urlPath,
+  posts,
+  lang,
+}: {
+  name: string;
+  description: string;
+  urlPath: string;
+  posts: PostMeta[];
+  lang: "ja" | "en";
+}) {
+  const listUrl = `${BASE_URL}${urlPath}`;
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name,
+    description,
+    url: listUrl,
+    numberOfItems: posts.length,
+    itemListElement: posts.map((post, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: post.title,
+      url: mediaUrl(post.slug, lang),
+    })),
   };
 
   return (

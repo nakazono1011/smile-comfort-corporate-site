@@ -1,14 +1,34 @@
+import type { Metadata } from "next";
 import { getPostMeta, PostMeta } from "@/lib/mdx";
 import { ArticleCard } from "@/components/ui/ArticleCard";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { ItemListJsonLd } from "@/components/seo/JsonLd";
+import { OG_IMAGE } from "@/config/company";
 import { FileText, Rss } from "lucide-react";
 
-export const generateMetadata = () => ({
-  title: "メディア・記事一覧 | 合同会社スマイルコンフォート",
-  description:
-    "Web開発、EC運営、セキュリティに関する実用的な記事をお届け。プロキシ、スクレイピング、一元管理ツール、パスワード管理など、ビジネスに役立つ情報を発信中。",
-});
+export function generateMetadata(): Metadata {
+  return {
+    title: "メディア・記事一覧 | 合同会社スマイルコンフォート",
+    description:
+      "Web開発、EC運営、セキュリティに関する実用的な記事をお届け。プロキシ、スクレイピング、一元管理ツール、パスワード管理など、ビジネスに役立つ情報を発信中。",
+    alternates: {
+      canonical: "/media",
+      languages: { ja: "/media", en: "/en/media" },
+    },
+    openGraph: {
+      title: "メディア・記事一覧 | 合同会社スマイルコンフォート",
+      description:
+        "Web開発、EC運営、セキュリティに関する実用的な記事をお届け。",
+      url: "/media",
+      images: [OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      images: [OG_IMAGE.url],
+    },
+  };
+}
 export const revalidate = 60; // ISR: 60 秒
 
 export default async function MediaList() {
@@ -16,6 +36,13 @@ export default async function MediaList() {
 
   return (
     <div className="min-h-screen bg-white pt-20">
+      <ItemListJsonLd
+        name="メディア・記事一覧"
+        description="Web開発、EC運営、セキュリティに関する実用的な記事"
+        urlPath="/media"
+        posts={posts}
+        lang="ja"
+      />
       <SiteHeader />
       <main className="min-h-screen bg-gradient-to-b from-white to-support-beige/30">
         {/* Hero Section */}

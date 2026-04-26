@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { COMPANY_INFO } from "@/config/company";
+import { motion, useReducedMotion } from "framer-motion";
+import { COMPANY_INFO, EXTERNAL_LINKS } from "@/config/company";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
@@ -19,6 +19,8 @@ const serviceLinks = [
 ] as const;
 
 export function SiteFooter() {
+  const prefersReducedMotion = useReducedMotion();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -127,7 +129,7 @@ export function SiteFooter() {
               </li>
               <li>
                 <a
-                  href="https://note.com/smilecomfort"
+                  href={EXTERNAL_LINKS.note}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-2 text-white/60 hover:text-brand-green transition-colors"
@@ -147,12 +149,12 @@ export function SiteFooter() {
             >
               <span>トップに戻る</span>
               <motion.span
-                animate={{ y: [0, -3, 0] }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+                animate={prefersReducedMotion ? { y: 0 } : { y: [0, -3, 0] }}
+                transition={
+                  prefersReducedMotion
+                    ? { duration: 0 }
+                    : { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
+                }
               >
                 ↑
               </motion.span>

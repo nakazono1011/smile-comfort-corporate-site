@@ -1,4 +1,9 @@
-import { getPost, getPostMeta, type PostMeta } from "@/lib/mdx";
+import {
+  extractFaqsFromMdx,
+  getPost,
+  getPostMeta,
+  type PostMeta,
+} from "@/lib/mdx";
 import { compileMDX } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -6,7 +11,8 @@ import { ArticleHeader } from "@/components/ui/ArticleHeader";
 import { TableOfContents } from "@/components/ui/TableOfContents";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
-import { ArticleJsonLd } from "@/components/seo/JsonLd";
+import { ArticleJsonLd, FaqJsonLd } from "@/components/seo/JsonLd";
+import { OG_IMAGE } from "@/config/company";
 import { mdxComponents } from "@/components/mdx/mdx-components";
 
 export async function generateStaticParams() {
@@ -34,12 +40,13 @@ export async function generateMetadata({
       type: "article",
       publishedTime: data.date,
       tags: data.tags,
-      images: data.cover ? [{ url: data.cover }] : undefined,
+      images: data.cover ? [{ url: data.cover }] : [OG_IMAGE],
     },
     twitter: {
       card: "summary_large_image",
       title: data.title,
       description: data.summary,
+      images: data.cover ? [data.cover] : [OG_IMAGE.url],
     },
   };
 }
@@ -56,6 +63,7 @@ export default async function PostPage({
   if (!data) notFound();
 
   const post = data as PostMeta;
+  const faqs = extractFaqsFromMdx(content);
 
   // Calculate reading time (approximate)
   const readingTime = Math.max(1, Math.ceil(content.length / 1000));
@@ -81,6 +89,7 @@ export default async function PostPage({
         tags={post.tags}
         cover={post.cover}
       />
+      {faqs.length > 0 && <FaqJsonLd faqs={faqs} />}
       <SiteHeader />
       <div className="min-h-screen bg-gradient-to-b from-white to-support-beige/30">
         <div className="container mx-auto px-4 py-8">
