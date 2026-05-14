@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState, useRef } from "react";
 import { Send, User, Mail, Building, MessageSquare, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
 const schema = z.object({
   name: z.string().min(1, "お名前を入力してください"),
@@ -16,9 +17,13 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
+const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
+
 export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error" | "captcha">("idle");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileInstance | null>(null);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -32,6 +37,11 @@ export function ContactSection() {
   });
 
   const onSubmit = async (data: FormData) => {
+    if (!turnstileToken) {
+      setSubmitStatus("captcha");
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const response = await fetch("/api/contact", {
@@ -39,7 +49,7 @@ export function ContactSection() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, turnstileToken }),
       });
 
       if (!response.ok) throw new Error("送信に失敗しました");
@@ -50,6 +60,8 @@ export function ContactSection() {
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
+      setTurnstileToken(null);
+      turnstileRef.current?.reset();
     }
   };
 
@@ -183,11 +195,28 @@ export function ContactSection() {
                 )}
               </div>
 
+              {/* Cloudflare Turnstile */}
+              {turnstileSiteKey ? (
+                <div className="pt-2 flex justify-center">
+                  <Turnstile
+                    ref={turnstileRef}
+                    siteKey={turnstileSiteKey}
+                    options={{ theme: "light", language: "ja" }}
+                    onSuccess={(token) => {
+                      setTurnstileToken(token);
+                      if (submitStatus === "captcha") setSubmitStatus("idle");
+                    }}
+                    onError={() => setTurnstileToken(null)}
+                    onExpire={() => setTurnstileToken(null)}
+                  />
+                </div>
+              ) : null}
+
               {/* 送信ボタン */}
               <div className="pt-4">
                 <motion.button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || (Boolean(turnstileSiteKey) && !turnstileToken)}
                   className="group relative w-full overflow-hidden py-4 px-8 rounded-full bg-gradient-brand text-white font-medium shadow-xl shadow-brand-green/20 disabled:opacity-50 disabled:cursor-not-allowed"
                   whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
                   whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
@@ -236,6 +265,21 @@ export function ContactSection() {
                     <p className="font-medium text-red-800">送信に失敗しました</p>
                     <p className="text-sm text-red-600 mt-1">
                       時間をおいて再度お試しいただくか、直接お電話でご連絡ください。
+                    </p>
+                  </div>
+                </motion.div>
+              )}
+              {submitStatus === "captcha" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-start gap-3 p-4 rounded-xl bg-amber-50 border border-amber-200"
+                >
+                  <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-medium text-amber-800">確認が完了していません</p>
+                    <p className="text-sm text-amber-600 mt-1">
+                      送信前に「私は人間です」の確認にチェックを入れてください。
                     </p>
                   </div>
                 </motion.div>
