@@ -11,6 +11,7 @@ import { TableOfContents } from "@/components/ui/TableOfContents";
 import { RelatedArticles } from "@/components/ui/RelatedArticles";
 import { InlineCTA } from "@/components/ui/InlineCTA";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
+import { AuthorBox } from "@/components/ui/AuthorBox";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { ArticleJsonLd, FaqJsonLd } from "@/components/seo/JsonLd";
@@ -152,6 +153,8 @@ export default async function PostPage({
               {post.faq && post.faq.length > 0 ? (
                 <FAQAccordion items={post.faq} locale="ja" />
               ) : null}
+
+              <AuthorBox authorId={post.author} locale="ja" />
 
               {post.product ? (
                 <InlineCTA

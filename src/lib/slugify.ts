@@ -1,4 +1,4 @@
-export function slugify(input: unknown): string | undefined {
+function slugify(input: unknown): string | undefined {
   if (typeof input !== "string") return undefined;
   const slug = input
     .toLowerCase()

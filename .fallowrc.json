@@ -1,0 +1,11 @@
+{
+  "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
+  "entry": ["src/lib/content/**/*.mdx", "scripts/**/*.{js,mjs}"],
+  "ignorePatterns": ["output/**", ".agents/**"],
+  "ignoreDependencies": [
+    "eslint-config-next",
+    "@eslint/eslintrc",
+    "postcss-load-config"
+  ],
+  "ignoreExportsUsedInFile": true
+}

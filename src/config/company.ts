@@ -51,7 +51,7 @@ export interface CapabilityInfo {
   blurb: { ja: string; en: string };
 }
 
-export const CAPABILITIES: Record<CapabilityKey, CapabilityInfo> = {
+const CAPABILITIES: Record<CapabilityKey, CapabilityInfo> = {
   "data-platform": {
     key: "data-platform",
     label: { ja: "データ分析基盤構築", en: "Data analytics platforms" },

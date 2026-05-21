@@ -177,5 +177,3 @@ export function createMdxComponents(
     ),
   };
 }
-
-export const mdxComponents = createMdxComponents();

@@ -7,7 +7,7 @@ export interface AuthorProfile {
   url?: string;
 }
 
-export const AUTHORS: Record<string, AuthorProfile> = {
+const AUTHORS: Record<string, AuthorProfile> = {
   "kei-nakazono": {
     id: "kei-nakazono",
     name: {
@@ -44,7 +44,7 @@ export const AUTHORS: Record<string, AuthorProfile> = {
   },
 };
 
-export const DEFAULT_AUTHOR_ID = "smile-comfort";
+const DEFAULT_AUTHOR_ID = "smile-comfort";
 
 export function getAuthor(id?: string): AuthorProfile {
   return AUTHORS[id ?? ""] ?? AUTHORS[DEFAULT_AUTHOR_ID];

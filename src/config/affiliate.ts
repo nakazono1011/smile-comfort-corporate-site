@@ -72,8 +72,3 @@ export const AFFILIATE: Record<AffiliateProduct, AffiliateConfig> = {
     },
   },
 };
-
-export function getAffiliate(product?: AffiliateProduct): AffiliateConfig | undefined {
-  if (!product) return undefined;
-  return AFFILIATE[product];
-}
