@@ -15,6 +15,14 @@ export default {
         sans: ["Zen Kaku Gothic New", "Hiragino Sans", "sans-serif"],
         display: ["Outfit", "Zen Kaku Gothic New", "sans-serif"],
       },
+      fontSize: {
+        "body-lg": ["18px", { lineHeight: "1.7" }],
+        "h2-article": ["28px", { lineHeight: "1.3", letterSpacing: "-0.01em" }],
+        "h3-article": ["22px", { lineHeight: "1.4" }],
+      },
+      maxWidth: {
+        article: "1112px",
+      },
       colors: {
         brand: {
           green: "#3eb991",

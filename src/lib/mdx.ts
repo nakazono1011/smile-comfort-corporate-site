@@ -2,6 +2,13 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 
+export type AffiliateProduct = "1password" | "brightdata" | "nextengine";
+
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
 export interface PostMeta {
   title: string;
   date: string;
@@ -11,6 +18,16 @@ export interface PostMeta {
   tags?: string[];
   category?: string;
   cover?: string;
+  updated?: string;
+  readTime?: number;
+  author?: string;
+  ogImage?: string;
+  heroImage?: string;
+  product?: AffiliateProduct;
+  featured?: boolean;
+  related?: string[];
+  xPosts?: string[];
+  faq?: FaqItem[];
 }
 
 const CONTENT_ROOT = path.join(process.cwd(), "src", "lib", "content");
@@ -24,10 +41,21 @@ const CATEGORIES = [
   "hubspot",
 ];
 
-export async function getPostMeta(lang: "ja" | "en"): Promise<PostMeta[]> {
+export interface GetPostMetaOptions {
+  /** featured:true を先頭に持ち上げる */
+  featuredFirst?: boolean;
+  /** カテゴリで絞り込む */
+  category?: string;
+}
+
+export async function getPostMeta(
+  lang: "ja" | "en",
+  options: GetPostMetaOptions = {}
+): Promise<PostMeta[]> {
   const allPosts: PostMeta[] = [];
 
   for (const category of CATEGORIES) {
+    if (options.category && options.category !== category) continue;
     const dir = path.join(CONTENT_ROOT, lang, category);
 
     try {
@@ -38,7 +66,6 @@ export async function getPostMeta(lang: "ja" | "en"): Promise<PostMeta[]> {
           const source = await fs.readFile(path.join(dir, filename), "utf8");
           const { data } = matter(source);
 
-          // カテゴリ情報を追加
           const postData = {
             ...data,
             category,
@@ -50,12 +77,20 @@ export async function getPostMeta(lang: "ja" | "en"): Promise<PostMeta[]> {
       }
     } catch {
       // ディレクトリが存在しない場合はスキップ
-      console.warn(`Directory ${dir} not found, skipping...`);
     }
   }
 
-  // 日付でソート
-  return allPosts.sort((a, b) => +new Date(b.date) - +new Date(a.date));
+  const sorted = allPosts.sort(
+    (a, b) => +new Date(b.date) - +new Date(a.date)
+  );
+
+  if (options.featuredFirst) {
+    const featured = sorted.filter((p) => p.featured);
+    const rest = sorted.filter((p) => !p.featured);
+    return [...featured, ...rest];
+  }
+
+  return sorted;
 }
 
 export async function getPost(sourceSlug: string, lang: "ja" | "en") {

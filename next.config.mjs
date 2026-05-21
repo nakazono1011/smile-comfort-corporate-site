@@ -8,7 +8,13 @@ const baseConfig = {
   },
   images: {
     formats: ["image/avif", "image/webp"],
-    remotePatterns: [],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "img.smile-comfort.com",
+        pathname: "/**",
+      },
+    ],
   },
 
   // MDX設定

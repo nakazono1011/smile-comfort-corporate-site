@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { List, ChevronRight } from "lucide-react";
+import { List } from "lucide-react";
+import { ensureUniqueId } from "@/lib/slugify";
 
 interface Heading {
   id: string;
@@ -10,128 +11,120 @@ interface Heading {
 }
 
 interface TableOfContentsProps {
-  locale?: string;
+  locale?: "ja" | "en";
   variant?: "sidebar" | "inline";
 }
 
-export function TableOfContents({ locale = "ja", variant = "sidebar" }: TableOfContentsProps) {
+export function TableOfContents({
+  locale = "ja",
+  variant = "sidebar",
+}: TableOfContentsProps) {
   const [headings, setHeadings] = useState<Heading[]>([]);
   const [activeId, setActiveId] = useState<string>("");
 
   useEffect(() => {
-    // Extract headings from the page
-    const headingElements = document.querySelectorAll("article h1, article h2, article h3, article h4");
-    const headingData: Heading[] = [];
+    const els = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        "article h2:not([data-toc-exclude]), article h3:not([data-toc-exclude])",
+      ),
+    );
+    const usedIds = new Set<string>();
+    const data: Heading[] = els.map((el, idx) => {
+      const text = el.textContent || "";
+      const generated =
+        text
+          .toLowerCase()
+          .replace(/[^\p{Letter}\p{Number}\s-]/gu, "")
+          .replace(/\s+/g, "-")
+          .slice(0, 60) || `heading-${idx}`;
+      const baseId = el.id || generated;
+      const id = ensureUniqueId(baseId, usedIds);
+      if (el.id !== id) el.id = id;
 
-    headingElements.forEach((heading, index) => {
-      // Skip the main title (first h1)
-      if (heading.tagName === "H1" && index === 0) return;
-      
-      const id = heading.id || `heading-${index}`;
-      if (!heading.id) {
-        heading.id = id;
-      }
-      
-      headingData.push({
+      return {
         id,
-        text: heading.textContent || "",
-        level: parseInt(heading.tagName.charAt(1)),
-      });
+        text,
+        level: parseInt(el.tagName.charAt(1), 10),
+      };
     });
 
-    setHeadings(headingData);
+    setHeadings(data);
+    if (data.length === 0) return;
 
-    // Set up intersection observer for active heading tracking
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
             setActiveId(entry.target.id);
           }
-        });
+        }
       },
-      { rootMargin: "-80px 0px -80% 0px" }
+      { rootMargin: "-96px 0px -70% 0px" },
     );
 
-    headingElements.forEach((heading) => {
-      observer.observe(heading);
-    });
-
+    els.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
   if (headings.length === 0) return null;
-
   const title = locale === "ja" ? "目次" : "Table of Contents";
 
-  // Inline variant for mobile/header placement
   if (variant === "inline") {
     return (
-      <nav className="mb-8 lg:hidden">
-        <div className="bg-support-blue-light/30 border border-support-beige rounded-lg p-4">
-          <div className="flex items-center gap-2 mb-3 text-primary font-semibold">
-            <List className="w-4 h-4" />
-            <span className="text-sm uppercase tracking-wide">{title}</span>
-          </div>
-          
-          <ul className="space-y-1">
-            {headings.map((heading) => (
-              <li key={heading.id}>
+      <nav className="not-prose mb-10 lg:hidden">
+        <details className="rounded-2xl border border-slate-200 bg-support-blue-light/40 px-5 py-4">
+          <summary className="cursor-pointer list-none flex items-center gap-2 text-brand-deep font-semibold">
+            <List className="h-4 w-4 text-brand-green" />
+            <span>{title}</span>
+          </summary>
+          <ol className="mt-4 space-y-2">
+            {headings.map((h) => (
+              <li
+                key={h.id}
+                style={{ paddingLeft: `${(h.level - 2) * 12}px` }}
+                className="text-[15px]"
+              >
                 <a
-                  href={`#${heading.id}`}
-                  className={`group flex items-start gap-2 text-sm transition-colors rounded px-2 py-1 ${
-                    activeId === heading.id
-                      ? "text-accent bg-white/80 font-medium"
-                      : "text-support-gray hover:text-primary hover:bg-white/50"
+                  href={`#${h.id}`}
+                  className={`block no-underline rounded px-2 py-1 transition-colors ${
+                    activeId === h.id
+                      ? "text-brand-green bg-white font-medium"
+                      : "text-slate-600 hover:text-brand-deep"
                   }`}
-                  style={{ paddingLeft: `${(heading.level - 2) * 12 + 8}px` }}
                 >
-                  <ChevronRight 
-                    className={`w-3 h-3 mt-0.5 flex-shrink-0 transition-transform ${
-                      activeId === heading.id ? "rotate-90" : "group-hover:rotate-90"
-                    }`} 
-                  />
-                  <span className="leading-tight">{heading.text}</span>
+                  {h.text}
                 </a>
               </li>
             ))}
-          </ul>
-        </div>
+          </ol>
+        </details>
       </nav>
     );
   }
 
-  // Sidebar variant for desktop
   return (
-    <nav className="sticky top-8 max-h-[calc(100vh-6rem)] overflow-y-auto hidden lg:block">
-      <div className="bg-white border border-support-beige rounded-lg p-4 shadow-sm">
-        <div className="flex items-center gap-2 mb-3 text-primary font-semibold">
-          <List className="w-4 h-4" />
-          <span className="text-sm uppercase tracking-wide">{title}</span>
+    <nav className="not-prose sticky top-24 hidden lg:block">
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="mb-4 flex items-center gap-2 text-brand-deep font-semibold text-sm uppercase tracking-wide">
+          <List className="h-4 w-4 text-brand-green" />
+          <span>{title}</span>
         </div>
-        
-        <ul className="space-y-1">
-          {headings.map((heading) => (
-            <li key={heading.id}>
+        <ol className="max-h-[calc(100vh-12rem)] overflow-y-auto space-y-1.5 text-sm">
+          {headings.map((h) => (
+            <li key={h.id} style={{ paddingLeft: `${(h.level - 2) * 12}px` }}>
               <a
-                href={`#${heading.id}`}
-                className={`group flex items-start gap-2 text-sm transition-colors rounded px-2 py-1 ${
-                  activeId === heading.id
-                    ? "text-accent bg-support-blue-light/50 font-medium"
-                    : "text-support-gray hover:text-primary hover:bg-support-beige/50"
+                href={`#${h.id}`}
+                className={`block no-underline rounded px-2 py-1 leading-snug transition-colors ${
+                  activeId === h.id
+                    ? "text-brand-green bg-brand-green/5 font-medium border-l-2 border-brand-green -ml-[2px]"
+                    : "text-slate-600 hover:text-brand-deep hover:bg-slate-50"
                 }`}
-                style={{ paddingLeft: `${(heading.level - 2) * 12 + 8}px` }}
               >
-                <ChevronRight 
-                  className={`w-3 h-3 mt-0.5 flex-shrink-0 transition-transform ${
-                    activeId === heading.id ? "rotate-90" : "group-hover:rotate-90"
-                  }`} 
-                />
-                <span className="leading-tight">{heading.text}</span>
+                {h.text}
               </a>
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
     </nav>
   );

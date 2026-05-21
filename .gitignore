@@ -23,6 +23,9 @@
 # production
 /build
 
+# affiliate article pipeline artifacts
+/output/
+
 # misc
 .DS_Store
 *.pem

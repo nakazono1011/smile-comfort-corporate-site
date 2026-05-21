@@ -1,79 +1,108 @@
 import Link from "next/link";
-import { Calendar, Clock, Tag } from "lucide-react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
+import { getAuthor } from "@/config/authors";
 import type { PostMeta } from "@/lib/mdx";
 
 interface ArticleCardProps {
   post: PostMeta;
-  locale?: string;
+  locale?: "ja" | "en";
+  variant?: "default" | "featured";
 }
 
-export function ArticleCard({ post, locale = "ja" }: ArticleCardProps) {
+export function ArticleCard({
+  post,
+  locale = "ja",
+  variant = "default",
+}: ArticleCardProps) {
   const baseUrl = locale === "en" ? "/en/media" : "/media";
-  
-  return (
-    <Card className="group h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border-support-beige/50 hover:border-accent/30">
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between gap-3">
-          <Link
-            href={`${baseUrl}/${post.slug}`}
-            className="flex-1 group-hover:text-accent transition-colors"
-          >
-            <h3 className="text-lg font-semibold leading-tight line-clamp-2 text-primary">
-              {post.title}
-            </h3>
-          </Link>
-        </div>
-        
-        <div className="flex items-center gap-4 text-sm text-support-gray mt-2">
-          <div className="flex items-center gap-1">
-            <Calendar className="w-4 h-4" />
-            <time dateTime={post.date}>
-              {new Date(post.date).toLocaleDateString(locale === "ja" ? "ja-JP" : "en-US", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })}
-            </time>
-          </div>
-          
-          <div className="flex items-center gap-1">
-            <Clock className="w-4 h-4" />
-            <span>約 {Math.max(1, Math.ceil(post.summary.length / 200))} 分</span>
-          </div>
-        </div>
-      </CardHeader>
+  const href = `${baseUrl}/${post.slug}`;
+  const author = getAuthor(post.author);
+  const cover = post.cover || post.ogImage;
+  const readTime =
+    post.readTime ?? Math.max(1, Math.ceil(post.summary.length / 200));
+  const formattedDate = new Date(post.date).toLocaleDateString(
+    locale === "ja" ? "ja-JP" : "en-US",
+    { month: "short", day: "numeric", year: "numeric" }
+  );
 
-      <CardContent className="pt-0">
-        <Link href={`${baseUrl}/${post.slug}`} className="block group-hover:text-accent/80 transition-colors">
-          <p className="text-support-gray leading-relaxed line-clamp-3 mb-4">
-            {post.summary}
-          </p>
+  const isFeatured = variant === "featured";
+
+  return (
+    <article
+      className={[
+        "group relative flex flex-col overflow-hidden",
+        "rounded-2xl border border-slate-200 bg-white",
+        "shadow-sm hover:shadow-xl transition-all duration-300",
+      ].join(" ")}
+    >
+      <Link href={href} className="block no-underline">
+        <div className="relative aspect-video w-full overflow-hidden bg-slate-100">
+          {cover ? (
+            <Image
+              src={cover}
+              alt={post.title}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand-green/10 via-white to-support-blue-light/40">
+              <span className="font-display text-lg text-brand-deep/70 px-6 text-center">
+                {post.title}
+              </span>
+            </div>
+          )}
+        </div>
+      </Link>
+
+      <div className="flex flex-1 flex-col gap-3 p-5">
+        {post.tags && post.tags.length > 0 ? (
+          <div className="flex flex-wrap gap-1.5">
+            {post.tags.slice(0, 2).map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full bg-brand-green/10 px-2.5 py-0.5 text-xs font-medium text-brand-deep"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        ) : null}
+
+        <Link href={href} className="block no-underline">
+          <h3
+            className={[
+              "font-semibold text-brand-deep leading-snug line-clamp-2",
+              "group-hover:text-brand-green transition-colors",
+              isFeatured ? "text-xl" : "text-lg",
+            ].join(" ")}
+          >
+            {post.title}
+          </h3>
         </Link>
 
-        {post.tags && post.tags.length > 0 && (
-          <div className="flex items-center gap-2 flex-wrap">
-            <Tag className="w-4 h-4 text-support-gray flex-shrink-0" />
-            <div className="flex gap-1 flex-wrap">
-              {post.tags.slice(0, 3).map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="secondary"
-                  className="text-xs bg-support-blue-light text-primary hover:bg-accent/10 transition-colors"
-                >
-                  {tag}
-                </Badge>
-              ))}
-              {post.tags.length > 3 && (
-                <Badge variant="secondary" className="text-xs bg-support-gray/10 text-support-gray">
-                  +{post.tags.length - 3}
-                </Badge>
-              )}
-            </div>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+        {post.summary && isFeatured ? (
+          <p className="text-sm text-slate-600 leading-relaxed line-clamp-2">
+            {post.summary}
+          </p>
+        ) : null}
+
+        <div className="mt-auto flex items-center justify-between gap-3 pt-2 text-xs text-slate-500">
+          <span className="truncate">
+            {locale === "ja" ? "by " : "by "}
+            <span className="text-slate-700 font-medium">
+              {author.name[locale]}
+            </span>
+          </span>
+          <span className="flex items-center gap-3 flex-shrink-0">
+            <time dateTime={post.date}>{formattedDate}</time>
+            <span aria-hidden>·</span>
+            <span>
+              {locale === "ja" ? `${readTime}分` : `${readTime} min read`}
+            </span>
+          </span>
+        </div>
+      </div>
+    </article>
   );
 }
