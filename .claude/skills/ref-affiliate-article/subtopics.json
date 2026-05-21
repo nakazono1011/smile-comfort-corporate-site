@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1",
+  "ref": "ref-affiliate-article",
+  "description": "1Password / Bright Data / Next Engine の重複回避用サブトピック分類表。generator が空いているセルを選んで使う。",
+  "products": {
+    "nextengine": {
+      "label": "Next Engine",
+      "categories": {
+        "pricing": {
+          "label": "料金プラン",
+          "examples": [
+            { "slug_pattern": "next-engine-pricing-2026", "topic": "Next Engine の料金プラン徹底解説" },
+            { "slug_pattern": "next-engine-hidden-cost", "topic": "Next Engine 隠れコスト 5 つ" }
+          ]
+        },
+        "setup": {
+          "label": "導入手順",
+          "examples": [
+            { "slug_pattern": "next-engine-initial-setup", "topic": "Next Engine 初期設定 完全ガイド" },
+            { "slug_pattern": "next-engine-rakuten-integration", "topic": "楽天連携の運用Tips" },
+            { "slug_pattern": "next-engine-amazon-integration", "topic": "Amazon 連携セットアップ" },
+            { "slug_pattern": "next-engine-shopify-integration", "topic": "Shopify 連携セットアップ" }
+          ]
+        },
+        "case-study": {
+          "label": "導入事例",
+          "examples": [
+            { "slug_pattern": "next-engine-case-apparel", "topic": "アパレル EC が Next Engine で在庫一元化した事例" }
+          ]
+        },
+        "migration": {
+          "label": "移行手順",
+          "examples": [
+            { "slug_pattern": "next-engine-from-tematwo-migration", "topic": "TEMA POS から Next Engine への移行" }
+          ]
+        },
+        "vs-comp": {
+          "label": "競合比較",
+          "examples": [
+            { "slug_pattern": "next-engine-vs-crossmall", "topic": "Next Engine vs CROSS MALL 徹底比較" },
+            { "slug_pattern": "next-engine-vs-aitemmate", "topic": "Next Engine vs アイテムマトリックス" }
+          ]
+        },
+        "troubleshooting": {
+          "label": "トラブルシュート",
+          "examples": [
+            { "slug_pattern": "next-engine-order-sync-issue", "topic": "受注同期がうまくいかない時の対処" }
+          ]
+        },
+        "feature-deep-dive": {
+          "label": "機能深掘り",
+          "examples": [
+            { "slug_pattern": "next-engine-inventory-automation", "topic": "在庫自動化を Next Engine で組む" },
+            { "slug_pattern": "next-engine-api-customize", "topic": "Next Engine API カスタマイズ実践" }
+          ]
+        },
+        "security": {
+          "label": "セキュリティ・運用",
+          "examples": [
+            { "slug_pattern": "next-engine-access-control", "topic": "Next Engine の権限設計" }
+          ]
+        }
+      }
+    },
+    "brightdata": {
+      "label": "Bright Data",
+      "categories": {
+        "pricing": {
+          "label": "料金プラン",
+          "examples": [
+            { "slug_pattern": "bright-data-pricing-2026", "topic": "Bright Data 料金プラン早見表" },
+            { "slug_pattern": "bright-data-cost-optimization", "topic": "Bright Data のコスト最適化テクニック" }
+          ]
+        },
+        "setup": {
+          "label": "導入手順",
+          "examples": [
+            { "slug_pattern": "bright-data-account-setup", "topic": "アカウント作成と初期設定" },
+            { "slug_pattern": "bright-data-proxy-zone-setup", "topic": "Proxy Zone の設計と作成" }
+          ]
+        },
+        "feature-deep-dive": {
+          "label": "機能深掘り",
+          "examples": [
+            { "slug_pattern": "bright-data-web-unlocker-guide", "topic": "Web Unlocker 実践活用ガイド" },
+            { "slug_pattern": "bright-data-serp-api", "topic": "SERP API を Python で叩く" },
+            { "slug_pattern": "bright-data-residential-vs-isp", "topic": "Residential と ISP の使い分け" }
+          ]
+        },
+        "case-study": {
+          "label": "事例",
+          "examples": [
+            { "slug_pattern": "bright-data-scraping-pipeline-aws", "topic": "AWS Lambda × Bright Data のスクレイピング基盤" },
+            { "slug_pattern": "bright-data-price-monitoring", "topic": "競合価格モニタリングを Bright Data で構築" }
+          ]
+        },
+        "vs-comp": {
+          "label": "競合比較",
+          "examples": [
+            { "slug_pattern": "bright-data-vs-oxylabs", "topic": "Bright Data vs Oxylabs ガチ比較" },
+            { "slug_pattern": "bright-data-vs-apify", "topic": "Bright Data vs Apify どちらを選ぶか" }
+          ]
+        },
+        "troubleshooting": {
+          "label": "トラブルシュート",
+          "examples": [
+            { "slug_pattern": "bright-data-captcha-handling", "topic": "CAPTCHA に遭遇した時の Bright Data 設定" }
+          ]
+        },
+        "security": {
+          "label": "コンプライアンス",
+          "examples": [
+            { "slug_pattern": "bright-data-gdpr-compliance", "topic": "Bright Data と GDPR / 個人情報保護法" }
+          ]
+        }
+      }
+    },
+    "1password": {
+      "label": "1Password",
+      "categories": {
+        "pricing": {
+          "label": "料金プラン",
+          "examples": [
+            { "slug_pattern": "1password-pricing-individual-vs-family", "topic": "1Password 個人 vs ファミリープラン" },
+            { "slug_pattern": "1password-business-pricing", "topic": "1Password Business プラン徹底比較" }
+          ]
+        },
+        "setup": {
+          "label": "導入手順",
+          "examples": [
+            { "slug_pattern": "1password-setup-mac", "topic": "1Password を Mac で導入する手順" },
+            { "slug_pattern": "1password-team-onboarding", "topic": "チーム導入のオンボーディング設計" }
+          ]
+        },
+        "migration": {
+          "label": "他ツール移行",
+          "examples": [
+            { "slug_pattern": "1password-from-lastpass-migration", "topic": "LastPass から 1Password への移行" },
+            { "slug_pattern": "1password-from-bitwarden-migration", "topic": "Bitwarden から 1Password に移る判断軸" }
+          ]
+        },
+        "feature-deep-dive": {
+          "label": "機能深掘り",
+          "examples": [
+            { "slug_pattern": "1password-passkeys-guide", "topic": "1Password の Passkey 完全活用" },
+            { "slug_pattern": "1password-ssh-key-management", "topic": "1Password で SSH キー管理" },
+            { "slug_pattern": "1password-secrets-automation", "topic": "1Password Secrets Automation の基礎" }
+          ]
+        },
+        "security": {
+          "label": "セキュリティ",
+          "examples": [
+            { "slug_pattern": "1password-zero-trust", "topic": "1Password でゼロトラスト認証を組む" },
+            { "slug_pattern": "1password-audit-trail", "topic": "1Password の監査ログ運用" }
+          ]
+        },
+        "vs-comp": {
+          "label": "競合比較",
+          "examples": [
+            { "slug_pattern": "1password-vs-bitwarden", "topic": "1Password vs Bitwarden 機能比較" },
+            { "slug_pattern": "1password-vs-dashlane", "topic": "1Password vs Dashlane どちらを選ぶか" }
+          ]
+        },
+        "faq": {
+          "label": "FAQ",
+          "examples": [
+            { "slug_pattern": "1password-faq-japanese-users", "topic": "1Password 日本のユーザー向け FAQ" }
+          ]
+        }
+      }
+    }
+  }
+}

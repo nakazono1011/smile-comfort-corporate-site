@@ -39,10 +39,10 @@ export const AFFILIATE: Record<AffiliateProduct, AffiliateConfig> = {
   nextengine: {
     product: "nextengine",
     brand: { ja: "Next Engine", en: "Next Engine" },
-    url: CONTACT_URL,
+    url: "https://base.next-engine.org/account/?agent_code=MzEzNw",
     primaryCta: {
-      ja: "Next Engine の導入を相談する",
-      en: "Talk to us about Next Engine",
+      ja: "Next Engine を無料で試す",
+      en: "Try Next Engine for free",
     },
     description: {
       ja: "EC 一元管理 SaaS の定番。Amazon・楽天・Yahoo!・Shopify など複数モールの受注・在庫・出荷を 1 画面で運用。",

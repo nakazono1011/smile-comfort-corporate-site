@@ -1,0 +1,94 @@
+---
+title: "{{title}}"
+date: "{{YYYY-MM-DD}}"
+updated: "{{YYYY-MM-DD}}"
+summary: "{{120字以内・主要KW含む}}"
+slug: "{{slug}}"
+lang: "{{ja|en}}"
+tags: ["{{Primary KW}}", "{{Intent}}", "{{Product}}", "{{Tool}}"]
+category: "media"
+cover: "https://img.smile-comfort.com/{{slug}}/cover.webp"
+heroImage: "https://img.smile-comfort.com/{{slug}}/cover.webp"
+ogImage: "https://img.smile-comfort.com/{{slug}}/og.webp"
+product: "{{1password|brightdata|nextengine}}"
+author: "{{smile-comfort | kei-nakazono}}"
+readTime: {{推定分数}}
+related: []
+xPosts: ["{{tweet_id_1}}", "{{tweet_id_2}}"]
+faq:
+  - q: "{{質問1}}"
+    a: "{{回答1}}"
+  - q: "{{質問2}}"
+    a: "{{回答2}}"
+  - q: "{{質問3}}"
+    a: "{{回答3}}"
+---
+
+{{## リード文 (150-200字、結論ファースト + 悩み提示 + 約束)}}
+
+{{## 本文 H2-1: 背景・前提 / What is X?}}
+
+{{ja: 150-300字の概要本文}}
+
+{{## 本文 H2-2: 主題のコア (How to / 比較 / 機能解説)}}
+
+{{ja: 400-700字の本論。リストやテーブル混在で}}
+
+### {{H3-2-1}}
+
+{{ja: 200-400字}}
+
+### {{H3-2-2}}
+
+{{ja: 200-400字}}
+
+<Figure
+  src="https://img.smile-comfort.com/{{slug}}/figure-01.webp"
+  alt="{{ja: 図解の具体的説明}}"
+  caption="{{ja: キャプション}}"
+/>
+
+<TweetCard id="{{tweet_id_1}}" />
+
+{{ja: tweet を裏付けに使う文脈 1 行}}
+
+{{## 本文 H2-3: 実践 / Step-by-step / ケーススタディ}}
+
+{{ja: 400-700字。ステップ番号付きリスト推奨}}
+
+1. {{Step 1}}
+2. {{Step 2}}
+3. {{Step 3}}
+
+<InlineCTA product="{{product}}" intent="primary" />
+
+{{## 本文 H2-4: トラブル対処 / 注意点 / Pros & Cons}}
+
+{{ja: 300-500字}}
+
+<Callout type="warning" title="注意">
+{{ja: 注意喚起の本文}}
+</Callout>
+
+{{## 本文 H2-5: まとめ前の補足セクション (オプション、200-400字)}}
+
+{{Next Engine / Bright Data の場合のみ、弊社支援文言を 1〜2 文挿入}}
+
+<InlineCTA product="{{product}}" intent="support" />
+
+{{## 自社プロダクト言及 (オプション、関連付けが成立するときのみ)}}
+{{Bright Data 記事 → Tra-bell / Next Engine 記事で楽天・Yahoo!・商品マスタ関連 → CataMap}}
+{{1Password 記事は基本出さない。AI 受託文脈で関連あれば検討}}
+{{本文中に 1 文だけ事実ベースで触れ、CTA は self-product 1 個まで}}
+
+<InlineCTA intent="self-product" ownProduct="{{trabell|catamap}}" />
+
+{{## 本文 H2-6: まとめ}}
+
+{{ja: 150-300字。再度結論を念押し}}
+
+---
+
+> ※情報は {{YYYY-MM-DD}} 時点の内容です。最新情報は公式サイトをご確認ください。
+
+> ※本記事には PR を含みます。

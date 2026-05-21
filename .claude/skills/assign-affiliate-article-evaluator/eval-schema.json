@@ -1,0 +1,26 @@
+{
+  "version": "1",
+  "skill": "assign-affiliate-article-evaluator",
+  "score_field": "quality.overall",
+  "breakdown_keys": [
+    { "key": "seo",            "label": "SEO・構造 (title/summary/見出し/リンク)",      "threshold": 14, "weight": 20 },
+    { "key": "readability",    "label": "可読性・段落構造",                              "threshold": 11, "weight": 15 },
+    { "key": "affiliate_fit",  "label": "アフィリエイト適性 (CTA配置・誇張なし・disclosure)", "threshold": 11, "weight": 15 },
+    { "key": "x_embed",        "label": "X 埋め込みの妥当性",                            "threshold": 7,  "weight": 10 },
+    { "key": "product_pitch",  "label": "製品訴求の明確さ",                              "threshold": 11, "weight": 15 },
+    { "key": "duplication",    "label": "既存記事との重複度",                            "threshold": 11, "weight": 15 },
+    { "key": "ja_en_parity",   "label": "ja/en 整合性",                                  "threshold": 7,  "weight": 10 },
+    { "key": "link_health",    "label": "リンクの健全性 (リンク切れ・脚注URL)",          "threshold": 8,  "weight": 10 }
+  ],
+  "extras": {
+    "feedback": "required",
+    "passed": "required",
+    "evaluator_skill": "required",
+    "iteration": "required",
+    "link_checks": "required"
+  },
+  "passing_rule": "(score / 110) * 100 >= 90",
+  "ref": "ref-affiliate-article",
+  "rubric": null,
+  "notes": "満点は 110 (link_health 軸を含む)。passing_rule は正規化後 90 点以上。3 回ループで未達なら親 (run-affiliate-article) が判断 (打ち切り / 4 周目 / 人手介入)。link_health は HTTP HEAD で 2xx 以外を全て減点、致命 (>=2 件) なら threshold 割れで即不合格扱い。"
+}
