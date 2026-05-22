@@ -84,6 +84,7 @@ export function ArticleHero({
             sizes="(max-width: 768px) 100vw, 1112px"
             className="object-cover"
             priority
+            unoptimized
           />
         </div>
       ) : null}

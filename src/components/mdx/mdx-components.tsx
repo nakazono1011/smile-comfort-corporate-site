@@ -120,6 +120,7 @@ export function createMdxComponents(
             height={675}
             sizes="(max-width: 768px) 100vw, 1112px"
             className="w-full h-auto rounded-2xl shadow-sm border border-slate-100 object-cover mx-auto"
+            unoptimized
             {...(props as Record<string, unknown>)}
           />
         </span>

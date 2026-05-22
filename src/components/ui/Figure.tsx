@@ -25,6 +25,7 @@ export function Figure({
           height={height}
           sizes="(max-width: 768px) 100vw, 1112px"
           className="h-auto w-full object-cover"
+          unoptimized
         />
       </div>
       {caption ? (

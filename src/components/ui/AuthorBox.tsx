@@ -24,6 +24,7 @@ export function AuthorBox({ authorId, locale = "ja" }: AuthorBoxProps) {
             width={64}
             height={64}
             className="rounded-full object-cover flex-shrink-0"
+            unoptimized
           />
         ) : null}
         <div className="min-w-0">

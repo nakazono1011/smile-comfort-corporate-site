@@ -8,8 +8,32 @@ type MagicTweetProps = {
   className?: string;
 };
 
+// react-tweet@3.3.0 の enrichTweet は entities.hashtags / user_mentions / urls /
+// symbols が undefined だと for-of でクラッシュする（media のみ存在チェックあり）。
+// Twitter syndication API のレスポンスはツイートによって一部 entity が欠落するため、
+// 渡す前に空配列で埋めて防御する。
+const ENTITY_ARRAY_KEYS = [
+  "hashtags",
+  "urls",
+  "user_mentions",
+  "symbols",
+] as const;
+
+function normalizeTweet(tweet: Tweet): Tweet {
+  const entities = { ...(tweet.entities ?? {}) };
+  for (const key of ENTITY_ARRAY_KEYS) {
+    if (entities[key] == null) entities[key] = [];
+  }
+  return { ...tweet, entities };
+}
+
 export function MagicTweet({ tweet, className }: MagicTweetProps) {
-  const enriched = enrichTweet(tweet) as EnrichedTweet;
+  let enriched: EnrichedTweet;
+  try {
+    enriched = enrichTweet(normalizeTweet(tweet)) as EnrichedTweet;
+  } catch {
+    return <TweetRenderFailure tweet={tweet} className={className} />;
+  }
 
   return (
     <article
@@ -134,6 +158,35 @@ function TweetBody({ enriched }: { enriched: EnrichedTweet }) {
 
 function renderEntityText(text: string) {
   return <span dangerouslySetInnerHTML={{ __html: text }} />;
+}
+
+function TweetRenderFailure({
+  tweet,
+  className,
+}: {
+  tweet: Tweet;
+  className?: string;
+}) {
+  const id = tweet?.id_str;
+  const href = id ? `https://x.com/i/status/${id}` : "https://x.com";
+  return (
+    <div
+      className={[
+        "not-prose my-8 max-w-xl mx-auto rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-500",
+        className ?? "",
+      ].join(" ")}
+    >
+      Failed to render tweet:{" "}
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline"
+      >
+        View on X
+      </a>
+    </div>
+  );
 }
 
 function TweetMedia({ enriched }: { enriched: EnrichedTweet }) {
