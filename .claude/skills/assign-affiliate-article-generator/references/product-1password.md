@@ -66,11 +66,57 @@
 
 **自社プロダクト Tra-bell / CataMap は基本的に出さない**。1Password と直接の関連性がないため、無理に出すと広告くさくなる。例外として「複数 SaaS の認証情報を管理しないと開発が回らない」のような汎用論なら 1 行触れる程度は可。
 
-## CTA URL
+## CTA URL (3 URL を文脈別に使い分ける)
 
-- 主 CTA URL (現状): `https://1password.com/jp` (公式 LP)
-- 公式アフィリエイトは Impact Radius 経由などで未契約のため、確定し次第差替え (**TODO**)
-- 公式英語サイト: `https://1password.com/`
+| 用途 | URL | 主導線か |
+|---|---|---|
+| **汎用 / デフォルト** (個人・ビジネス問わず誘導) | **`https://1password.partnerlinks.io/sc-link`** | ✓ (全記事の主導線。`<InlineCTA primary />` もこれを使う) |
+| **Business 専用** (ビジネス特化記事のみ) | **`https://1password.partnerlinks.io/dobcflhz59kl-d8wpd`** | ビジネス特化記事でのみ併用 |
+| **乗り換え促進** (他社からの移行。1Password が乗り換え前の既存ライセンス費用を一部負担) | **`https://1password.partnerlinks.io/6dieu4x28dzi-gp0g2q`** | 乗り換え文脈でのみ併用 |
+| 公式日本語サイト (リンク先としては使わない、参考用) | `https://1password.com/jp` | — |
+| 公式英語サイト (リンク先としては使わない、参考用) | `https://1password.com/` | — |
+
+- `<InlineCTA product="1password" intent="primary" />` は **汎用 sc-link URL** を指す (`src/config/affiliate.ts` で定義)
+- Business 専用 URL と乗り換え URL は CTA コンポーネントでは使わず、本文中のインラインリンクで **該当する文脈の記事に限り併用** する
+
+## 本文中の AF 製品名インラインリンク (3〜5 箇所必須)
+
+`<InlineCTA product="1password" intent="primary" />` だけでは CTA セクションを飛ばす読者に届かないため、本文中の「1Password」表記にも自然な箇所で **3〜5 箇所** インラインリンクを織り込む (ja/en それぞれ独立カウント)。詳細ルール・配置原則・避けるべき場所は [ref-affiliate-article §7.5](../../ref-affiliate-article/SKILL.md) を参照。
+
+### URL の使い分け (記事カテゴリ別)
+
+判定フロー:
+
+1. **記事の主題がビジネス特化か?** (tags/topic に Business / Teams / Enterprise / SSO / SCIM / Secrets Automation / 法人導入 / チーム運用 / 社内導入 を含む)
+   - YES → **Business 専用 URL** (`partnerlinks.io/dobcflhz59kl-d8wpd`) を 1〜2 箇所 + **汎用 URL** (`sc-link`) を 1〜2 箇所、計 3〜5 箇所
+2. **記事が乗り換え/移行を主題にしているか?** (タイトル/H2 に「乗り換え」「移行」「from Bitwarden」「LastPass 代替」など)
+   - YES → **乗り換え URL** (`partnerlinks.io/6dieu4x28dzi-gp0g2q`) を 1〜2 箇所 + **汎用 URL** (`sc-link`) を 1〜2 箇所、計 3〜5 箇所
+3. **それ以外** (個人向け、機能解説、Passkey、ファミリープラン、価格、Watchtower、Travel Mode、中立的な比較記事など)
+   - 全箇所で **汎用 URL** (`sc-link`) を使う。3〜5 箇所
+
+共通: **どのカテゴリでも、汎用 URL (`sc-link`) は最低 1 箇所は必ず含める**。これが主導線。
+
+### 記述例
+
+汎用 (どの記事でも使える):
+
+> [1Password](https://1password.partnerlinks.io/sc-link) は Secret Key + マスターパスワードの 2 層構造で、サーバ側漏洩時もデータ復元不能な設計を採用しています。
+
+Business 特化記事のみ:
+
+> 中規模以上の組織が SSO や SCIM プロビジョニング、Okta / Azure AD 連携を求めるなら [1Password Business](https://1password.partnerlinks.io/dobcflhz59kl-d8wpd) が現実解です。
+
+乗り換え記事のみ:
+
+> Bitwarden や LastPass から 1Password に乗り換える場合、移行前のサブスク費用を一部負担してくれる [1Password の引っ越しサポート](https://1password.partnerlinks.io/6dieu4x28dzi-gp0g2q) を活用すると、契約期間の重複を気にせず移行できます。
+
+### 配置原則
+
+- 推奨位置: H2-1 リードイン / 機能紹介セクション / まとめ冒頭 / (ビジネス特化記事の) チーム導入セクション / (乗り換え記事の) 移行手順セクション
+- Markdown 形式: `[1Password](URL)` / `[1Password Business](URL)` / `[1Password の引っ越しサポート](URL)` 等、アンカーテキストは文脈に合わせる
+- 競合製品 (Bitwarden / LastPass / Dashlane / Keeper / iCloud Keychain など) には貼らない
+- 同じ段落で 2 URL を併用しない
+- 1 記事内で 3 URL を全部使い分けるのは過剰。多くて 2 種類まで
 
 ## 訴求軸
 

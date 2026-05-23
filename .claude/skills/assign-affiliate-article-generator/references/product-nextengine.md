@@ -75,8 +75,18 @@ CTA は AF (`InlineCTA product="nextengine" intent="primary"`) → 弊社支援 
 
 ## CTA URL
 
-- 主 CTA URL: `/contact` (弊社問い合わせフォーム)
-  - 理由: Next Engine 公式アフィリエイトは現在 TBD のため、当面は弊社経由の導入支援問い合わせを主送客先に
+- 主 CTA URL (アフィリエイト): **`https://base.next-engine.org/account/?agent_code=MzEzNw`** (agent_code=MzEzNw が AF ID)
+- 弊社支援 CTA URL: `/contact` (EC 一元管理導入支援)
+- 公式: `https://next-engine.net/`
+
+## 本文中の AF 製品名インラインリンク (3〜5 箇所必須)
+
+`<InlineCTA product="nextengine" intent="primary" />` だけでは CTA セクションを飛ばす読者に届かないため、本文中の「Next Engine」「ネクストエンジン」表記にも自然な箇所で **3〜5 箇所** インラインリンクを織り込む (ja/en それぞれ独立カウント)。詳細ルール・配置原則・避けるべき場所は [ref-affiliate-article §7.5](../../ref-affiliate-article/SKILL.md) を参照。
+
+- リンク URL: **`https://base.next-engine.org/account/?agent_code=MzEzNw`** (公式 `next-engine.net` ではなく AF URL を使う)
+- Markdown 形式: `[Next Engine](https://base.next-engine.org/account/?agent_code=MzEzNw)` または `[ネクストエンジン](...)`
+- 推奨位置: H2-1 リードイン / 楽天連携・在庫一元管理・API 機能の紹介セクション / まとめ冒頭
+- 競合製品 (CROSS MALL / iMatrix / TEMA POS など) には貼らない
 - 公式サイト: `https://next-engine.net/`
 
 ## 訴求軸 (どのサブトピックでも 1〜2 個入れる)

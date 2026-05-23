@@ -8,23 +8,6 @@ export interface AuthorProfile {
 }
 
 const AUTHORS: Record<string, AuthorProfile> = {
-  "kei-nakazono": {
-    id: "kei-nakazono",
-    name: {
-      ja: "中園 啓佑",
-      en: "Kei Nakazono",
-    },
-    role: {
-      ja: "合同会社スマイルコンフォート 代表",
-      en: "CEO, Smile Comfort LLC",
-    },
-    bio: {
-      ja: "Web 開発・データ基盤構築・EC 運用支援を専門とし、Bright Data や Next Engine の導入運用実績多数。スクレイピング基盤と一元管理ツール導入のコンサルティングを提供。",
-      en: "Specializes in web development, data infrastructure, and e-commerce operations. Hands-on experience deploying Bright Data and Next Engine for clients. Provides consulting on scraping platforms and OMS tooling.",
-    },
-    avatar: "/logo.png",
-    url: "https://www.smile-comfort.com",
-  },
   "smile-comfort": {
     id: "smile-comfort",
     name: {

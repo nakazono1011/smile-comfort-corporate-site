@@ -61,7 +61,7 @@ export const AFFILIATE: Record<AffiliateProduct, AffiliateConfig> = {
   "1password": {
     product: "1password",
     brand: { ja: "1Password", en: "1Password" },
-    url: "https://1password.com/jp",
+    url: "https://1password.partnerlinks.io/sc-link",
     primaryCta: {
       ja: "1Password を試す",
       en: "Try 1Password",

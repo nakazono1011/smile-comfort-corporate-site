@@ -1,0 +1,261 @@
+---
+title: "Bright Data vs Smartproxy 2026: Pricing, Performance & Support"
+date: "2026-05-22"
+updated: "2026-05-22"
+summary: "Compare Bright Data and Smartproxy pricing models, coverage, Japan support, and compliance. Selection flow by team size included."
+slug: "bright-data-vs-smartproxy-2026"
+lang: "en"
+tags: ["bright data vs smartproxy", "Comparison", "Bright Data", "Smartproxy"]
+category: "media"
+cover: "https://img.smile-comfort.com/bright-data-vs-smartproxy-2026/cover.webp"
+heroImage: "https://img.smile-comfort.com/bright-data-vs-smartproxy-2026/cover.webp"
+ogImage: "https://img.smile-comfort.com/bright-data-vs-smartproxy-2026/og.webp"
+product: "brightdata"
+author: "smile-comfort"
+readTime: 12
+related:
+  - "bright-data-pricing-2026"
+  - "bright-data-vs-oxylabs"
+  - "bright-data-residential-vs-isp"
+  - "bright-data-cost-optimization"
+xPosts: ["2057460681167765506", "2050272096693948913", "2044864528060441032"]
+faq:
+  - q: "What is the difference between Smartproxy and Decodo?"
+    a: "They are the same service. Smartproxy rebranded as Decodo in 2024, with the same product lineup and infrastructure. The official domain and product names have fully migrated to Decodo, but the Smartproxy name still appears in older reviews, contracts, and community discussions. This article uses 'Smartproxy (now Decodo)' to match how the market actually searches for and compares the service."
+  - q: "Which is better for the Japan market, Bright Data or Smartproxy?"
+    a: "Bright Data has the edge for Japan-based enterprise customers thanks to Japanese-language support, JP help center, invoice billing options for larger contracts, and clearer compliance posture for APPI (Japan's privacy law). Smartproxy/Decodo offers strong English support but limited Japanese-native customer success and few options for invoice payment or JPY billing. For mid-sized companies that need to clear internal procurement and legal review, Bright Data is the safer pick."
+  - q: "Which is better for solo developers and small projects?"
+    a: "Smartproxy (Decodo) is friendlier for monthly volumes between 5-30 GB and PAYG-style work. Residential PAYG starts around $3-7/GB - roughly half the price of Bright Data - and the dashboard makes it easy to flip between subscriptions and pay-as-you-go. Once target sites are heavily defended by Cloudflare or Akamai, or monthly volume passes 50 GB, Bright Data's Web Unlocker and Proxy Manager start paying for themselves. When in doubt, run a 1-2 day trial against your actual targets and compare success rates and unit costs."
+  - q: "How do their SLAs and compliance posture compare?"
+    a: "Bright Data publishes an enterprise-grade SLA (99.99% uptime, KYC-based ethical IP sourcing, internal controls aligned with GDPR, CCPA, and APPI) and offers room to customize contractual commitments. Smartproxy/Decodo also publishes a 99.9% SLA and ethical sourcing model, but contractual customization and audit response flexibility are narrower. For mid-sized and larger companies that need legal review and security audits, Bright Data tends to clear procurement more smoothly."
+  - q: "Can Smile Comfort help with cost modeling and comparison PoCs?"
+    a: "Yes. We run Bright Data in production for our own services and have evaluated Smartproxy/Decodo across multiple client engagements. We can design comparison trials, measure per-site success rates, and model total cost across PAYG, committed-use, and subscription contracts. Reach out via the contact form and mention 'Bright Data vs Smartproxy consultation' to schedule a kickoff session. We can also align the comparison with Japanese legal and accounting requirements."
+---
+
+"Should we go with Bright Data or Smartproxy?" remains one of the most common questions teams ask when planning a scraping stack in 2026. This guide clarifies the Smartproxy-to-Decodo rebrand, then compares the two vendors across five axes - pricing model, geo coverage, Japan-market support, SLA, and compliance - as of May 2026. Recommendations are grounded in our own Bright Data production runtime and our Smartproxy/Decodo evaluation work[^1].
+
+## Smartproxy and Decodo: Untangling the Rebrand
+
+Let's start with the most confusing point. **Smartproxy rebranded to Decodo in 2024**, and the two names refer to the same service, not separate companies. The official site and product names have fully migrated to Decodo, but the legacy name still appears widely in the market. We use "Smartproxy (now Decodo)" throughout this article and switch to either label depending on context.
+
+### Why the Old Name Persists
+
+- Existing comparison reviews and community threads were written under the Smartproxy name
+- Legacy invoices and contracts at enterprise customers still reference Smartproxy
+- X (Twitter) and Reddit discussions continue to use the old name
+
+### Things to Check When Searching
+
+- Reviews written before 2024 reflect Smartproxy; 2025+ reviews reflect Decodo
+- Pricing data should be confirmed against the current Decodo official site
+- When a comparison table lists Smartproxy, verify it is referring to the same product
+
+<TweetCard id="2044864528060441032" />
+
+Even after the rebrand, X discussions describe Decodo as keeping the same clean residential IP quality it had as Smartproxy, so product continuity is intact.
+
+### Enterprise vs Value: Where Each Vendor Sits
+
+Both serve the same residential proxy market but target very different audiences. [Bright Data](https://get.brightdata.com/0cqcj8xp08fo) (formerly Luminati) was founded in 2014 and is US-headquartered today, marketing a roughly 150-million-IP residential pool, 195-country coverage, and a broad lineup spanning Web Unlocker, Scraping Browser, Dataset Marketplace, and a dedicated MCP server. Enterprise teams choose it when scale, SLA, and compliance dominate the decision, and the default pricing model is pay-as-you-go (PAYG) with committed-use discounts unlocking at higher volumes. Smartproxy, by contrast, launched in 2018 out of Lithuania as a mid-tier provider and rebranded to Decodo in 2024. Its core promise is "easy and affordable for solo developers and SMBs," delivered through a hybrid of subscription plans and metered overage paired with an intentionally simple dashboard. The residential pool sits in the 50-70 million IP range, and geo coverage spans roughly 195 countries, though city-level targeting and the API lineup do not match Bright Data.
+
+### The AI / LLM Angle
+
+A notable 2026 shift: [Bright Data](https://get.brightdata.com/0cqcj8xp08fo) is leading on LLM agent integration, including an MCP server that lets agents handle CAPTCHA and bot detection automatically. That makes Bright Data more attractive as the data backbone for AI scraping pipelines.
+
+<TweetCard id="2057460681167765506" />
+
+Smartproxy (Decodo) maintains its own Scraper API offerings, but the depth of agent automation and Web Unlocker coverage clearly favors Bright Data right now.
+
+## Pricing Models: Two Very Different Structures
+
+Headline unit price is not the right comparison axis. **Bright Data's structure is PAYG-first with tiered committed-use discounts**, while **Smartproxy combines a subscription plan with metered overage**. For a deeper teardown of the Bright Data side, see [Bright Data Pricing Cheat Sheet 2026](/en/media/bright-data-pricing-2026).
+
+### Structural Differences
+
+- **Bright Data**: PAYG starting point. No minimum commitment, with committed-use discounts kicking in as monthly volume grows.
+- **Smartproxy (Decodo)**: Pick a subscription plan (e.g., $99/month with X GB included), with overage billed metered. Plan downgrades and cancellations are flexible.
+
+### Five-axis Comparison: Pricing, Bandwidth, Geo, JP Support, SLA
+
+| Item | Bright Data | Smartproxy (now Decodo) |
+|---|---|---|
+| Residential PAYG starting | $8.4/GB (~¥1,330/GB) | $3.0-7.0/GB (~¥474-1,106/GB) |
+| Committed / subscription range | $4-6/GB (50+ GB/mo) | $2.5-5/GB (monthly plan) |
+| Datacenter unit pricing | $0.5/GB (~¥79/GB) | $0.7/GB (~¥110/GB) |
+| Geo coverage | 195 countries + city-level | 195 countries (partial city-level) |
+| Residential IP pool | 150M+ | 50-70M |
+| Authentication | Username / IP whitelist | Username / IP whitelist |
+| SLA | 99.99% uptime / 24/7 | 99.9% uptime / 24/7 |
+| Japan support | Japanese support + docs | English-first (partial JP UI) |
+| Invoice / JPY billing | Negotiable for larger contracts | Credit card / Wire by default |
+| FX assumption | 1 USD ≈ ¥158 (May 2026) | 1 USD ≈ ¥158 (May 2026) |
+
+PAYG starting price clearly favors Smartproxy at roughly half, but committed-use contracts and managed products like Web Unlocker can flip the math depending on use case.
+
+### Worked Example: 50 GB/month e-commerce price monitoring
+
+Working through a concrete monthly volume makes the unit-pricing logic land. Imagine a 50 GB/month e-commerce price monitoring workload across five target sites with moderate bot defenses:
+
+- **Smartproxy (Decodo) subscription + overage**: a $200/month plan that includes 50 GB, plus 10 GB overage at $4/GB lands at roughly $240/month (~¥38,000).
+- **Bright Data PAYG**: $6/GB x 50 GB = $300/month (~¥47,400). Negotiated committed-use at $4.5/GB drops it to $225/month (~¥35,500).
+
+In that band, Smartproxy is slightly cheaper and Bright Data narrows the gap once you negotiate committed-use. The math shifts again once Cloudflare- or Akamai-defended sites enter the mix: routing one or two of them through Bright Data's Web Unlocker (success-based pricing) often beats grinding through retries on Smartproxy. **The right metric is "effective cost per successful request," not headline unit price** - that one habit alone saves teams from regretting a contract three months in.
+
+### Failed Requests and Hidden Costs
+
+Calculating effective cost per success requires understanding how failed requests are billed. Bright Data offers products like Web Unlocker with "pay only on success" semantics, which keeps total cost predictable on heavily-defended targets. Smartproxy (Decodo) primarily uses a metered model that counts bandwidth on each request. On low-defense sites the Smartproxy unit advantage holds, but on hardened SNS or large e-commerce targets where failure rates climb to 20-30%, the effective unit cost can balloon to roughly 1.5x the headline PAYG rate. Document the **failed-request billing semantics, retry logic, and alert thresholds** during the trial so you do not get blindsided after the contract starts.
+
+<Figure
+  src="https://img.smile-comfort.com/bright-data-vs-smartproxy-2026/figure-01.webp"
+  alt="Side-by-side chart comparing Bright Data and Smartproxy pricing models and coverage"
+  caption="Figure 1: Bright Data vs Smartproxy (Decodo) pricing model, coverage, and SLA (as of May 2026)"
+/>
+
+### A Cost Checklist
+
+1. **Measure actual GB and target sites on PAYG or a trial** - paper estimates miss real-world results
+2. **Test multiple target sites** - single-site benchmarks skew the math
+3. **Ask for committed-use pricing (Bright Data) or plan modeling (Smartproxy) once you cross ~50 GB/month**
+4. **Confirm the failed-request billing policy upfront** - vendors handle this differently
+5. **Account for FX risk** - both vendors bill in USD by default
+6. **Plan a 2-week to 1-month PoC and include peak concurrent session counts in measurement**
+7. **Review target-site terms of service and robots.txt before implementation, and document the rate-control policy**
+
+For deeper cost-cutting tactics, the [Bright Data Cost Optimization 2026](/en/media/bright-data-cost-optimization) playbook pairs well with this comparison.
+
+<InlineCTA product="brightdata" intent="primary" />
+
+## Japan-Market Support and Compliance
+
+When moving from PoC to production in Japan, three points beyond unit price often dominate the decision: support language, invoice handling, and compliance posture. Underestimating any of these tends to stall internal approvals and legal review.
+
+### Japanese-Language Support and Customer Success
+
+- **Bright Data**: Japanese help center, Japanese support channel, and JP-language documentation. Mid-sized contracts can get a JP-based SE accompanying the PoC.
+- **Smartproxy (Decodo)**: English-first. Some dashboard surfaces are translated to Japanese, but support tickets are English. Response times are fast, but native Japanese coverage is limited.
+
+### Invoice Payment and JPY Billing
+
+- **Bright Data**: For larger contracts (often $1,000+/month), invoice payment, bank transfer, and JPY billing can be negotiated.
+- **Smartproxy (Decodo)**: Credit card or wire transfer by default. Japan-specific invoice compliance support is limited.
+
+### Compliance and Legal
+
+- **Bright Data**: KYC-based ethical IP sourcing, GDPR / CCPA / APPI alignment, ISO 27001, and contract customization room.
+- **Smartproxy (Decodo)**: Ethical sourcing model, SOC 2 Type II and equivalent certifications. Contract customization is narrower.
+
+### Common Sticking Points in Procurement and Legal Review
+
+In our own client engagements, three sticking points come up repeatedly:
+
+1. **APPI (Japan privacy law) documentation**: Bright Data ships DPA templates that explicitly map to GDPR / CCPA / APPI, which shortens legal review. Smartproxy (Decodo) also publishes a DPA, but customization headroom is narrower.
+2. **Qualified-invoice (インボイス制度) compatibility**: a frequent blocker in Japanese accounting workflows. Bright Data is increasingly willing to issue qualified-invoice-compliant billing on request. Smartproxy defaults to credit card and wire and typically requires separate paperwork to satisfy the qualified-invoice requirement.
+3. **Security audit evidence (SOC 2 / ISO 27001)**: Bright Data is ISO 27001 certified and delivers audit packages quickly. Smartproxy holds equivalent certifications, but the scope of evidence shared depends on the contract terms.
+
+### Which Is Easier to Adopt in Japan?
+
+The deciding factor is whether you need to clear internal procurement and legal review. Mid-sized companies and up tend to land on Bright Data; solo developers and small PoCs gravitate to Smartproxy. When you are torn, ask whether internal approval can pass with "English contract + credit card + SOC 2 only" - if not, the choice is effectively made. For deciding between Residential and ISP proxies once you have picked a vendor, [Bright Data Residential vs ISP Proxy 2026](/en/media/bright-data-residential-vs-isp) is a useful follow-up read.
+
+## Selection Flow by Team Size
+
+Combining the five axes, here is a decision flow by monthly volume, budget, and compliance requirements.
+
+<TweetCard id="2050272096693948913" />
+
+X discussions echo the same framing: Bright Data is for enterprise, Smartproxy is the value pick, and Decodo (under whichever name) is the practical mid-tier residential option.
+
+### Flow 1: 5-30 GB/month - Solo Developers and Small PoCs
+
+- **Pick**: Smartproxy (now Decodo)
+- Roughly half the unit price, with the subscription + overage hybrid making budgeting easier
+- Simple dashboard - 30 minutes to first request
+- Sufficient success rates on most non-hardened target sites
+- **Typical use cases**: solo market research tools, price-comparison app prototypes, small-budget client PoCs. Start with the $30-100/month subscription tier and lock in spend caps and alerts on day one.
+
+### Flow 2: 30-100 GB/month - Mid-Size Scraping
+
+- **Pick**: Run a trial on both - lean toward Bright Data for success rate, Smartproxy for cost
+- Bright Data Web Unlocker shines on major e-commerce targets
+- Bright Data is the safer pick for SNS/search workloads requiring consistent retrieval
+- Smartproxy works well on niche or low-detection targets
+- **Typical use cases**: 50 GB/month e-commerce price monitoring (per the worked example above), SaaS market intelligence, data sourcing for new product lines. Run a two-week parallel trial and decide based on effective cost per successful request.
+
+### Flow 3: 100+ GB/month - Multi-Site, Long-Running Production
+
+- **Pick**: Bright Data as the core
+- IP pool size, SLA, and compliance posture meet enterprise requirements
+- Committed-use pricing narrows the gap with Smartproxy on unit cost
+- Web Unlocker, Scraping Browser, and Dataset Marketplace work as an integrated set
+- **Typical use cases**: large-scale search engine result monitoring, global e-commerce competitive price tracking, web dataset construction for AI model training. Expect a $5,000-$15,000/month infrastructure budget once committed-use pricing and Web Unlocker are layered together.
+
+### Flow 4: Japan-Specific Legal Review and Procurement Constraints
+
+- **Pick**: Bright Data
+- Japanese support + invoice billing + contract customization clears procurement
+- KYC-based IP sourcing reduces legal exposure
+- Documented APPI compliance posture
+- **Typical use cases**: publicly listed companies launching new lines of business, regulated industries (finance, insurance, healthcare), global contracts that consolidate billing across overseas subsidiaries. If "English-only contract is insufficient" or "qualified invoice with JP registration number is required" applies, Bright Data is the safe choice.
+
+### Flow 5: AI / LLM Agent Integration
+
+- **Pick**: Bright Data
+- MCP server lets agents handle CAPTCHA and detection automatically
+- Web Unlocker and Scraping Browser are designed with agent automation in mind
+- Smartproxy also offers Scraper APIs, but agent automation depth favors Bright Data
+- **Typical use cases**: LLM-based research agents, AI concierge services, internal knowledge augmentation pipelines. When agents are expected to self-retry and reroute through alternative paths, Bright Data's MCP server is the shortest path.
+
+<Figure
+  src="https://img.smile-comfort.com/bright-data-vs-smartproxy-2026/figure-02.webp"
+  alt="Decision flow chart for Bright Data vs Smartproxy by monthly volume and use case"
+  caption="Figure 2: Bright Data vs Smartproxy selection flow by monthly volume and use case"
+/>
+
+## Pitfalls and Operational Tips
+
+A few real-world details that often catch teams off guard.
+
+### Watch Out For
+
+- **"Free trial" terms differ**: Bright Data offers time-limited GB-capped full trials; Smartproxy typically runs $1-few-dollar low-cost trials. Document the differences in a comparison sheet so later decisions stay grounded.
+- **Failed-request billing**: vendors handle this differently - document during PoC which products offer "pay only on success" semantics.
+- **PAYG overrun risk**: lock in spend caps and alerts on day one of the contract, and configure Slack / email notification thresholds explicitly.
+- **Concurrent session limits**: matters more once you parallelize at scale. Bright Data can distribute limits via Zone design; Smartproxy ties limits to the plan tier.
+- **Downgrade restrictions after a commit contract**: read the fine print on termination and downsizing. Confirm whether quarterly adjustments are allowed before signing.
+- **Legal review when PII may be involved**: even publicly visible data can include emails or names, which falls under APPI scope. Document the data acquisition purpose and retention period before scraping starts.
+
+<Callout type="warning" title="Caution">
+The numbers in this article reflect public data and our operational experience as of May 2026. Proxy pricing and product lineups move fast - confirm current pricing and SLAs on each vendor's official site before signing. Any vendor claiming guaranteed detection-free or always-successful behavior is detached from operational reality; instead, agree on a realistic target success rate (for example, 95% or higher) backed by the SLA and measured results. Always respect each target site's terms of service and robots.txt, throttle your request rates, and handle any personal data with care.
+</Callout>
+
+## How Smile Comfort Can Help
+
+We have run Bright Data in production for over two years and have evaluated Smartproxy / Decodo across multiple client engagements. We have learned the hard way which choices look cheap on paper but blow up under real success-rate constraints - and which hybrid setups actually save money.
+
+A sample of what we can help with:
+
+- Proxy Zone design by use case (price monitoring, SERP monitoring, social analytics, etc.)
+- Bright Data vs Smartproxy comparison trial design and per-site success-rate measurement
+- Cost optimization across Residential, Datacenter, and Web Unlocker mixes
+- Scraping infrastructure on AWS or GCP (Lambda / Cloud Run + Bright Data + S3 + Snowflake)
+- Data platform integration (BigQuery, Snowflake, dbt pipelines)
+- Compliance hygiene (robots.txt adherence, rate control, terms-of-service review, Japan invoice handling)
+
+<InlineCTA product="brightdata" intent="support" />
+
+We run [Tra-bell](https://www.tra-bell.com/), our in-house hotel price-tracking service, on Bright Data's Residential and Web Unlocker stack. We have also evaluated Smartproxy/Decodo as a comparison vendor, so we can advise from the PoC design stage onward.
+
+<InlineCTA intent="self-product" ownProduct="trabell" />
+
+## Summary
+
+Bright Data and Smartproxy (now Decodo) play in the same residential proxy market but serve clearly different audiences. [Bright Data](https://get.brightdata.com/0cqcj8xp08fo) is the enterprise leader in scale, compliance, automation tooling, and Japan-market readiness. Smartproxy is the value pick, with a half-price PAYG entry point and a subscription-plus-overage hybrid that fits solo developers and SMBs. As of 2026, the practical decision rule is: stay with Smartproxy under 30 GB/month, move to Bright Data above that or whenever Japan legal review enters the picture. Before signing either contract, we recommend running a 1-2 day trial against your actual targets and measuring success rate and unit cost - real numbers, not paper estimates, are what win internal approval and avoid post-signing regret.
+
+---
+
+> Information current as of 2026-05-22. Please check the official sites for the latest updates.
+
+> This article contains affiliate links.
+
+[^1]: Bright Data official site - https://brightdata.com/
+[^2]: Decodo (formerly Smartproxy) official site - https://decodo.com/
+[^3]: Bright Data MCP server and AI agent integration - https://docs.brightdata.com/

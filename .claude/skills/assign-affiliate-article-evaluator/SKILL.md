@@ -100,8 +100,24 @@ pair: assign-affiliate-article-generator
 - ja/en の H2 個数と意味的整合の比較 (`ja_en_parity`)
 - `<TweetCard id="..." />` の数を grep して 1-3 個か確認 (`x_embed`)
 - `<InlineCTA ... />` の数を grep して 2-3 個か確認 (`affiliate_fit`)
+- **本文中の AF 製品名インラインリンクの数を grep して 3〜5 個か確認** (`affiliate_fit`)。`product` 別の AF URL マップ:
+  - `brightdata` → `https://get.brightdata.com/0cqcj8xp08fo` (単一)
+  - `nextengine` → `https://base.next-engine.org/account/?agent_code=MzEzNw` (単一)
+  - `1password` → 3 URL のいずれか / 組合せ (記事カテゴリに応じて使い分け):
+    - 汎用 / デフォルト: `https://1password.partnerlinks.io/sc-link`
+    - Business 専用 (ビジネス特化記事のみ): `https://1password.partnerlinks.io/dobcflhz59kl-d8wpd`
+    - 乗り換え促進 (移行文脈のみ): `https://1password.partnerlinks.io/6dieu4x28dzi-gp0g2q`
+  - 検査コマンド (ja/en それぞれ): `grep -cE '\[[^]]+\]\(<AF_URL>\)' "$JA_MDX"` を **各 AF URL で実行して合算**。`<InlineCTA />` 内 (HTML 属性) はカウント対象外なので、Markdown リンク記法 `[text](url)` のみカウント
+  - 期待値: 3〜5 (ja/en それぞれ、合算カウント)。0〜2 個・6 個以上は減点対象 (ref-affiliate-article §3.3 / §7.5)
+  - **1password の必須チェック**:
+    - 記事全体に **最低 1 箇所** は汎用 URL (`sc-link`) が含まれること。0 箇所は主導線が外れているので `-2` 減点
+    - Business 専用 URL (`dobcflhz59kl-d8wpd`) は、tags/topic に Business / Teams / Enterprise / SSO / SCIM / Secrets Automation / 法人導入 / チーム運用 のいずれかを含む **ビジネス特化記事のみ** で使用可。それ以外で使用していたら誤用として `-2` 減点
+    - 乗り換え URL (`6dieu4x28dzi-gp0g2q`) は、タイトル/H2 に「乗り換え」「移行」「from Bitwarden」「LastPass 代替」などを含む **乗り換え/移行記事のみ** で使用可。それ以外で使用していたら誤用として `-2` 減点
+    - 1 記事内で 3 URL すべてを使い分けていたら過剰として `-1` 減点 (多くて 2 種類)
+  - 競合製品 (Smartproxy / Apify / Bitwarden / CROSS MALL 等) に AF URL を貼っていたら誤用として `-3` 減点
 - 弊社支援文言 (Next Engine / Bright Data 限定) の存在チェック (`product_pitch`)
 - 禁止語 (絶対 / 100% / 必ず / 万能 / 最強 / 神 / 永久) の grep (`affiliate_fit`)
+- **frontmatter `author` が `smile-comfort` か確認** (ja/en 両方)。個人 ID (`kei-nakazono` など) を検出したら `affiliate_fit` で `-3` 減点 (致命傷)。grep コマンド: `grep -E '^author:' "$JA_MDX" "$EN_MDX"` の結果がすべて `"smile-comfort"` であること
 - `※情報は YYYY-MM-DD 時点` の有無 (`affiliate_fit`)
 - **`link_health`: MDX 内の全外部リンクを HTTP HEAD で検証** (詳細手順は §2.5)
 
