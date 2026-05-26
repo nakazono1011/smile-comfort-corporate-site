@@ -211,7 +211,7 @@ After diff detection, the question becomes "where does the change go?" Common si
 - **Product master DB (Postgres / MySQL)**: Upsert with a strict `updated_at` column
 - **BI / analytics (BigQuery / Snowflake)**: Append-only history table, view picks latest row per SKU
 - **Slack / email alerts**: Threshold rules like price change of 10% or more
-- **OMS (Next Engine etc.)**: Sync via product master update API. If you need cross-mall taxonomy resolution, an AI completion layer like CataMap fits between
+- **OMS (Japanese ecommerce order management systems)**: Sync via product master update API. If you need cross-mall taxonomy resolution, an AI completion layer like CataMap fits between
 
 ### Idempotency and Replay Safety
 

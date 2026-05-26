@@ -4,15 +4,21 @@ description: run-affiliate-article から呼ばれるアフィリエイト記事
 user-invocable: false
 context: fork
 agent: general-purpose
-model: haiku
+model: opus
 pair: assign-affiliate-article-generator
 ---
 
 # assign-affiliate-article-evaluator
 
-`assign-affiliate-article-generator` が生成した ja/en の MDX 記事を、`ref-affiliate-article` のルーブリックに基づき 7 軸 100 点満点で採点する evaluator。90 点未満なら修正指示を `feedback.md` に書き出す。MDX/JSON を直接修正しない。修正は generator が担当する。
+`assign-affiliate-article-generator` が生成した ja/en の MDX 記事を、`ref-affiliate-article` のルーブリックに基づき **9 軸 125 点満点** で採点する evaluator。90 点未満なら修正指示を `feedback.md` に書き出す。MDX/JSON を直接修正しない。修正は generator が担当する。
 
-**Prerequisites**: なし (Read のみ)。
+**v2 (2026-05-23) の変更点**:
+- `factual_accuracy` 軸を新規追加 (weight 15、threshold 11)。公式 URL の本文を取得して数値・固有情報を突合する。
+- 事実関係チェックは **`delegate-codex` 経由で Codex CLI に委譲** する (推論能力の必要な fact-check のため、Haiku から Opus + Codex 構造へ移譲)。Haiku で済む grep ベースの軸はそのまま親の Opus で処理。
+- 過去の不合格パターン (Next Engine 月額の捏造 / 1Password 月払い・年払いの混同 / X 引用文の捏造) を防ぐため、`fact_checks` フィールドを eval JSON に必ず含める。
+
+**Prerequisites**:
+- `codex` CLI が PATH にあり、`delegate-codex` 経由で呼び出せること。未インストールの場合は Codex 移譲をスキップしてフラグだけ記録する。
 
 ## コンテキスト (スキル読み込み時に自動展開)
 
@@ -77,22 +83,23 @@ pair: assign-affiliate-article-generator
 5. `existing_slugs_path`, `existing_titles_path` — 重複判定用
 6. `x_search_results_path` (オプション) — X 引用妥当性判定用
 
-### 2. 採点 (8 軸)
+### 2. 採点 (9 軸)
 
 `ref-affiliate-article §3` に記載されたルーブリックに従って ja/en の両方を読み、各キーを満点 × weight で採点する。配分:
 
-| key | weight | threshold (合格最低) | 重み根拠 |
-|---|---|---|---|
-| `seo` | 20 | 14 | SEO は最重要 |
-| `readability` | 15 | 11 | 読みにくい記事はコンバートしない |
-| `affiliate_fit` | 15 | 11 | 誇張・disclosure 等の規約遵守 |
-| `x_embed` | 10 | 7 | 一次情報引用としての価値 |
-| `product_pitch` | 15 | 11 | 弊社支援文言の有無も含む |
-| `duplication` | 15 | 11 | 既存記事と重複しない |
-| `ja_en_parity` | 10 | 7 | 同時公開記事の整合 |
-| `link_health` | 10 | 8 | リンク切れ・脚注 URL 無効はサイト品質を直接損なう |
+| key | weight | threshold (合格最低) | 重み根拠 | 採点主体 |
+|---|---|---|---|---|
+| `seo` | 20 | 14 | SEO は最重要 | 親 (Opus) |
+| `readability` | 15 | 11 | 読みにくい記事はコンバートしない | 親 (Opus) |
+| `affiliate_fit` | 15 | 11 | 誇張・disclosure 等の規約遵守 | 親 (Opus) |
+| `factual_accuracy` | 15 | 11 | **数値・固有情報の正確性 (公式 URL 突合)。捏造を 1 件でも検出したら 0 点扱い** | **Codex (delegate-codex)** |
+| `x_embed` | 10 | 7 | 一次情報引用としての価値 | 親 (Opus) |
+| `product_pitch` | 15 | 11 | 弊社支援文言の有無も含む | 親 (Opus) |
+| `duplication` | 15 | 11 | 既存記事と重複しない | 親 (Opus) |
+| `ja_en_parity` | 10 | 7 | 同時公開記事の整合 | 親 (Opus) |
+| `link_health` | 10 | 8 | リンク切れ・脚注 URL 無効はサイト品質を直接損なう | 親 (Bash, HTTP HEAD) |
 
-**満点は 110**。`quality.overall = (sum / 110) * 100` で正規化、`overall >= 90` で合格 (eval-schema.json の `passing_rule`)。各キーは独立して採点、weight が満点、threshold は「そのキー単独でも合格に近い水準」。
+**満点は 125**。`quality.overall = (sum / 125) * 100` で正規化、`overall >= 90` で合格 (eval-schema.json の `passing_rule`)。各キーは独立して採点、weight が満点、threshold は「そのキー単独でも合格に近い水準」。
 
 #### 採点で必ず実施
 
@@ -120,6 +127,108 @@ pair: assign-affiliate-article-generator
 - **frontmatter `author` が `smile-comfort` か確認** (ja/en 両方)。個人 ID (`kei-nakazono` など) を検出したら `affiliate_fit` で `-3` 減点 (致命傷)。grep コマンド: `grep -E '^author:' "$JA_MDX" "$EN_MDX"` の結果がすべて `"smile-comfort"` であること
 - `※情報は YYYY-MM-DD 時点` の有無 (`affiliate_fit`)
 - **`link_health`: MDX 内の全外部リンクを HTTP HEAD で検証** (詳細手順は §2.5)
+
+### 2.4 factual_accuracy の検証手順 (Codex 移譲・最重要軸)
+
+**目的**: 過去に subagent が「Next Engine 月額 10,000 円」「1Password 年額 $47.88 (月払い基準を年払い表記)」のような捏造を入れ、Haiku 採点が見逃した事故を防ぐ。
+
+**採点本体は `delegate-codex` 経由で Codex CLI に委譲する**。Codex は MDX 内の全数値・固有情報を抜き出し、公式 URL を WebFetch で取得して 1 件ずつ突合する。
+
+#### a. Codex へのタスク設計
+
+親 (Opus) が以下の context JSON を組み立てて `delegate-codex` を呼ぶ:
+
+```json
+{
+  "task": "<以下の prompt>",
+  "project_dir": "<WORKDIR>",
+  "mode": "read_only",
+  "timeout_s": 900
+}
+```
+
+prompt (Codex への指示):
+
+```
+You are auditing two MDX articles for factual accuracy. Your sole goal: find every numerical claim, brand-specific fact, or attributed quote that could be wrong, and verify each against the official primary source.
+
+INPUTS:
+- ja_mdx: <abs path>
+- en_mdx: <abs path>
+- product: <brightdata|nextengine|1password>
+- x_search_path: <abs path to x-search.json from generator>
+
+OFFICIAL SOURCES (you MUST WebFetch these and compare):
+- brightdata: https://brightdata.com/pricing (and product subpages)
+- nextengine: https://next-engine.net/price/
+- 1password: https://1password.com/jp/pricing (and https://1password.com/pricing for USD)
+
+TASK:
+1. Extract every (price, fee, count, percentage, date, named entity) from ja_mdx + en_mdx.
+2. WebFetch the official URL(s) above and pull the canonical values.
+3. For each extracted item, classify:
+   - "verified": matches official source within rounding
+   - "mismatch": differs from official source (specify expected vs actual)
+   - "unverified": no authoritative source confirms or denies
+   - "fabricated": clearly invented (e.g. a campaign with no public record)
+4. For each TweetCard id referenced in ja_mdx/en_mdx, verify it exists in x_search_path.inline_citations (if not, mark "fabricated").
+5. Score the article on factual_accuracy (max 15):
+   - All "verified" or "unverified-with-disclaimer" → 15
+   - 1 "mismatch" → 10
+   - 2+ "mismatch" → 5
+   - Any "fabricated" → 0 (致命)
+6. Write a fact-checks JSON to the path provided (see Output below) with the full breakdown.
+
+OUTPUT (write to disk as JSON):
+{
+  "score": <0-15>,
+  "verified": [{ "claim": "...", "official_url": "...", "official_value": "..." }],
+  "mismatches": [{ "claim": "...", "actual": "...", "expected": "...", "official_url": "..." }],
+  "unverified": [{ "claim": "...", "note": "no authoritative source found" }],
+  "fabricated": [{ "claim": "...", "evidence": "no entry in x_search inline_citations" }],
+  "notes": "..."
+}
+```
+
+#### b. Codex 出力の取り込み
+
+Codex が書き出した fact-checks JSON を親が Read し、`factual_accuracy.score` と `mismatches` / `fabricated` の件数を eval JSON に反映:
+
+```json
+{
+  "breakdown": {
+    "factual_accuracy": {
+      "score": 10,
+      "max": 15,
+      "notes": "mismatch: 1件 (ja: 'Individual 年額 $47.88' → 公式: 月払い基準 $47.88 / 年払い基準 $35.88、年払いの場合を明示すべき)"
+    }
+  },
+  "fact_checks": {
+    "verified": [...],
+    "mismatches": [...],
+    "fabricated": [...]
+  }
+}
+```
+
+#### c. スコアリング (weight 15)
+
+| 状態 | スコア |
+|---|---|
+| 全 claim が verified | 15 |
+| unverified が 2 件以内、mismatch ゼロ | 13-14 |
+| mismatch 1 件 | 10 |
+| mismatch 2 件以上 | 5 (threshold 割れ→不合格) |
+| fabricated 1 件以上 | 0 (致命・即不合格) |
+
+**fabricated を 1 件でも検出した時点で `factual_accuracy.score = 0` かつ `passed = false`** を強制する (overall が 90 を超えても retry させる)。
+
+#### d. Codex 未インストール時のフォールバック
+
+`codex-delegate.sh` が `(Codex delegate skipped: codex CLI not installed)` を返した場合:
+- 親 (Opus) が自前で公式 URL を WebFetch して数値突合を行う
+- ただし精度は落ちるため、`fact_checks.notes` に `"Codex unavailable, scored by parent Opus (degraded mode)"` を残す
+- フォールバック実装でも mismatch 検出をきちんと行う (Haiku では不可能だが Opus なら可能)
 
 ### 2.5 link_health の検証手順
 
@@ -220,24 +329,33 @@ eval JSON の breakdown 配下に `link_health` を追加し、別途 `link_chec
 ```json
 {
   "skill": "assign-affiliate-article-evaluator",
-  "version": "1",
+  "version": "2",
   "iteration": 1,
   "evaluator_skill": "assign-affiliate-article-evaluator",
-  "model": "haiku",
+  "model": "opus+codex",
   "subject": {
     "slug": "<slug>",
     "ja_mdx_path": "...",
     "en_mdx_path": "..."
   },
   "breakdown": {
-    "seo":           { "score": 18, "max": 20, "notes": "..." },
-    "readability":   { "score": 13, "max": 15, "notes": "..." },
-    "affiliate_fit": { "score": 14, "max": 15, "notes": "..." },
-    "x_embed":       { "score":  9, "max": 10, "notes": "..." },
-    "product_pitch": { "score": 13, "max": 15, "notes": "..." },
-    "duplication":   { "score": 14, "max": 15, "notes": "..." },
-    "ja_en_parity":  { "score":  9, "max": 10, "notes": "..." },
-    "link_health":   { "score":  9, "max": 10, "notes": "broken: 1件 (脚注 [^3])" }
+    "seo":              { "score": 18, "max": 20, "notes": "..." },
+    "readability":      { "score": 13, "max": 15, "notes": "..." },
+    "affiliate_fit":    { "score": 14, "max": 15, "notes": "..." },
+    "factual_accuracy": { "score": 13, "max": 15, "notes": "verified: 12件 / mismatch: 0 / fabricated: 0。Codex 評価済み" },
+    "x_embed":          { "score":  9, "max": 10, "notes": "..." },
+    "product_pitch":    { "score": 13, "max": 15, "notes": "..." },
+    "duplication":      { "score": 14, "max": 15, "notes": "..." },
+    "ja_en_parity":     { "score":  9, "max": 10, "notes": "..." },
+    "link_health":      { "score":  9, "max": 10, "notes": "broken: 1件 (脚注 [^3])" }
+  },
+  "fact_checks": {
+    "verified": [
+      { "claim": "Next Engine 月額 3,000 円", "official_url": "https://next-engine.net/price/", "official_value": "3,000 円 (税抜)" }
+    ],
+    "mismatches": [],
+    "unverified": [],
+    "fabricated": []
   },
   "link_checks": {
     "total": 18,
@@ -255,7 +373,7 @@ eval JSON の breakdown 配下に `link_health` を追加し、別途 `link_chec
 }
 ```
 
-`feedback` は合格時 `null`、不合格時は feedback.md の絶対パス。`quality.overall` は `(sum_of_scores / 110) * 100` で算出 (eval-schema.json の `passing_rule`)。
+`feedback` は合格時 `null`、不合格時は feedback.md の絶対パス。`quality.overall` は `(sum_of_scores / 125) * 100` で算出 (eval-schema.json の `passing_rule`)。`fact_checks.fabricated` が 1 件でもあれば `passed = false` を強制 (overall が 90 を超えても再生成させる)。
 
 ### 4. フィードバック出力 (90 点未満時のみ)
 
@@ -332,8 +450,10 @@ overall_score: {X}/100
 
 ## Gotchas
 
-- **Read だけ使う**。Edit/Write は eval_file と feedback_file のみ。記事 MDX は決して編集しない
+- **Read だけ使う**。Edit/Write は eval_file と feedback_file と fact-checks JSON のみ。記事 MDX は決して編集しない
 - **採点はモデルが自分でやる**。`bash` でテキスト解析するのは grep の数え上げ程度
+- **factual_accuracy は Codex 移譲が原則**。Codex が未インストールの環境では親 (Opus) が WebFetch で代替するが、必ず `fact_checks.notes` に degraded mode を記録
+- **fabricated 検出時の振る舞い**: overall が 90 を超えても `passed = false` を強制。記事の信頼性は他軸の高得点では取り戻せない (1 個でも嘘があれば公開不可)
 - **重複判定**: `existing_titles_path` の JSON 配列を `existing_titles.json[]` として読み、各既存 title と新規 title の 3-gram (連続 3 文字) を抽出して set-intersection を計算。共通要素数 / 新規 title 3-gram 数 = 類似度。0.6 以上で減点
-- **Haiku モデル**: 軽量モデルなので、Read する MDX 全文を一度に処理する。複雑なヒューリスティックは ref-affiliate-article §3 のチェックリストで補強
+- **Opus + Codex の役割分担**: 構造・字数・grep ベースの軸は親の Opus が直接採点する。`factual_accuracy` のみ Codex に委譲する (推論能力と外部 WebFetch ループが必要)
 - **ja/en parity**: 段落数の同一性ではなく **意味のセクション数** で判定。en は ja の 0.4〜0.7 倍の文字数で済むのが標準

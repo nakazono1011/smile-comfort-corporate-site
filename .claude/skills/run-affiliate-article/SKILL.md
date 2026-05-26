@@ -367,10 +367,12 @@ Skill: wrap-affiliate-thumbnail
 args: "${WORKDIR}/images cover {{metadata.title.ja}} {{metadata.subtitle_for_cover}} --category {{metadata.category}} --logo {{metadata.logo_url}} --accent {{accent_theme_for_product}} --n 4"
 ```
 
-product → accent-theme マッピング:
-- `brightdata` → `navy`
-- `nextengine` → `light`
-- `1password` → `teal`
+product → accent-theme マッピング (2026-05-23 改訂):
+- `brightdata` → `navy` (現状維持)
+- `1password` → `blue` (1Password 公式ブランドブルー #0572EC 系。旧 teal から変更)
+- `nextengine` → `orange` (Next Engine 公式オレンジ #EA580C 系。旧 light から変更)
+
+各テーマの詳細は `wrap-affiliate-thumbnail` SKILL.md と `~/.claude/skills/run-thumbnail/config.json` の business-headline mode を参照。3 製品のサムネが視覚的に明確に区別できるよう公式ブランドカラーで再設計済み。
 
 4 並列で生成、最も良いものを 1 枚採用。Claude (parent) が結果を確認して 1 枚を選び `cover.webp` にリネーム。同様に `og.webp` も生成。
 

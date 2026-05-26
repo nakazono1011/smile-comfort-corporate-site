@@ -23,7 +23,7 @@ faq:
   - q: "IP Whitelist (ホワイトリスト) と Password 認証はどちらが推奨ですか？"
     a: "VPS や専用サーバーなど固定 IP から呼び出す本番運用では IP Whitelist 認証が推奨です。リクエストごとにユーザー名 / パスワードを送る必要がなく、認証情報が漏洩しても他環境から悪用されにくくなります。一方でローカル開発やコンテナ環境など IP が動的に変わる環境では Password 認証が現実的です。Bright Data のダッシュボードでは Zone ごとに Authentication 方式を切り替えられるため、開発用 Zone は Password、本番用 Zone は IP Whitelist という使い分けも可能です。"
   - q: "Zone 作成後の認証文字列はどこで確認できますか？"
-    a: "ダッシュボードの該当 Zone を開き、「Access parameters」または「Integrate」タブを選ぶと、Zone 名・ユーザー名 (`brd-customer-XXX-zone-YYY` 形式)・パスワード・プロキシホスト・ポート番号が表示されます。さらに Python / Node.js / curl 等の言語別サンプルコードと、IP Whitelist で接続する場合の Password 不要の文字列もそこで生成されます。本番のシークレット管理ツール (1Password Secrets Automation / AWS Secrets Manager 等) に登録する際は、必ずこの画面からコピーしてください。"
+    a: "ダッシュボードの該当 Zone を開き、「Access parameters」または「Integrate」タブを選ぶと、Zone 名・ユーザー名 (`brd-customer-XXX-zone-YYY` 形式)・パスワード・プロキシホスト・ポート番号が表示されます。さらに Python / Node.js / curl 等の言語別サンプルコードと、IP Whitelist で接続する場合の Password 不要の文字列もそこで生成されます。本番のシークレット管理ツール (AWS Secrets Manager / HashiCorp Vault 等) に登録する際は、必ずこの画面からコピーしてください。"
   - q: "弊社に Zone 設計から相談できますか？"
     a: "はい。スマイルコンフォートは Bright Data を自社プロダクション運用しており、Zone 命名規則・用途分割・IP Whitelist 設計・コスト追跡ダッシュボードの構築まで伴走可能です。お問い合わせフォームから「Bright Data Zone 設計の相談」とご記載いただければ、初回ミーティングの日程をご案内します。PoC 段階でも本番運用フェーズでも、要件に合わせた設計レビューをご提供します。"
 ---

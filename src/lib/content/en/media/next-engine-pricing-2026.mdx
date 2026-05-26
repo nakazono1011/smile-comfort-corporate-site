@@ -1,0 +1,168 @@
+---
+title: "Next Engine Pricing 2026 — Official ¥3,000 Base Fee, Tiered Per-Order Surcharge, and Annual Maintenance Explained"
+date: "2026-05-23"
+updated: "2026-05-23"
+summary: "A 2026 breakdown of Next Engine's official pricing — base fee of ¥3,000/month, tiered per-order surcharge, zero setup fee, and the ¥15,000 annual maintenance fee from year 2 — sourced from the official price page and grounded in our deployment experience."
+slug: "next-engine-pricing-2026"
+lang: "en"
+tags: ["Next Engine pricing", "Next Engine fee", "ecommerce OMS", "Japan OMS"]
+category: "media"
+cover: "https://img.smile-comfort.com/next-engine-pricing-2026/cover.webp?v=2026-05-24"
+heroImage: "https://img.smile-comfort.com/next-engine-pricing-2026/cover.webp?v=2026-05-24"
+ogImage: "https://img.smile-comfort.com/next-engine-pricing-2026/og.webp?v=2026-05-24"
+product: "nextengine"
+author: "smile-comfort"
+readTime: 11
+related: []
+xPosts: []
+faq:
+  - q: "How much does Next Engine cost per month?"
+    a: "The official base fee is ¥3,000/month (excl. tax), which includes up to 200 orders per month[^1]. Orders 201 and above are billed via a tiered per-order surcharge, so a month with 1,000 orders comes out to roughly ¥3,000 base + ¥25,000 surcharge ≈ ¥28,000. The actual quote depends on order volume, connected malls, and add-on apps, so the most reliable path is to run real traffic through the 30-day free trial before signing."
+  - q: "Is there a setup fee or minimum contract term?"
+    a: "The official pricing page lists a setup fee of ¥0 with no added charge for extra stores or product registrations[^1]. Contracts are billed monthly with no explicit minimum term. However, an annual maintenance fee of ¥15,000 (excl. tax) is billed every contract anniversary from year 2 onward."
+  - q: "How long is the free trial?"
+    a: "The official free trial is 30 days[^1]. Promotional extensions may apply at certain times — confirm the current campaign on the official site. During the trial you can validate order processing, inventory sync, and shipping workflows under near-production conditions. Running your actual order volume during this window is the fastest way to tighten the post-trial cost forecast."
+  - q: "What hidden costs should I watch for beyond the base price?"
+    a: "Three line items beyond the base price are documented on the official site[^1]: (1) the annual maintenance fee of ¥15,000 (excl. tax) from year 2, (2) paid app subscriptions in the app store (price varies by app), and (3) external system integrations: POS register ¥0-¥7,000, CRM ¥0-¥20,000, and Amazon FBA multi-channel ¥7,000+ usage-based, among others. API integrations with backend systems will also incur engineering effort separately."
+  - q: "Can you help us deploy Next Engine?"
+    a: "Yes. Smile Comfort has hands-on experience deploying Next Engine end to end — initial setup, mall integration (Amazon, Rakuten, Yahoo! Shopping, Shopify), product master migration, API customization, and operational design. We help right-size the plan against your forecasted order volume and embed the new operations into your team."
+---
+
+"Next Engine pricing is hard to read at first glance" is a question we get every month from Japan-based ecommerce teams. The short answer for 2026: [Next Engine](https://base.next-engine.org/account/?agent_code=MzEzNw) charges a **¥3,000/month base fee (excl. tax)** plus a tiered per-order surcharge that starts at order 201, with a setup fee of ¥0[^1]. This article walks through the official pricing structure, runs a per-order-volume cost model from the published tier table, and flags the line items teams most often miss — drawing on our Next Engine deployment work at Smile Comfort.
+
+## How Next Engine's Official Pricing Breaks Down
+
+[Next Engine](https://base.next-engine.org/account/?agent_code=MzEzNw) bills on four components: a base fee, a tiered per-order surcharge, paid options (apps and external integrations), and an annual maintenance fee from year 2[^1].
+
+### The four official components
+
+- **Base fee**: **¥3,000/month (excl. tax)**, includes up to 200 orders/month
+- **Per-order surcharge**: tiered (from ¥35 down to ¥5/order) starting at order 201
+- **Setup fee**: **¥0** (no charge for extra stores or product registrations either)
+- **Annual maintenance fee**: **¥15,000 (excl. tax)**, billed every contract anniversary from year 2
+
+Order counts are aggregated **across all connected malls**, not per mall[^1]. Merchants who run Amazon, Rakuten, Yahoo! Shopping, and Shopify in parallel cross the 200-order threshold faster than they expect, so include every channel in the forecast.
+
+### Per-order surcharge tiers (official)
+
+The tiered surcharge is published on the official price page[^1]. All numbers are excl. tax, applied from order 201 onward and decreasing as volume grows.
+
+| Order tier | Per-order surcharge |
+|---|---|
+| 1-200 orders | (covered by base fee) |
+| 201-400 orders | ¥35 |
+| 401-1,000 orders | ¥30 |
+| 1,001-3,000 orders | ¥25 |
+| 3,001-5,000 orders | ¥20 |
+| 5,001-7,000 orders | ¥15 |
+| 7,001-10,000 orders | ¥10 |
+| 10,001+ orders | ¥5 |
+
+Because the tiers step down, the marginal cost per order decreases as you scale.
+
+<Figure
+  src="https://img.smile-comfort.com/next-engine-pricing-2026/figure-01.webp"
+  alt="Diagram showing the four-layer Next Engine pricing structure: base fee, tiered per-order surcharge, paid apps, and annual maintenance fee"
+  caption="Next Engine pricing has four components, and order counts aggregate across all connected malls"
+/>
+
+## Monthly Cost Projection by Order Volume (Built From Official Tiers)
+
+Stacking the official tier prices on top of the ¥3,000 base fee yields the following monthly cost projection. All figures are excl. tax, base fee included, and **exclude paid apps or external integrations**.
+
+| Monthly orders | Monthly cost (excl. tax) | Composition |
+|---|---|---|
+| Up to 200 | **¥3,000** | Base fee only |
+| 400 | **¥10,000** | ¥3,000 + 200 × ¥35 |
+| 1,000 | **¥28,000** | Previous + 600 × ¥30 |
+| 3,000 | **¥78,000** | Previous + 2,000 × ¥25 |
+| 5,000 | **¥118,000** | Previous + 2,000 × ¥20 |
+| 7,000 | **¥148,000** | Previous + 2,000 × ¥15 |
+| 10,000 | **¥178,000** | Previous + 3,000 × ¥10 |
+
+At Smile Comfort, our deployments most often land merchants in the 1,000-3,000 orders/month range once cross-mall aggregation is factored in, putting the typical post-base monthly bill between ¥28,000 and ¥78,000. We have helped merchants from a few orders per month up to several billion yen in annual GMV right-size the plan against their forecast.
+
+## Free Trial and Setup Fee
+
+To reduce signup friction, two pieces of the official pricing matter to first-time evaluators[^1].
+
+### The official free trial
+
+- **30 days free**
+- Core flows (order processing, inventory sync, shipping management, product master) are exercisable end to end
+- Orders processed during the trial do not count toward the surcharge
+
+### Setup fee of ¥0, in practice
+
+With a ¥0 setup fee published officially, the only upfront cash outlay between signup and live operation is the ¥3,000 monthly base. Teams can sign up to test the workflow against their real shop layout and only commit to long-term once the fit is clear.
+
+Running **your actual production order volume** during the 30-day window typically nails the post-trial monthly cost forecast to within ±20%.
+
+<InlineCTA product="nextengine" intent="primary" />
+
+## Hidden Costs Teams Most Often Miss
+
+Four line items are explicitly documented in the official pricing page but easy to forget at signup[^1].
+
+### 1. Annual maintenance fee ¥15,000
+
+From your second contract year onward, **¥15,000 (excl. tax)** is billed every contract anniversary. Because year 1 is exempt, it tends to be missed in year-2 budgets. Spread across 12 months, this adds roughly ¥1,250 to your effective monthly cost.
+
+### 2. Paid apps (App Store)
+
+Next Engine's app store hosts more than a hundred connectors covering LINE, AI recommendations, automated translation, and many others. Pricing varies by app, so pick the ones with clear ROI rather than enabling everything by default. Reviewing the active app list quarterly typically reclaims unused subscriptions.
+
+### 3. External system integrations
+
+The official pricing page also lists representative integration costs[^1]:
+
+- **POS register**: ¥0 to ¥7,000
+- **CRM**: ¥0 to ¥20,000
+- **Warehouse / WMS**: ¥0 plus usage-based
+- **Amazon FBA multi-channel**: ¥7,000 plus usage-based
+
+Omnichannel retail (physical store + EC) or third-party warehouse setups will add these on top of the base.
+
+### 4. API customization effort
+
+API integrations with back-office or core systems are billed as engineering work — done either in-house or via a vendor. With external support, the initial scope typically lands in the tens of thousands of yen range to deliver an MVP, depending on what you are connecting.
+
+## How to Get a Right-Sized Quote
+
+Once the official structure is clear, the last step is a quote that fits your real workload — and the 30-day free trial is the fastest path.
+
+1. Sign up for the free trial at the [Next Engine](https://base.next-engine.org/account/?agent_code=MzEzNw) official site
+2. On the form, enter your **expected monthly orders, connected malls, and shipping flow**
+3. Confirm with the sales rep on the **year-2 annual maintenance fee** and any **external integrations** you'll need
+4. Ask for an estimate on **paid apps and external integration line items**
+5. Use the trial to run **production-like order volume** and project the post-paid monthly bill
+
+This process tightens the quote and avoids the common "the bill was higher than expected" surprise after signing.
+
+### Our Next Engine Deployment Support
+
+Smile Comfort has deployed [Next Engine](https://base.next-engine.org/account/?agent_code=MzEzNw) end to end across many ecommerce teams: initial setup, mall integration (Amazon, Rakuten, Yahoo!, Shopify), product master migration, API customization, and operational design. We help size the right plan against your forecast and embed the new operations into the team.
+
+<InlineCTA product="nextengine" intent="support" />
+
+### CataMap for Rakuten / Yahoo! Product Master Curation
+
+Next Engine pricing scales with orders, but the upstream cost of **curating the product master** also eats into total spend. Our in-house AI product [CataMap](https://catamap.app/) augments category and attribute mapping for Rakuten and Yahoo! Shopping, which is a useful pre-step before importing the master into Next Engine. Reach out if you face similar curation pain.
+
+<InlineCTA intent="self-product" ownProduct="catamap" />
+
+## Wrapping Up — 2026 Pricing Decision Points
+
+[Next Engine](https://base.next-engine.org/account/?agent_code=MzEzNw) in May 2026 is **"¥3,000/month base + tiered per-order surcharge + paid apps + ¥15,000/year maintenance from year 2"**, with a ¥0 setup fee and a 30-day free trial[^1]. For new deployments, **running your real production order volume during the free trial is the most reliable way to nail the post-paid monthly cost forecast.**
+
+<Callout type="warning" title="Note">
+The figures in this article are from the official price page (https://next-engine.net/price/) as of May 2026. Pricing may change without notice, so always verify the latest numbers on the official site before signing.
+</Callout>
+
+---
+
+> *Information current as of May 23, 2026. Always confirm the latest pricing on the official site (https://next-engine.net/price/).*
+
+> *This article contains affiliate links (PR).*
+
+[^1]: Next Engine official pricing page: https://next-engine.net/price/
