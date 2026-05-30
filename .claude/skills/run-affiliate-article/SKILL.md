@@ -41,8 +41,8 @@ Step 2:   run-x-search で X 最新情報取得 (x-search.json)
 Step 3:   assign-affiliate-article-generator で ja/en MDX 生成 [iter=1]
 Step 4:   assign-affiliate-article-evaluator で採点
 Step 5:   90 点未満なら feedback を generator に戻して再生成 (最大 3 周)
-Step 6:   wrap-thumbnails で cover + og を 4 並列生成 → 1 枚採用
-Step 7:   wrap-ai-image-detail-illustration で figure-01, figure-02 を並列生成
+Step 6:   wrap-affiliate-thumbnail で cover + og を 2 並列生成 → 1 枚採用
+Step 7:   wrap-ai-image-detail-illustration で figure-01, figure-02 を 2 並列生成
 Step 8:   wrangler r2 で `corporate-images` バケットに画像アップロード (--remote 必須)
 Step 9:   MDX 内の画像 URL を確認し、必要なら最終調整
 Step 10:  完了報告 (URL・確認手順)
@@ -274,6 +274,8 @@ EOF
 echo "CONTEXT:${WORKDIR}/eval-ctx-iter${ITER}.json"
 ```
 
+> **注**: 初回 (iter=1) は `previous_eval_path` を含めない。iter≥2 では Step 5 のループ内で `previous_eval_path` を追加し、evaluator が Codex 委譲を間引けるようにする (2026-05-27 改訂)。
+
 Skill 呼び出し:
 ```
 Skill: assign-affiliate-article-evaluator
@@ -324,7 +326,7 @@ EOF
   echo "CONTEXT:${WORKDIR}/gen-ctx-iter${ITER}.json"
   # Skill: assign-affiliate-article-generator → 修正動作
 
-  # 再評価
+  # 再評価 (previous_eval_path を渡して Codex fact-check を間引く)
   cat > "${WORKDIR}/eval-ctx-iter${ITER}.json" <<EOF
 {
   "ja_mdx_path": "${JA_MDX}",
@@ -334,6 +336,7 @@ EOF
   "existing_titles_path": "${WORKDIR}/existing-titles.json",
   "x_search_results_path": "${WORKDIR}/x-search.json",
   "iteration": ${ITER},
+  "previous_eval_path": "${WORKDIR}/eval-iter$((ITER-1)).json",
   "output_contract": {
     "eval_file": "${WORKDIR}/eval-iter${ITER}.json",
     "feedback_file": "${WORKDIR}/eval-iter${ITER}-feedback.md",
@@ -344,6 +347,7 @@ EOF
 EOF
   echo "CONTEXT:${WORKDIR}/eval-ctx-iter${ITER}.json"
   # Skill: assign-affiliate-article-evaluator
+  # 注: previous_eval_path を渡すことで evaluator が前回 fact_checks を流用 (中間 iter のみ Codex 委譲スキップ、最終確認だけ実行)
 
   SCORE="$(jq -r '.quality.overall' "${WORKDIR}/eval-iter${ITER}.json")"
   PASSED="$(jq -r '.passed' "${WORKDIR}/eval-iter${ITER}.json")"
@@ -364,7 +368,7 @@ fi
 
 ```
 Skill: wrap-affiliate-thumbnail
-args: "${WORKDIR}/images cover {{metadata.title.ja}} {{metadata.subtitle_for_cover}} --category {{metadata.category}} --logo {{metadata.logo_url}} --accent {{accent_theme_for_product}} --n 4"
+args: "${WORKDIR}/images cover {{metadata.title.ja}} {{metadata.subtitle_for_cover}} --category {{metadata.category}} --logo {{metadata.logo_url}} --accent {{accent_theme_for_product}} --n 2"
 ```
 
 product → accent-theme マッピング (2026-05-23 改訂):
@@ -374,7 +378,9 @@ product → accent-theme マッピング (2026-05-23 改訂):
 
 各テーマの詳細は `wrap-affiliate-thumbnail` SKILL.md と `~/.claude/skills/run-thumbnail/config.json` の business-headline mode を参照。3 製品のサムネが視覚的に明確に区別できるよう公式ブランドカラーで再設計済み。
 
-4 並列で生成、最も良いものを 1 枚採用。Claude (parent) が結果を確認して 1 枚を選び `cover.webp` にリネーム。同様に `og.webp` も生成。
+2 並列で生成、最も良いものを 1 枚採用。Claude (parent) が結果を確認して 1 枚を選び `cover.webp` にリネーム。同様に `og.webp` も生成。
+
+> **生成枚数の方針 (2026-05-27 改訂)**: コスト/時間優先で `--n 2` を標準とする。`og` は cover と subtitle 差分が少ないため 2 並列で十分。品質バラつきが心配な目玉記事のみ `--n 4` に引き上げる。
 
 実装メモ:
 - wrap-affiliate-thumbnail の出力先と命名規則は同 skill の SKILL.md を参照
@@ -391,10 +397,12 @@ metadata.json の `image_briefs.figures[]` をループして並列起動:
 ```
 For each figure in metadata.image_briefs.figures:
   Skill: wrap-ai-image-detail-illustration
-  args: "${WORKDIR}/images ${figure.id} ${figure.prompt} --mode ${figure.mode} --n 4"
+  args: "${WORKDIR}/images ${figure.id} ${figure.prompt} --mode ${figure.mode} --n 2"
 ```
 
-各 figure につき 4 並列生成 → 1 枚採用 → `figure-01.webp`, `figure-02.webp` にリネーム。
+各 figure につき 2 並列生成 → 1 枚採用 → `figure-01.webp`, `figure-02.webp` にリネーム。
+
+> **生成枚数の方針 (2026-05-27 改訂)**: コスト/時間優先で `--n 2` が標準。figure は MDX 本文の差し込みなので「2 枚並べて良い方を採用」で十分。`--n 4` は figure が記事の主軸 (例: 比較図 1 枚で勝負する pillar 記事) のときのみ。
 
 ---
 
@@ -487,6 +495,9 @@ sed -i.bak "s|/images/[^\"]*|https://img.smile-comfort.com/${SLUG}/|g" "${JA_MDX
 - **wrangler R2 未認証**: `wrangler whoami` で確認し、未ログインなら親がユーザーに報告して停止
 - **画像生成失敗**: figure が 1 枚も生成されなかった場合、MDX 内の `<Figure src=...>` が 404 になる。**MDX を保存する前に画像生成完了を確認** するか、画像生成失敗時は MDX から該当 `<Figure>` を削除する後処理を入れる
 - **3 周で 90 点未達**: 親は失敗報告だけ出して停止。**手動介入のために MDX と feedback.md を残しておく** (削除しない)
+- **3 周ループの厳守 (subagent モード)**: parallel batch で起動した subagent は **必ず 3 周で打ち切る**。過去に subagent が 6 周回って evaluator を 4 回余計に呼んだ事故あり (2026-05-27)。3 周で 90 点未達なら subagent も親も諦めて手動レビューに渡す
+- **Codex fact-check の間引き (2026-05-27)**: evaluator は iter1 と「暫定 overall ≥ 90 の合格候補」のみ Codex 委譲を実行。中間 iter (2〜N-1 で暫定 <90) は前回 `fact_checks` JSON を流用 + grep 軽量チェックで済ませる。run 親は `previous_eval_path` を context JSON に渡すこと
+- **画像生成枚数 (2026-05-27)**: cover / og / figure 共に `--n 2` を標準とする。`--n 4` は記事の主軸画像 (pillar 記事の比較図など) のみ
 - **next-sitemap への影響**: 記事追加後の URL は `npm run build && npm run postbuild` で sitemap に自動反映される
 - **記事の `updated` フィールド**: 再生成時は `updated: ` を当日日付に更新する (generator が自動)
 

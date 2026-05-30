@@ -45,6 +45,7 @@ pair: assign-affiliate-article-generator
   "existing_titles_path": "/abs/path/to/output/<slug>/existing-titles.json",
   "x_search_results_path": "/abs/path/to/output/<slug>/x-search.json",
   "iteration": 1,
+  "previous_eval_path": "/abs/path/to/output/<slug>/eval-iter-<N-1>.json",
   "output_contract": {
     "eval_file": "/abs/path/to/output/<slug>/eval-iter-1.json",
     "feedback_file": "/abs/path/to/output/<slug>/eval-iter-1-feedback.md",
@@ -63,6 +64,7 @@ pair: assign-affiliate-article-generator
 | `existing_titles_path` | ✓ | 既存記事 title 一覧 (3-gram 類似度判定用) |
 | `x_search_results_path` | — | X 検索結果。X 埋め込み妥当性判定で参照 |
 | `iteration` | ✓ | 現在のループ回数 |
+| `previous_eval_path` | — | 前回 iter の eval JSON (iter≥2 のみ)。Codex 委譲の間引き判定で参照 |
 | `output_contract.eval_file` | ✓ | 採点結果 JSON 出力先 |
 | `output_contract.feedback_file` | ✓ | 90 点未満時のフィードバック markdown 出力先 |
 | `output_contract.schema` | ✓ | eval-schema.json のパス |
@@ -133,6 +135,39 @@ pair: assign-affiliate-article-generator
 **目的**: 過去に subagent が「Next Engine 月額 10,000 円」「1Password 年額 $47.88 (月払い基準を年払い表記)」のような捏造を入れ、Haiku 採点が見逃した事故を防ぐ。
 
 **採点本体は `delegate-codex` 経由で Codex CLI に委譲する**。Codex は MDX 内の全数値・固有情報を抜き出し、公式 URL を WebFetch で取得して 1 件ずつ突合する。
+
+#### 2.4.0 Codex 委譲の発火条件 (iteration ごと・2026-05-27 改訂)
+
+Codex 委譲は **WebFetch を 5-10 回回す重い処理** (1 回 3-5 分) のため、**毎 iteration では実行しない**。以下のルールで間引く:
+
+| iteration の状態 | Codex 委譲 | factual_accuracy スコアの算出 |
+|---|---|---|
+| **iter1 (初回)** | ✅ **必ず実行** | Codex の出力をそのまま採用 |
+| **中間 iter (2 ≤ iter < 最終)** で暫定 overall < 90 | ❌ **スキップ** | **前回 iter の `fact_checks` JSON を流用** + 親 (Opus) が MDX の数値差分を grep で軽量チェック |
+| **中間 iter** で暫定 overall ≥ 90 (= 合格候補) | ✅ **最終確認として 1 回実行** | Codex の最新出力で確定 |
+| **3 周目の最終 iter** (リトライ上限) | ✅ 念のため実行 | Codex の出力を採用 |
+
+**「前回 fact_checks の流用」の手順**:
+
+1. context JSON の `previous_eval_path` (optional, run 親が渡す) から前回 eval JSON を Read
+2. `previous.fact_checks.{verified, mismatches, unverified, fabricated}` をコピー
+3. 親 (Opus) が ja_mdx / en_mdx を grep し、**価格・日付・パーセンテージ・通貨記号 ($ ¥) を含む行** を抜き出す
+4. 抜き出した行と前回の `fact_checks.verified[].claim` を文字列比較。**新規追加 or 値変更されている数値が 3 件以上あれば** Codex 委譲を強制実行 (流用打ち切り)
+5. 変更が 2 件以下なら前回値を維持。`fact_checks.notes` に `"reused from iter<N-1> (delta: <差分件数>件)"` を追記
+
+**親 (Opus) の grep ベース軽量チェック**:
+
+```bash
+# 数値・通貨・%を含む行を抽出
+grep -nE '(\$[0-9]|¥[0-9]|[0-9]+(\.[0-9]+)?%|[0-9]{4}-[0-9]{2}-[0-9]{2}|[0-9]+ 円|[0-9]+ 万)' "${JA_MDX}" > /tmp/curr-claims-ja.txt
+grep -nE '(\$[0-9]|[0-9]+(\.[0-9]+)?%|[0-9]{4}-[0-9]{2}-[0-9]{2})' "${EN_MDX}" > /tmp/curr-claims-en.txt
+# 前回 fact_checks の verified claim と diff
+```
+
+**メリット**: 6 周ループのうち Codex 委譲が 2 回 (iter1 + 合格候補確認) に減り、evaluator 全体の時間が **40-60% 短縮** される。中間 iter の factual_accuracy score は安定する (前回値流用) ため、修正中の数値変更がない限りスコアブレも起こさない。
+
+**注意**: 数値・固有情報を **新規追加 / 変更した** iter は必ず Codex を回す。前回値流用で fabricated を見逃すと致命傷。
+
 
 #### a. Codex へのタスク設計
 
