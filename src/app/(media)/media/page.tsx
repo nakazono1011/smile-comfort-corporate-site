@@ -29,8 +29,6 @@ export function generateMetadata(): Metadata {
   };
 }
 
-export const revalidate = 60;
-
 export default async function MediaList() {
   const posts = await getPostMeta("ja", { featuredFirst: true });
   const featured = posts.filter((p) => p.featured).slice(0, 4);

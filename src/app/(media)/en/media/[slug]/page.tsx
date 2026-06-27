@@ -62,8 +62,6 @@ export async function generateMetadata({
   }
 }
 
-export const revalidate = 60;
-
 function pickRelated(
   all: PostMeta[],
   current: PostMeta,
