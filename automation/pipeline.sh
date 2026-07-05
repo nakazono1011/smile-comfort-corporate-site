@@ -273,6 +273,25 @@ if [ "${#PASS_SLUGS[@]}" -eq 0 ] || [ -z "${PASS_SLUGS[0]}" ]; then
   exit 0
 fi
 
+# ---------- サニタイズ: MDX を壊す生 autolink <https://…> を裸 URL へ ----------
+# GFM の <url> autolink 記法を MDX(mdxjs) は JSX タグ開始と誤認し build が落ちる (held 常習犯)。
+# 山括弧だけ剥がせば remark-gfm が裸 URL を安全に自動リンク化する。<Component …> 等には
+# 一致しない (< の直後が http のときだけ置換)。sed -i の可搬性問題を避け temp file 方式。
+for slug in "${PASS_SLUGS[@]}"; do
+  [ -z "$slug" ] && continue
+  for lang in ja en; do
+    f="src/lib/content/$lang/media/$slug.mdx"
+    [ -f "$f" ] || continue
+    _tmp="$(mktemp)"
+    if sed -E 's#<(https?://[^>[:space:]]+)>#\1#g' "$f" > "$_tmp" 2>/dev/null; then
+      if ! cmp -s "$f" "$_tmp"; then echo "sanitize: 裸 autolink を修正 $f"; fi
+      mv "$_tmp" "$f"
+    else
+      rm -f "$_tmp"
+    fi
+  done
+done
+
 # ---------- 品質ゲート: validate → build ----------
 echo "== gate: validate:articles =="
 if ! run_to_log "$STEP_TIMEOUT" "$RUNDIR/validate.log" npm run --silent validate:articles; then

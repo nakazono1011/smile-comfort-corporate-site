@@ -59,4 +59,5 @@
 - 90 点未満でも MDX は削除せず content ディレクトリに残す（退避はシェルが manifest を見て行う）。
 - 3 周ループで 90 点未達なら諦めて `passed=false` で記録（スキルの Gotcha どおり、無限ループ禁止）。
 - 生成対象は与えられたトピックのみ。勝手にトピックを追加・変更しない。
+- **本文・脚注の URL を山括弧 `<...>` で囲まない**。`<https://example.com>` は MDX が JSX タグ開始と誤認して build が落ち、記事が hold される。裸の `https://example.com`（または `[表示文字](https://example.com)`）で書く。remark-gfm が裸 URL を自動リンク化する。
 - 最後に manifest のパスと「published 候補 N 件 / held N 件」の 1 行サマリだけを出力して終了する。

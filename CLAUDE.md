@@ -19,6 +19,7 @@
 - frontmatter `author` は必ず `smile-comfort`（個人名禁止）。
 - 広告開示はサイト側が記事冒頭（`AffiliateDisclosure`）と末尾（本文の PR 注記）で二重に表示する。
 - ロケール URL: ja = `/media/{slug}`、en = `/en/media/{slug}`。
+- 本文・脚注の URL は山括弧 `<...>` で囲まない。`<https://example.com>`（GFM autolink）は MDX が JSX タグ開始と誤認して `next build` が落ちる。裸の `https://example.com` か `[表示文字](https://example.com)` を使う（remark-gfm が裸 URL を自動リンク化）。
 
 > 旧 `claude.md`（Playwright MCP 画像指示 / `wordCountTarget` / `pillarSlug` / `glossary.json` / 相対画像パス / 語数 1100–1700 等）は現行実装と矛盾するため撤去した。上記スキル群と本ファイルが正。
 
