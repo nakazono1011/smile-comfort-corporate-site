@@ -26,6 +26,14 @@
 # affiliate article pipeline artifacts
 /output/
 
+# daily automation harness — local secrets & run state (scripts/backlog は追跡する)
+/automation/env.sh
+/automation/logs/
+/automation/runs/
+/automation/holding/
+/automation/state/
+/automation/INBOX.md
+
 # misc
 .DS_Store
 *.pem
