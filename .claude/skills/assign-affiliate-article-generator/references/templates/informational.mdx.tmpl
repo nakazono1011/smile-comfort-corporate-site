@@ -1,0 +1,102 @@
+{{!-- intent: informational / category: feature-deep-dive, security, faq (MOFU/TOFU) / 必須ブロック: 定義→仕組み→実務での意味の順・図解1枚以上・誤解されやすい点の補足・関連する意思決定への橋渡し1文 (ref-affiliate-article §4.2 Informational) --}}
+
+---
+title: "{{title}}"
+date: "{{YYYY-MM-DD}}"
+updated: "{{YYYY-MM-DD}}"
+summary: "{{120字以内・主要KW含む}}"
+slug: "{{slug}}"
+lang: "{{ja|en}}"
+tags: ["{{Primary KW}}", "{{Intent}}", "{{Product}}", "{{Tool}}"]
+category: "media"
+cover: "https://img.smile-comfort.com/{{slug}}/cover.webp"
+heroImage: "https://img.smile-comfort.com/{{slug}}/cover.webp"
+ogImage: "https://img.smile-comfort.com/{{slug}}/og.webp"
+product: "{{1password|brightdata|nextengine}}"
+author: "smile-comfort"
+readTime: {{推定分数}}
+related: []
+xPosts: ["{{tweet_id_1}}", "{{tweet_id_2}}"]
+faq:
+  - q: "{{質問1}}"
+    a: "{{回答1}}"
+  - q: "{{質問2}}"
+    a: "{{回答2}}"
+  - q: "{{質問3}}"
+    a: "{{回答3}}"
+---
+
+{{FAQ は上記 frontmatter の faq のみに格納する。本文中に「## よくある質問」等を書かない (二重表示回避)。想定質問例: 用語の定義に関する質問 / よくある誤解に関する質問}}
+
+{{en 版は voice-guide.md §3 (本文 1,800-2,500 words) に従い、H2 構成・必須ブロックを ja と同数・同順で踏襲する}}
+
+{{rel 属性は本文中のどのリンクにも書かない。affiliate.ts の AFFILIATE_LINK_HOSTS に一致する URL はサイト側 (mdx-components.tsx) が rel="sponsored nofollow noopener noreferrer" を自動付与する}}
+
+{{## リード文 (ja 150-200字 / en 80-120 words): {{テーマ}}とは何かを一言で定義する結論ファースト + 読者が抱きがちな疑問・誤解 + この記事で仕組みと実務上の意味まで理解できるという約束}}
+
+{{## 本文 H2-1: {{テーマ}}の定義とは (必須ブロック: 定義)}}
+
+{{ja: 150-300字。専門用語は初出で1行の定義を添える}} [{{brand}}]({{af_url}}) {{のように自然に製品名リンクを埋め込む (AFインラインリンク 1/5、位置: H2-1)}}
+
+{{## 本文 H2-2: 仕組み・内部動作 (必須ブロック: 定義の次に仕組みを説明する順序)}}
+
+{{ja: 400-700字。技術的な仕組みをリストや図解で整理}}
+
+### {{H3-2-1: 仕組みの要素1}}
+
+{{ja: 200-400字}}
+
+### {{H3-2-2: 仕組みの要素2}}
+
+{{ja: 200-400字}}
+
+<Figure
+  src="https://img.smile-comfort.com/{{slug}}/figure-01.webp"
+  alt="{{ja: 仕組みを示す図解の具体的説明 (必須ブロック: 図解1枚以上)}}"
+  caption="{{ja: キャプション}}"
+/>
+
+{{AFインラインリンク 2/5 (位置: 仕組み・機能紹介文中):}} [{{brand}}]({{af_url}})
+
+{{## 本文 H2-3: 実務でどう役立つか (必須ブロック: 実務での意味)}}
+
+{{ja: 400-700字。読者の業務にとっての具体的な実利 (時短・コスト削減・リスク低減) を数字または事例で示す}}
+
+<TweetCard id="{{tweet_id_1}}" />
+
+{{ja: 実務での活用例・体験談を裏付けとして接続する1行 (地の文でtweet本文を繰り返さない)}}
+
+<InlineCTA product="{{product}}" intent="primary" />
+{{配置: 本文30〜50%地点。H2-3の直後 (ref-affiliate-article §7 CTA基準表)}}
+
+{{## 本文 H2-4: 誤解されやすい点の補足 (必須ブロック)}}
+
+{{ja: 300-500字。読者が持ちがちな誤解を1〜3個挙げ、正しい理解を提示 (myth-busting形式)}}
+
+- {{誤解1}} → {{実際は}}
+- {{誤解2}} → {{実際は}}
+
+{{AFインラインリンク 3/5 (位置: 誤解を正す説明文中):}} [{{brand}}]({{af_url}})
+
+{{## 本文 H2-5 (BD/NEのみ・関連成立時のみ): 弊社の運用知見}}
+{{条件分岐: product が brightdata または nextengine の場合のみこの H2 を書く。1password の記事ではこの H2 ブロックを丸ごと省略し、H2-4 の直後に H2-6 (まとめ) へ進む。1password は inline CTA を primary 1個のみとし、support/self-product は使わない (ref-affiliate-article §7 product別CTA基準表)}}
+
+{{ja: 200-400字。事実ベース1文 (ref-affiliate-article §11 の言及テンプレートを流用)。自社プロダクトの宣伝を主目的にしない}}
+
+{{AFインラインリンク 4/5 (位置: 弊社知見の説明文中):}} [{{brand}}]({{af_url}})
+
+<InlineCTA product="{{product}}" intent="support" />
+
+<InlineCTA intent="self-product" ownProduct="{{trabell|catamap}}" />
+
+{{## 本文 H2-6: まとめ (必須ブロック: 関連する意思決定への橋渡し1文を含める)}}
+
+{{ja: 150-300字。要点の再確認に加え、「導入を検討するなら料金比較記事へ」のような次の意思決定段階への橋渡しを1文入れる}}
+
+{{AFインラインリンク 5/5 (位置: まとめ冒頭の製品名):}} [{{brand}}]({{af_url}})
+
+---
+
+> ※情報は {{YYYY-MM-DD}} 時点の内容です。最新情報は公式サイトをご確認ください。
+
+> ※本記事には PR を含みます。

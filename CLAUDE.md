@@ -1,289 +1,42 @@
-# claude.md
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# 目的
-
-# トピッククラスター・スプレッドシートの各行を
-
-# Next.js 15 メディアセクション用の公開準備完了 MDX 記事に変換する方法を Claude\*に説明する
-
-# CLAUDE を呼び出す際
-
-# 1. スプレッドシートの 1 行（またはカスタムプロンプト）+ ロケール（ja / en）を提供
-
-# 2. Claude がハウススタイルを理解できるよう、この claude.md ファイルを添付
-
-# 3. Claude は .mdx ファイルの内容のみを返答すること（説明なし）
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# 1. ファイル・フォルダルール
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# • 出力ファイルパス …… /lib/content/{locale}/media/{slug}.mdx
-
-# • ファイル名は ‹slug› カラムと完全に一致させること
-
-# • 画像: /public/images/{slug}/{image-name}.webp (Claude ⇒ Playwright MCP)
-
-# • MDX 内で相対画像パスを使用: ![alt](/images/{slug}/{image-name}.webp)
-
-# • ロケール:
-
-# ja → デフォルトサイトルート → URL = /media/{slug}
-
-# en → サブディレクトリ → URL = /en/media/{slug}
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# 2. フロントマターテンプレート
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# (Claude は全フィールドを埋めること。順序を保持)
-
-#
-
-# ---
-
-# title: "<JP または EN タイトル>"
-
-# date: "YYYY-MM-DD"
-
-# summary: "<120 文字以内 – 目を引くブラーブ>"
-
-# slug: "<slug>"
-
-# lang: "<ja | en>"
-
-# tags: ["<Primary Keyword JP/EN>", "<Intent>", "<Product>", "<Tool>"]
-
-# cover: "/images/<slug>/cover.webp"
-
-# wordCountTarget: <pillar ? 1700 : 1100>
-
-# pillarSlug: "<parent pillar slug>" # pillar 自体の場合は空
-
-# ---
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# 3. 記事レイアウト (Claude はこのアウトラインに従う)
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# ## <H1 はタイトルから自動レンダリング>
-
-#
-
-# ### 1. リードイン (150-200 語)
-
-# • フック + ユーザーの悩み・課題 + 約束
-
-#
-
-# ### 2. 目次 <!--800語未満の場合は省略-->
-
-# <!-- mdx TOC プラグインが見出しを拾う -->
-
-#
-
-# ### 3. 本文セクション
-
-# • 3-7 個の H2 ブロック
-
-# • 各 H2 → 2-4 個の H3 サブポイント
-
-# • 可読性向上のため、順序付きリストや順序なしリストを使用
-
-# • 記事本文内の適切な位置に関連性の高い画像を Web 検索で入手してローカルに保存した画像 URL を挿入
-
-#
-
-# ### 4. 実践例またはミニケーススタディ
-
-# • CLI、スクリーンショット、KPI グラフィックなど
-
-#
-
-# ### 5. FAQ (3-5 問答)
-
-#
-
-# ### 6. 結論と CTA
-
-# • CTA = "無料 30 分相談" OR "Try Bright Data free" など（製品に合わせる）
-
-#
-
-# ### 7. 脚注 (Markdown 脚注記法)
-
-# [^1]: 公式ドキュメント URL
-
-# [^2]: 業界レポート URL
-
-#
-
-# > 内部リンク
-
-# > — 導入部で親 pillar を 1 度言及（"詳しくは〈link〉を参照"）
-
-# > — 関連する場合、2 つのシブリングクラスター記事にリンク (/media/<slug> or /en/...)
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# 4. PLAYWRIGHT MCP 画像指示
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# • Claude は _最低 2 つ_ の画像を埋め込むこと:
-
-# 1. cover.webp → ヒーローバナー (1200×630 max)
-
-# 2. 1 つ以上のインラインチャート / スクリーンショット
-
-# • 各画像に以下の MDX 指示を使用:
-
-#
-
-# <PlaywrightMCP>
-
-# url: "https://<target-page>"
-
-# selector: "<css または xpath または viewport>"
-
-# saveAs: "01-pricing-table.webp"
-
-# width: 1200
-
-# height: 630
-
-# alt: "Bright Data official pricing table 2025"
-
-# caption: "Bright Data pricing as of 2025-07"
-
-# </PlaywrightMCP>
-
-#
-
-# • Claude は記事本文内で ‹saveAs› を参照すること
-
-# ![Bright Data pricing table](/images/<slug>/01-pricing-table.webp)
-
-#
-
-# • ライブスクリーンショットが不可能な場合、Claude は
-
-# remark 対応のダイアグラムブロック（mermaid）を画像の **代わりに** 生成する
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# 5. スタイルガイド (EN & JA)
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# • トーン: 権威的でありながら親しみやすく、無駄なし、能動態
-
-# • コードブロック: 言語指定の fenced triple back-ticks (bash, python, etc.)
-
-# • 日本語では全角句読点を使用; 英語では半角を使用
-
-# • 固有名詞を一貫して翻訳（提供されている場合は /glossary.json を参照）
-
-# • 公式ドキュメント、学術論文、ISO 仕様を脚注付きで引用
-
-# • 受動的な「と思われる」を避ける。データで断言するか出典を明記
-
-#
-
-# SEO オンページ:
-
-# • 主要キーワードが H1、最初の 100 語、1 つのサブ見出し、
-
-# ファイル名、カバー画像の alt text に出現
-
-# • メタディスクリプションは自動的に summary を使用
-
-#
-
-# アクセシビリティ:
-
-# • 全画像に意味のある alt が必要
-
-# • セマンティックな見出し階層を使用（上に H3 がない場合は H4 を使用しない）
-
-#
-
-# 文字数:
-
-# • Pillar → 1600-2000 語 (wordCountTarget 1700)
-
-# • Cluster → 1500-2000 語 (wordCountTarget 1100)
-
-#
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# 6. CLAUDE のプロンプト方法 (例)
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# 「以下の行で記事を書いて。locale は ja。claude.md に従え」
-
-#
-
-# Bright Data コスト最適化テクニック, Cost Optimization Tips for Bright Data, Bright Data コスト, bright data cost optimization, Low, How-to, cost-optimization-tips-for-bright-data
-
-#
-
-# Claude の返答 → **ONLY** 結果として生成される .mdx ファイルの内容
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# 7. 禁止事項
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# ✗ 外部説明なし、「Here is your file」前置きなし
-
-# ✗ 生のスクリーンショットバイナリなし—Playwright MCP 指示のみ
-
-# ✗ フロントマター形式を破らない
-
-# ✗ 非 HTTPS ソースへのリンクなし
-
-# ✗ ビジネス層もターゲットにするため記事内のコード解説は極力しない
-
-#
-
-# ─────────────────────────────────────────────────────────────────────────────
-
-# claude.md 終了
-
-# ─────────────────────────────────────────────────────────────────────────────
+# CLAUDE.md
 
 このファイルは、Claude Code (claude.ai/code) がこのリポジトリで作業する際のガイダンスを提供します。
 
-## プロジェクト概要
+## 記事生成パイプライン（唯一の正）
 
-合同会社スマイルコンフォートのバイリンガルコーポレートサイト（日本語・英語対応）で、Next.js 15、React 19、TypeScript で構築されています。会社紹介とオウンドメディアによるアフィリエイト収益化・案件獲得を目的としています。MDX ベースのコンテンツ管理システムを採用。
+メディア記事（`src/lib/content/{ja,en}/media/*.mdx`）の生成・改善は、`.claude/skills/` 配下のスキル群が唯一の正とする。手書き・アドホックなテンプレートやスプレッドシート手順は使わない。
+
+- 起点: `run-affiliate-article`（X検索 → ja/en MDX 生成 → 評価ループ → 画像生成 → R2 アップロード）
+- 生成: `assign-affiliate-article-generator` / 採点: `assign-affiliate-article-evaluator`
+- 規範: `ref-affiliate-article`（編集方針・採点ルーブリック・ブランドガイド・MECE グリッド `subtopics.json`）
+
+### 実装との整合ルール（過去の齟齬を踏まえた必須事項）
+
+- 画像は Cloudflare R2 の**絶対 URL**（`https://img.smile-comfort.com/<slug>/…`）。`/public/images/` の相対パスは使わない。
+- MDX で使えるコンポーネントは `src/components/mdx/mdx-components.tsx` に定義されたものだけ（`InlineCTA` / `Figure` / `Callout` / `TweetCard` / `ClientTweetCard` / `FAQAccordion` / `Citation`）。`PlaywrightMCP` 等の存在しないコンポーネントは書かない。
+- FAQ は frontmatter `faq:`（`{q, a}[]`）に格納する（本文には書かない）。`FAQAccordion` と FAQPage JSON-LD は frontmatter を参照する。
+- アフィリエイトリンクの `rel="sponsored nofollow …"` はサイト側（`mdx-components.tsx`）が AF ホスト判定で自動付与する。MDX に rel 属性は書かない。
+- frontmatter `author` は必ず `smile-comfort`（個人名禁止）。
+- 広告開示はサイト側が記事冒頭（`AffiliateDisclosure`）と末尾（本文の PR 注記）で二重に表示する。
+- ロケール URL: ja = `/media/{slug}`、en = `/en/media/{slug}`。
+
+> 旧 `claude.md`（Playwright MCP 画像指示 / `wordCountTarget` / `pillarSlug` / `glossary.json` / 相対画像パス / 語数 1100–1700 等）は現行実装と矛盾するため撤去した。上記スキル群と本ファイルが正。
 
 ## 開発コマンド
 
 ```bash
-npm run dev          # 開発サーバー起動 (http://localhost:3000)
-npm run build        # 本番用ビルド（サイトマップ自動生成含む）
-npm run start        # 本番サーバー起動
-npm run lint         # ESLint実行
+npm run dev              # 開発サーバー起動 (http://localhost:3000)
+npm run build            # 本番用ビルド
+npm run postbuild        # サイトマップ + llms.txt 生成（build 後に自動実行）
+npm run start            # 本番サーバー起動
+npm run lint             # ESLint実行
 ```
 
 ## アーキテクチャ
 
 ### App Router 構造
 
-- Next.js 15 App Router を使用したバイリンガルルーティング
+- Next.js App Router を使用したバイリンガルルーティング
 - 日本語（デフォルト）: `/` ルート
 - 英語: `/en/` ルート
 - メディア・ブログコンテンツ: `/media/` (ja) および `/en/media/` (en)
@@ -291,25 +44,25 @@ npm run lint         # ESLint実行
 ### 主要ディレクトリ
 
 - `src/app/` - App Router ページとレイアウト
-- `src/components/` - セクション/ui/site に分類された React コンポーネント
-- `src/lib/content/` - MDX コンテンツファイル (ja/media/, en/media/)
+- `src/components/` - セクション/ui/site/mdx/seo に分類された React コンポーネント
+- `src/lib/content/` - MDX コンテンツファイル (ja/media/, en/media/ ほかカテゴリ)
 - `src/lib/mdx.ts` - コンテンツ管理ユーティリティ
-- `src/config/` - アプリケーション設定
+- `src/config/` - アプリケーション設定（`affiliate.ts` / `company.ts` / `authors.ts`）
 - `src/i18n/` - next-intl による国際化設定
 
 ### 技術スタック
 
-- **フレームワーク**: Next.js 15 with App Router, React 19, TypeScript
+- **フレームワーク**: Next.js App Router, React 19, TypeScript
 - **スタイリング**: Tailwind CSS（カスタムデザインシステム）, Shadcn UI コンポーネント
-- **コンテンツ**: MDX with gray-matter (frontmatter 解析)
+- **コンテンツ**: MDX (next-mdx-remote / compileMDX) + gray-matter (frontmatter 解析), remark-gfm
 - **多言語対応**: next-intl
 - **フォーム**: React Hook Form + Zod バリデーション
 - **メール**: Resend サービス連携
-- **SEO**: next-sitemap（バイリンガル hreflang サポート）
+- **SEO**: next-sitemap（バイリンガル hreflang サポート）, JSON-LD (Article / FAQPage / Organization)
 
 ## コンテンツ管理
 
-MDX ファイルは `src/lib/content/{lang}/media/` に保存され、以下の frontmatter 構造を持ちます：
+MDX ファイルは `src/lib/content/{lang}/media/` に保存される。frontmatter の型は `src/lib/mdx.ts` の `PostMeta` interface が唯一の正：
 
 ```typescript
 interface PostMeta {
@@ -319,14 +72,26 @@ interface PostMeta {
   slug: string;
   lang: "ja" | "en";
   tags?: string[];
+  category?: string;
+  cover?: string;
+  updated?: string;
+  readTime?: number;
+  author?: string;
+  ogImage?: string;
+  heroImage?: string;
+  product?: "1password" | "brightdata" | "nextengine";
+  featured?: boolean;
+  related?: string[];
+  xPosts?: string[];
+  faq?: { q: string; a: string }[];
 }
 ```
 
-コンテンツ操作には `src/lib/mdx.ts` の `getPostMeta()` と `getPost()` を使用してください。
+コンテンツ操作には `src/lib/mdx.ts` の `getPostMeta()` と `getPost()`、FAQPage 用に `resolveFaqs()` を使う。
 
 ## コーディング規約
 
-`.cursorrules` のガイドラインに従ってください：
+`.cursorrules` のガイドラインに従う：
 
 - TypeScript 優先、types より interface を使用
 - 関数型プログラミングパターン、クラスは避ける
@@ -334,14 +99,14 @@ interface PostMeta {
 - Shadcn UI と Tailwind を使用したスタイリング
 - モバイルファーストなレスポンシブデザイン
 
-注意：next-safe-action と nuqs の設定は完了していますが、まだ実装されていません。
+注意：next-safe-action と nuqs の設定は完了しているが、まだ実装されていない。
 
 ## 設定ファイル
 
-- `next.config.ts` - MDX と i18n サポートを含む Next.js 設定
+- `next.config.mjs` - MDX と i18n サポートを含む Next.js 設定（画像は `img.smile-comfort.com` のみ許可）
 - `tailwind.config.ts` - カスタムカラーパレットとデザイントークン
 - `components.json` - Shadcn UI 設定
-- `next-sitemap.config.js` - バイリンガル対応 SEO サイトマップ生成
+- `next-sitemap.config.js` - バイリンガル対応 SEO サイトマップ生成（`lastmod` は記事の `updated||date` を反映）
 
 ## バイリンガル対応
 
@@ -352,7 +117,7 @@ interface PostMeta {
 
 ## ビジネス目標
 
-このサイトは以下の目的で運営されています：
+このサイトは以下の目的で運営されている：
 
 - 合同会社スマイルコンフォートの会社紹介
 - オウンドメディアによるアフィリエイト収益化
@@ -362,25 +127,15 @@ interface PostMeta {
 
 ### トピッククラスター構造
 
-3 つの主要 Pillar ページを中心としたクラスター戦略：
+3 つの主要クラスターを軸にした戦略（詳細な MECE グリッドは `.claude/skills/ref-affiliate-article/subtopics.json`）：
 
-1. **プロキシ＆Web スクレイピング**
-
-   - Bright Data 紹介とアフィリエイト収益化
-   - 30 記事のクラスター構成（料金比較、Python 実装例、法的問題等）
-
-2. **EC 一元管理ツール**
-
-   - ネクストエンジン中心の導入・運用解説
-   - 30 記事のクラスター構成（API 連携、在庫管理、自動化等）
-
-3. **パスワード管理ツール**
-   - 1Password 推奨の比較・選び方ガイド
-   - 30 記事のクラスター構成（料金比較、セキュリティ解説、移行手順等）
+1. **プロキシ＆Web スクレイピング** — Bright Data のアフィリエイト収益化
+2. **EC 一元管理ツール** — ネクストエンジン中心の導入・運用解説
+3. **パスワード管理ツール** — 1Password 推奨の比較・選び方ガイド
 
 ### キーワード戦略
 
-- 1 記事=1 Primary KW + 2-3 関連語
+- 1 記事 = 1 Primary KW + 2-3 関連語
 - 日本語：カタカナ/英字揺れ両方対応
 - 英語：US 英語統一、メタタグ EN-US 指定
 - 検索ボリュームより購入意図を優先

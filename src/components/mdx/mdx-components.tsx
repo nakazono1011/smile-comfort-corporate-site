@@ -9,6 +9,7 @@ import { InlineCTA } from "@/components/ui/InlineCTA";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { Figure } from "@/components/ui/Figure";
 import { Callout } from "@/components/ui/Callout";
+import { isAffiliateUrl } from "@/config/affiliate";
 import { uniqueSlug } from "@/lib/slugify";
 
 export function createMdxComponents(
@@ -129,11 +130,17 @@ export function createMdxComponents(
     a: ({ children, href, ...props }) => {
       if (!href) return <a {...props}>{children}</a>;
       const isExternal = typeof href === "string" && /^https?:\/\//.test(href);
+      const isAffiliate = isExternal && isAffiliateUrl(href);
+      const rel = isAffiliate
+        ? "sponsored nofollow noopener noreferrer"
+        : isExternal
+          ? "noopener noreferrer"
+          : undefined;
       return (
         <a
           href={href}
           target={isExternal ? "_blank" : undefined}
-          rel={isExternal ? "noopener noreferrer" : undefined}
+          rel={rel}
           className="text-brand-green underline underline-offset-4 hover:text-brand-deep transition-colors"
           {...props}
         >

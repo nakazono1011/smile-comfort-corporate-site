@@ -1,0 +1,116 @@
+{{!-- intent: howto / category: setup, troubleshooting (MOFU) / 必須ブロック: 前提条件・番号付き手順チェックリスト・つまずき早見表・ロールバック/検証方法 (ref-affiliate-article §4.2 How-to) --}}
+
+---
+title: "{{title}}"
+date: "{{YYYY-MM-DD}}"
+updated: "{{YYYY-MM-DD}}"
+summary: "{{120字以内・主要KW含む}}"
+slug: "{{slug}}"
+lang: "{{ja|en}}"
+tags: ["{{Primary KW}}", "{{Intent}}", "{{Product}}", "{{Tool}}"]
+category: "media"
+cover: "https://img.smile-comfort.com/{{slug}}/cover.webp"
+heroImage: "https://img.smile-comfort.com/{{slug}}/cover.webp"
+ogImage: "https://img.smile-comfort.com/{{slug}}/og.webp"
+product: "{{1password|brightdata|nextengine}}"
+author: "smile-comfort"
+readTime: {{推定分数}}
+related: []
+xPosts: ["{{tweet_id_1}}", "{{tweet_id_2}}"]
+faq:
+  - q: "{{質問1}}"
+    a: "{{回答1}}"
+  - q: "{{質問2}}"
+    a: "{{回答2}}"
+  - q: "{{質問3}}"
+    a: "{{回答3}}"
+---
+
+{{FAQ は上記 frontmatter の faq のみに格納する。本文中に「## よくある質問」等を書かない (二重表示回避)。想定質問例: エラーが出た場合の対処 / 設定を間違えたら元に戻せるか / 所要時間}}
+
+{{en 版は voice-guide.md §3 (本文 1,800-2,500 words) に従い、H2 構成・必須ブロックを ja と同数・同順で踏襲する}}
+
+{{rel 属性は本文中のどのリンクにも書かない。affiliate.ts の AFFILIATE_LINK_HOSTS に一致する URL はサイト側 (mdx-components.tsx) が rel="sponsored nofollow noopener noreferrer" を自動付与する}}
+
+{{## リード文 (ja 150-200字 / en 80-120 words): 「{{作業名}}は何を準備すればどれくらいで終わるか」に結論ファーストで答える + つまずきやすいという悩み + 早見表とロールバック手順で安全に進められるという約束}}
+
+{{## 本文 H2-1: 前提条件 (必須ブロック)}}
+
+{{ja: 150-300字。作業に必要なアカウント・権限・環境・事前準備を箇条書きで明示}}
+
+- {{前提条件1: 例 アカウントのプラン要件}}
+- {{前提条件2: 例 必要な権限・ロール}}
+- {{前提条件3: 例 事前に用意するファイル/情報}}
+
+[{{brand}}]({{af_url}}) {{のように自然に製品名リンクを埋め込む (AFインラインリンク 1/5、位置: H2-1)}}
+
+{{## 本文 H2-2: 番号付き手順チェックリスト (必須ブロック)}}
+
+{{ja: 400-700字。実際の操作順を番号付きで整理。コードやコマンドが必要な場合は言語指定のfenced code blockを使う}}
+
+1. {{Step 1}}
+2. {{Step 2}}
+3. {{Step 3}}
+4. {{Step 4}}
+
+```{{bash|python 等。不要なら削除}}
+{{必要であれば実行コマンド例}}
+```
+
+<Figure
+  src="https://img.smile-comfort.com/{{slug}}/figure-01.webp"
+  alt="{{ja: 手順のフロー/画面を示す図解の具体的説明}}"
+  caption="{{ja: キャプション}}"
+/>
+
+{{AFインラインリンク 2/5 (位置: 手順内の機能紹介箇所):}} [{{brand}}]({{af_url}})
+
+{{## 本文 H2-3: つまずきポイントと対処の早見表 (必須ブロック)}}
+
+{{ja: 300-500字。よくあるエラー・詰まりどころと対処法を表形式で整理}}
+
+| 症状・エラー | 原因 | 対処法 |
+|---|---|---|
+| {{症状1}} | {{原因1}} | {{対処1}} |
+| {{症状2}} | {{原因2}} | {{対処2}} |
+| {{症状3}} | {{原因3}} | {{対処3}} |
+
+<TweetCard id="{{tweet_id_1}}" />
+
+{{ja: 実際のトラブル体験談を裏付けとして接続する1行 (地の文でtweet本文を繰り返さない)}}
+
+<InlineCTA product="{{product}}" intent="primary" />
+{{配置: 本文30〜50%地点。H2-3の直後 (ref-affiliate-article §7 CTA基準表)}}
+
+{{## 本文 H2-4: ロールバック・やり直し手順 または 検証方法 (必須ブロック)}}
+
+{{ja: 300-500字。「正しく設定できたか確認する方法」または「うまくいかない場合に元に戻す手順」を具体的に}}
+
+<Callout type="warning" title="{{ロールバック時の注意}}">
+{{ja: 元に戻す際に注意すべき点 (データ消失リスク・依存関係等) を注意喚起}}
+</Callout>
+
+{{AFインラインリンク 3/5 (位置: 検証方法の説明文中):}} [{{brand}}]({{af_url}})
+
+{{## 本文 H2-5 (BD/NEのみ・関連成立時のみ): 弊社の導入・運用支援実績}}
+{{条件分岐: product が brightdata または nextengine の場合のみこの H2 を書く。1password の記事ではこの H2 ブロックを丸ごと省略し、H2-4 の直後に H2-6 (まとめ) へ進む。1password は inline CTA を primary 1個のみとし、support/self-product は使わない (ref-affiliate-article §7 product別CTA基準表)}}
+
+{{ja: 200-400字。事実ベース1文 (ref-affiliate-article §11 の言及テンプレートを流用)。自社プロダクトの宣伝を主目的にしない}}
+
+{{AFインラインリンク 4/5 (位置: 弊社実績の説明文中):}} [{{brand}}]({{af_url}})
+
+<InlineCTA product="{{product}}" intent="support" />
+
+<InlineCTA intent="self-product" ownProduct="{{trabell|catamap}}" />
+
+{{## 本文 H2-6: まとめ}}
+
+{{ja: 150-300字。手順の要点を再度整理 + 次の一手 (困ったら相談する等)}}
+
+{{AFインラインリンク 5/5 (位置: まとめ冒頭の製品名):}} [{{brand}}]({{af_url}})
+
+---
+
+> ※情報は {{YYYY-MM-DD}} 時点の内容です。最新情報は公式サイトをご確認ください。
+
+> ※本記事には PR を含みます。
