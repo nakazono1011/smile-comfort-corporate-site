@@ -1,0 +1,53 @@
+# topic-backlog.tsv — 日次生成の候補プール
+# 形式: <product>\t<topic>\t<slug_hint>\t<priority>   (TAB 区切り。# 行と空行は無視)
+#   product : 1password | brightdata | nextengine  (run-affiliate-article の引数キー)
+#   topic   : run に渡す簡潔な日本語トピック
+#   slug_hint: 想定 slug (既存 slug / 台帳 published・held との突合キー)
+#   priority: 1=最優先 〜 3。pick-topics は「製品バランス優先 → priority 昇順」で選ぶ
+#
+# 消化判定: slug_hint が src/lib/content に存在、または state/ledger.tsv で published/held のものは選ばれない。
+# 補充: 残りが少なくなったらこのファイルに追記するか、run-affiliate-article の MECE 検証で新セルを足す。
+# 生成元: affiliate-topic-backlog ワークフロー (2026-07-05, 既存51記事・subtopics.json と MECE 照合済み)。
+#
+1password	Chromeパスワードから移行	1password-from-chrome-passwords	1
+1password	Googleパスワード管理と比較	1password-vs-google-password-manager	1
+1password	SCIM自動プロビジョニング	1password-scim-bridge-setup	1
+brightdata	従量課金と月額の選び方	bright-data-pay-as-you-go-vs-subscription	1
+brightdata	自前プロキシ構築との比較	bright-data-vs-self-hosted-proxy	1
+brightdata	Cloudflare回避の実践設定	bright-data-cloudflare-bypass	1
+nextengine	楽天連携の設定手順	next-engine-rakuten-integration	1
+nextengine	Amazon連携と在庫同期	next-engine-amazon-integration	1
+nextengine	Yahoo連携の設定	next-engine-yahoo-shopping-integration	1
+nextengine	Shopify連携の設定	next-engine-shopify-integration	1
+nextengine	在庫自動連動の設定	next-engine-inventory-automation	1
+nextengine	CROSS MALLとの比較	next-engine-vs-crossmall	1
+nextengine	TEMPOSTARとの比較	next-engine-vs-tempostar	1
+nextengine	アパレルの在庫一元化事例	next-engine-case-apparel	1
+1password	CLIでシークレット操作	1password-cli-guide	2
+1password	漏洩パスワードの監視	1password-watchtower-guide	2
+1password	TeamsとBusinessの違い	1password-teams-vs-business	2
+1password	家族共有の設定と運用	1password-family-sharing-guide	2
+1password	iCloudキーチェーンから移行	1password-from-keychain-migration	2
+1password	2段階認証コードの管理	1password-totp-2fa-guide	2
+1password	マスターパスワード復旧	1password-master-password-recovery	2
+brightdata	競合在庫のモニタリング構築	bright-data-inventory-monitoring	2
+brightdata	サイト全体クロールの自動化	bright-data-crawl-api	2
+brightdata	事前構築スクレイパーの使い方	bright-data-web-scraper-api	2
+brightdata	ScraperAPIとの徹底比較	bright-data-vs-scraperapi	2
+brightdata	利用審査(KYC)を通す手順	bright-data-kyc-approval-guide	2
+brightdata	不動産物件データの収集	bright-data-real-estate-data	2
+brightdata	航空券・宿泊料金の収集	bright-data-travel-fare-scraping	2
+brightdata	求人データの一括収集	bright-data-job-listings-scraping	2
+brightdata	日本のスクレイピング法務	bright-data-scraping-legal-japan	2
+nextengine	BASE連携の始め方	next-engine-base-integration	2
+nextengine	メルカリShops連携方法	next-engine-mercari-shops-integration	2
+nextengine	Excel在庫管理からの移行	next-engine-from-excel-migration	2
+nextengine	一元管理ツール徹底比較	next-engine-tool-comparison	2
+nextengine	受注同期エラーの対処	next-engine-order-sync-issue	2
+nextengine	在庫ズレの原因と対処	next-engine-inventory-mismatch	2
+nextengine	CSV商品一括登録	next-engine-csv-bulk-registration	2
+nextengine	食品ECの在庫管理事例	next-engine-case-food	2
+1password	中小企業のパスワード運用	1password-smb-security-operations	3
+nextengine	au PAYマーケット連携	next-engine-au-pay-market-integration	3
+nextengine	家具・大型商品の運用	next-engine-case-furniture	3
+nextengine	権限設計とIP制限	next-engine-access-control	3

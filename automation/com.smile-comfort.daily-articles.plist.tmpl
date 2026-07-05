@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.smile-comfort.daily-articles</string>
+
+  <!-- caffeinate -i で idle sleep を抑止しつつ安定ランチャを実行 -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/caffeinate</string>
+    <string>-i</string>
+    <string>/bin/bash</string>
+    <string>__LAUNCHER__</string>
+  </array>
+
+  <!-- 毎日 __HOUR__:__MIN__ (ローカル時刻) に起動。スリープ中の時刻は復帰後に実行される -->
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key><integer>__HOUR__</integer>
+    <key>Minute</key><integer>__MIN__</integer>
+  </dict>
+
+  <key>StandardOutPath</key>
+  <string>__BASE__/launchd.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>__BASE__/launchd.err.log</string>
+
+  <key>RunAtLoad</key>
+  <false/>
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>LowPriorityIO</key>
+  <true/>
+</dict>
+</plist>
