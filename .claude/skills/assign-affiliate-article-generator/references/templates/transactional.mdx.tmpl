@@ -1,0 +1,120 @@
+{{!-- intent: transactional / category: pricing (BOFU) / 必須ブロック: 料金体系1枚表・利用量別料金シミュレーション・隠れコスト明示・向いている人/向いていない人・不安解消2つ (ref-affiliate-article §4.2 Transactional, §3.11 cv_readiness) --}}
+
+---
+title: "{{title}}"
+date: "{{YYYY-MM-DD}}"
+updated: "{{YYYY-MM-DD}}"
+summary: "{{120字以内・主要KW含む}}"
+slug: "{{slug}}"
+lang: "{{ja|en}}"
+tags: ["{{Primary KW}}", "{{Intent}}", "{{Product}}", "{{Tool}}"]
+category: "media"
+cover: "https://img.smile-comfort.com/{{slug}}/cover.webp"
+heroImage: "https://img.smile-comfort.com/{{slug}}/cover.webp"
+ogImage: "https://img.smile-comfort.com/{{slug}}/og.webp"
+product: "{{1password|brightdata|nextengine}}"
+author: "smile-comfort"
+readTime: {{推定分数}}
+related: []
+xPosts: ["{{tweet_id_1}}", "{{tweet_id_2}}"]
+faq:
+  - q: "{{質問1}}"
+    a: "{{回答1}}"
+  - q: "{{質問2}}"
+    a: "{{回答2}}"
+  - q: "{{質問3}}"
+    a: "{{回答3}}"
+---
+
+{{FAQ は上記 frontmatter の faq のみに格納する。本文中に「## よくある質問」等を書かない (二重表示回避)。想定質問例: 料金プランの違い / 無料トライアルの有無 / 解約方法 / 追加費用}}
+
+{{en 版は voice-guide.md §3 (本文 1,800-2,500 words) に従い、H2 構成・必須ブロックを ja と同数・同順で踏襲する}}
+
+{{rel 属性は本文中のどのリンクにも書かない。affiliate.ts の AFFILIATE_LINK_HOSTS に一致する URL はサイト側 (mdx-components.tsx) が rel="sponsored nofollow noopener noreferrer" を自動付与する}}
+
+{{## リード文 (ja 150-200字 / en 80-120 words): 「結局{{product}}はいくらかかるのか」に即答する結論ファースト + 料金体系が複雑で総額が読めないという悩み + このシミュレーションで判断できるという約束}}
+
+{{## 本文 H2-1: {{product}}の料金体系とは (全体像)}}
+
+{{ja: 150-300字。プラン階層の全体像を1段落で説明。}} [{{brand}}]({{af_url}}) {{のように概要文中の製品名にAFインラインリンクを自然に埋め込む (AFインラインリンク 1/5、位置: H2-1 リードイン)}}
+
+### {{H3-1-1: 料金プラン比較表 (必須ブロック: 料金体系を1枚で示す表)}}
+
+{{以下は Markdown テーブルの骨組み。プラン名・月額 (または年額)・主要機能/上限を1枚で整理し、表の直後に「どの規模の読者がどのプラン相当か」を1文で補足する}}
+
+| {{プラン名}} | {{月額/年額}} | {{主要機能・上限}} |
+|---|---|---|
+| {{プランA}} | {{価格}} | {{内容}} |
+| {{プランB}} | {{価格}} | {{内容}} |
+| {{プランC}} | {{価格}} | {{内容}} |
+
+{{## 本文 H2-2: 利用量・受注件数別の料金シミュレーション (必須ブロック)}}
+
+{{ja: 400-700字。読者が自分の利用規模を当てはめて総額を試算できるよう、小規模/中規模/大規模の3パターンで具体的な円 (ja) / USD (en) 換算を示す}}
+
+- {{小規模ケース (例: 月◯件・ユーザー◯人)}}: {{概算月額}}
+- {{中規模ケース}}: {{概算月額}}
+- {{大規模ケース}}: {{概算月額}}
+
+<Figure
+  src="https://img.smile-comfort.com/{{slug}}/figure-01.webp"
+  alt="{{ja: 利用規模別の料金シミュレーションを示す図解の具体的説明}}"
+  caption="{{ja: キャプション}}"
+/>
+
+<TweetCard id="{{tweet_id_1}}" />
+
+{{ja: 直前の tweet を「料金・コスト感」の裏付けとして接続する1行の文脈付け (地の文で tweet 本文を繰り返さない)}}
+
+{{## 本文 H2-3: 隠れコスト・追加費用に注意 (必須ブロック)}}
+
+{{ja: 300-500字。表面上のプラン料金に含まれない追加費用 (従量課金・オプション機能・為替差・最低契約期間・解約手数料等) を列挙}}
+
+{{AFインラインリンク 2/5 (位置: 上位プラン/追加オプションへの言及文中):}} [{{brand}}]({{af_url}}) {{の◯◯プランなら...}}
+
+<Callout type="warning" title="{{見落としやすい費用}}">
+{{ja: 見積もり時に見落としがちな費用項目を1〜2個、具体的に注意喚起}}
+</Callout>
+
+<InlineCTA product="{{product}}" intent="primary" />
+{{配置: 本文30〜50%地点。H2-3の直後 (ref-affiliate-article §7 CTA基準表)}}
+
+{{## 本文 H2-4: {{product}}が向いている人・向いていない人 + 不安解消ポイント (必須ブロック x2)}}
+
+### {{H3-4-1: 向いている人}}
+
+{{ja: 箇条書き2-3点。読者の業務規模・課題別に「向く」条件を具体化}}
+
+### {{H3-4-2: 向いていない人・代替案}}
+
+{{ja: 箇条書き2-3点。向かないケースと代替の選択肢 (別プラン・別製品) を明示}}
+
+{{AFインラインリンク 3/5 (位置: 「向いている人」の説明文中):}} [{{brand}}]({{af_url}})
+
+### {{H3-4-3: 不安解消ポイント (必須ブロック: 不安解消要素を2つ以上。無料期間・解約・データ移行・セキュリティ懸念から選ぶ)}}
+
+- {{不安解消1: 例 無料トライアル/無料プランの有無と条件}}
+- {{不安解消2: 例 解約手順・違約金の有無・返金ポリシー}}
+
+{{## 本文 H2-5 (BD/NEのみ・関連成立時のみ): 弊社の運用実績}}
+{{条件分岐: product が brightdata または nextengine の場合のみこの H2 を書く。1password の記事ではこの H2 ブロックを丸ごと省略し、H2-4 の直後に H2-6 (まとめ) へ進む。1password は inline CTA を primary 1個のみとし、support/self-product は使わない (ref-affiliate-article §7 product別CTA基準表)}}
+
+{{ja: 200-400字。Bright Data → Tra-bell / Next Engine → CataMap の事実ベース1文 (ref-affiliate-article §11 の言及テンプレートを流用)。自社プロダクトの宣伝を主目的にしない}}
+
+{{AFインラインリンク 4/5 (位置: 弊社実績の説明文中):}} [{{brand}}]({{af_url}})
+
+<InlineCTA product="{{product}}" intent="support" />
+
+<InlineCTA intent="self-product" ownProduct="{{trabell|catamap}}" />
+
+{{## 本文 H2-6: まとめ}}
+
+{{ja: 150-300字。「結局いくらかかるか」の結論を再提示 + 次の一手 (無料で試す/相談する) を明確に示す}}
+
+{{AFインラインリンク 5/5 (位置: まとめ冒頭の製品名):}} [{{brand}}]({{af_url}})
+
+---
+
+> ※情報は {{YYYY-MM-DD}} 時点の内容です。最新情報は公式サイトをご確認ください。
+
+> ※本記事には PR を含みます。

@@ -72,3 +72,22 @@ export const AFFILIATE: Record<AffiliateProduct, AffiliateConfig> = {
     },
   },
 };
+
+/**
+ * アフィリエイトリンクのホスト一覧（`AFFILIATE[].url` から導出）。
+ * MDX 本文中のインラインリンクに rel="sponsored nofollow" を自動付与する判定に使う。
+ * 1Password は Business / 乗り換え用の派生リンクも同一ホスト (1password.partnerlinks.io) を共有するため、
+ * ホスト単位の判定で全バリアントを網羅できる。
+ */
+export const AFFILIATE_LINK_HOSTS: readonly string[] = Array.from(
+  new Set(Object.values(AFFILIATE).map((cfg) => new URL(cfg.url).host)),
+);
+
+/** href が計測・rel 付与対象のアフィリエイトリンクか判定する */
+export function isAffiliateUrl(href: string): boolean {
+  try {
+    return AFFILIATE_LINK_HOSTS.includes(new URL(href).host);
+  } catch {
+    return false;
+  }
+}

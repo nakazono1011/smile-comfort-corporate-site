@@ -10,7 +10,14 @@ pair: assign-affiliate-article-generator
 
 # assign-affiliate-article-evaluator
 
-`assign-affiliate-article-generator` が生成した ja/en の MDX 記事を、`ref-affiliate-article` のルーブリックに基づき **9 軸 125 点満点** で採点する evaluator。90 点未満なら修正指示を `feedback.md` に書き出す。MDX/JSON を直接修正しない。修正は generator が担当する。
+`assign-affiliate-article-generator` が生成した ja/en の MDX 記事を、`ref-affiliate-article` のルーブリックに基づき **11 軸 145 点満点** で採点する evaluator。正規化後 90 点未満なら修正指示を `feedback.md` に書き出す。MDX/JSON を直接修正しない。修正は generator が担当する。
+
+**v3 (2026-07) の変更点**:
+- `intent_fit` (weight 10) と `cv_readiness` (weight 10) を新規追加。満点 125 → **145**、`passing_rule = (score / 145) * 100 >= 90`。
+- `intent_fit`: 記事の検索意図タイプ (ref §4.1) の必須ブロック充足 + `serp-brief.json` の論点カバー。`cv_readiness`: 向き不向き・不安解消・意思決定要素・CTA 検討段階整合。
+- `link_health`: **AF リンク (`affiliate.ts` の `AFFILIATE_LINK_HOSTS`) を curl 対象から除外**し、config との文字列一致に置換 (クリック計測を汚さない)。
+- `ja_en_parity`: 直訳一致を要求せず、数値・URL・固有名詞の一致のみ必須 (en の独自構成を許容)。nextengine の ja 単独記事は本軸を満点固定 (N/A)。
+- title / summary の**文字数を機械カウント**して `seo` に反映。
 
 **v2 (2026-05-23) の変更点**:
 - `factual_accuracy` 軸を新規追加 (weight 15、threshold 11)。公式 URL の本文を取得して数値・固有情報を突合する。
@@ -78,37 +85,42 @@ pair: assign-affiliate-article-generator
 
 以下を順に Read:
 
-1. `output_contract.schema` (eval-schema.json) — 7 軸の weight / threshold
+1. `output_contract.schema` (eval-schema.json) — 11 軸の weight / threshold
 2. `output_contract.ref` (ref-affiliate-article SKILL.md) — ルーブリック詳細
 3. `ja_mdx_path`, `en_mdx_path` — 採点対象
 4. `metadata_json_path` — generator メタ
 5. `existing_slugs_path`, `existing_titles_path` — 重複判定用
 6. `x_search_results_path` (オプション) — X 引用妥当性判定用
 
-### 2. 採点 (9 軸)
+### 2. 採点 (11 軸)
 
 `ref-affiliate-article §3` に記載されたルーブリックに従って ja/en の両方を読み、各キーを満点 × weight で採点する。配分:
 
 | key | weight | threshold (合格最低) | 重み根拠 | 採点主体 |
 |---|---|---|---|---|
-| `seo` | 20 | 14 | SEO は最重要 | 親 (Opus) |
+| `seo` | 20 | 14 | SEO は最重要。title/summary 字数も機械カウント | 親 (Opus) |
 | `readability` | 15 | 11 | 読みにくい記事はコンバートしない | 親 (Opus) |
-| `affiliate_fit` | 15 | 11 | 誇張・disclosure 等の規約遵守 | 親 (Opus) |
+| `intent_fit` | 10 | 7 | 検索意図別の必須ブロック + SERP ブリーフ論点カバー | 親 (Opus) |
+| `cv_readiness` | 10 | 7 | 向き不向き・不安解消・意思決定要素・CTA 検討段階整合 | 親 (Opus) |
+| `affiliate_fit` | 15 | 11 | CTA 基準表適合・誇張・disclosure・author 等の規約遵守 | 親 (Opus) |
 | `factual_accuracy` | 15 | 11 | **数値・固有情報の正確性 (公式 URL 突合)。捏造を 1 件でも検出したら 0 点扱い** | **Codex (delegate-codex)** |
 | `x_embed` | 10 | 7 | 一次情報引用としての価値 | 親 (Opus) |
-| `product_pitch` | 15 | 11 | 弊社支援文言の有無も含む | 親 (Opus) |
+| `product_pitch` | 15 | 11 | USP・競合差・弊社支援文言の有無 | 親 (Opus) |
 | `duplication` | 15 | 11 | 既存記事と重複しない | 親 (Opus) |
-| `ja_en_parity` | 10 | 7 | 同時公開記事の整合 | 親 (Opus) |
-| `link_health` | 10 | 8 | リンク切れ・脚注 URL 無効はサイト品質を直接損なう | 親 (Bash, HTTP HEAD) |
+| `ja_en_parity` | 10 | 7 | 数値・URL・固有名詞の一致 (直訳一致は不要。ja 単独記事は N/A 満点) | 親 (Opus) |
+| `link_health` | 10 | 8 | リンク切れ・脚注 URL 無効はサイト品質を直接損なう。**AF リンクは除外** | 親 (Bash, HTTP HEAD) |
 
-**満点は 125**。`quality.overall = (sum / 125) * 100` で正規化、`overall >= 90` で合格 (eval-schema.json の `passing_rule`)。各キーは独立して採点、weight が満点、threshold は「そのキー単独でも合格に近い水準」。
+**満点は 145**。`quality.overall = (sum / 145) * 100` で正規化、`overall >= 90` で合格 (eval-schema.json の `passing_rule`)。各キーは独立して採点、weight が満点、threshold は「そのキー単独でも合格に近い水準」。`intent_fit` / `cv_readiness` の採点基準は ref-affiliate-article §3.10 / §3.11 と §4 を参照。
 
 #### 採点で必ず実施
 
+- **title / summary の文字数を機械カウント** (`seo`): title ja ≤ 40 字目安 / en ≤ 60 char、summary ja ≤ 120 字 / en ≤ 155 char。主要 KW が title 前方にあるか、`slug` に年号が焼き込まれていないか
 - ja の title が既存 titles と 3-gram で何個一致するか機械的に数える (`duplication`)
-- ja/en の H2 個数と意味的整合の比較 (`ja_en_parity`)
+- ja/en の数値・URL・固有名詞の一致確認 (`ja_en_parity`)。**直訳一致・H2 数一致は要求しない**。nextengine の ja 単独記事は本軸を満点固定にして `notes` に `"ja-only (nextengine): parity N/A"`
 - `<TweetCard id="..." />` の数を grep して 1-3 個か確認 (`x_embed`)
-- `<InlineCTA ... />` の数を grep して 2-3 個か確認 (`affiliate_fit`)
+- `<InlineCTA ... />` の数と種別を grep し、**ref §7 の product 別 CTA 基準表**に適合するか確認 (`affiliate_fit`)。同一 intent の重複 (primary 2 個等) は減点
+- **`intent_fit`**: metadata.json の `category` から intent を判定 (ref §4.1) し、その intent の必須ブロック (料金シミュ / 比較決定表 / 手順チェックリスト等、ref §4.2) が本文に存在するか確認。`serp-brief.json` があれば上位見出し論点のカバー率も見る
+- **`cv_readiness`**: 「向いている人／向いていない人」の有無、不安解消要素 (解約・返金・無料期間・日本語対応・データ移行) が 2 つ以上あるか、意思決定を助ける具体要素 (料金シミュ / 比較表 / 導入工数 / ROI 目安) があるかを確認
 - **本文中の AF 製品名インラインリンクの数を grep して 3〜5 個か確認** (`affiliate_fit`)。`product` 別の AF URL マップ:
   - `brightdata` → `https://get.brightdata.com/0cqcj8xp08fo` (単一)
   - `nextengine` → `https://base.next-engine.org/account/?agent_code=MzEzNw` (単一)
@@ -277,15 +289,20 @@ EN="${en_mdx_path}"
 WORKDIR="$(dirname "${output_contract.eval_file}")"
 LINKS_FILE="${WORKDIR}/links-iter${iteration}.txt"
 
-# Markdown [text](url) と <a href="url"> と frontmatter cover/heroImage/ogImage と
-# <Figure src="url" /> / <TweetCard /> 用 oEmbed URL を抽出
+# Markdown [text](url) と frontmatter cover/heroImage/ogImage と <Figure src="url" /> の URL を抽出。
+# ただし AF リンク (affiliate.ts の AFFILIATE_LINK_HOSTS) は curl しない
+# (クリック計測を汚さない / 302 チェーンの動的先で誤検知しないため)。
 {
   grep -oE 'https?://[^)" ]+' "$JA" "$EN" | awk -F: '{ for (i=2;i<=NF;i++) printf "%s%s", $i, (i<NF?":":"\n") }'
-} | sed 's/[).,;:]*$//' | sort -u > "$LINKS_FILE"
+} | sed 's/[).,;:]*$//' \
+  | grep -vE 'get\.brightdata\.com|base\.next-engine\.org|1password\.partnerlinks\.io' \
+  | sort -u > "$LINKS_FILE"
 
 LINK_COUNT="$(wc -l < "$LINKS_FILE")"
-echo "Extracted ${LINK_COUNT} unique URLs"
+echo "Extracted ${LINK_COUNT} unique non-affiliate URLs"
 ```
+
+> **AF リンクの正当性は別途 `affiliate_fit` で検証**する。curl はせず、本文中の AF URL が `affiliate.ts` の正規 URL (`get.brightdata.com/0cqcj8xp08fo` / `base.next-engine.org/account/?agent_code=MzEzNw` / `1password.partnerlinks.io/{sc-link,dobcflhz59kl-d8wpd,6dieu4x28dzi-gp0g2q}`) と文字列一致するかだけを確認する。別 ID・別製品・公式サイト誤爆があれば `affiliate_fit` で減点。
 
 #### b. HEAD 検証 (並列)
 
@@ -374,15 +391,17 @@ eval JSON の breakdown 配下に `link_health` を追加し、別途 `link_chec
     "en_mdx_path": "..."
   },
   "breakdown": {
-    "seo":              { "score": 18, "max": 20, "notes": "..." },
+    "seo":              { "score": 18, "max": 20, "notes": "title 34字/KW前方 OK, summary 118字" },
     "readability":      { "score": 13, "max": 15, "notes": "..." },
-    "affiliate_fit":    { "score": 14, "max": 15, "notes": "..." },
+    "intent_fit":       { "score":  9, "max": 10, "notes": "Transactional: 料金表+シミュ+隠れコスト有。SERP 上位論点 4/5 カバー" },
+    "cv_readiness":     { "score":  8, "max": 10, "notes": "向き不向き有 / 不安解消 2 (無料期間・解約)" },
+    "affiliate_fit":    { "score": 14, "max": 15, "notes": "CTA 基準表適合 (primary1+support1)" },
     "factual_accuracy": { "score": 13, "max": 15, "notes": "verified: 12件 / mismatch: 0 / fabricated: 0。Codex 評価済み" },
     "x_embed":          { "score":  9, "max": 10, "notes": "..." },
     "product_pitch":    { "score": 13, "max": 15, "notes": "..." },
     "duplication":      { "score": 14, "max": 15, "notes": "..." },
-    "ja_en_parity":     { "score":  9, "max": 10, "notes": "..." },
-    "link_health":      { "score":  9, "max": 10, "notes": "broken: 1件 (脚注 [^3])" }
+    "ja_en_parity":     { "score":  9, "max": 10, "notes": "数値/URL 一致。en は独自構成 (許容)" },
+    "link_health":      { "score":  9, "max": 10, "notes": "broken: 1件 (脚注 [^3])。AF リンクは検証除外" }
   },
   "fact_checks": {
     "verified": [
@@ -408,7 +427,7 @@ eval JSON の breakdown 配下に `link_health` を追加し、別途 `link_chec
 }
 ```
 
-`feedback` は合格時 `null`、不合格時は feedback.md の絶対パス。`quality.overall` は `(sum_of_scores / 125) * 100` で算出 (eval-schema.json の `passing_rule`)。`fact_checks.fabricated` が 1 件でもあれば `passed = false` を強制 (overall が 90 を超えても再生成させる)。
+`feedback` は合格時 `null`、不合格時は feedback.md の絶対パス。`quality.overall` は `(sum_of_scores / 145) * 100` で算出 (eval-schema.json の `passing_rule`)。`fact_checks.fabricated` が 1 件でもあれば `passed = false` を強制 (overall が 90 を超えても再生成させる)。
 
 ### 4. フィードバック出力 (90 点未満時のみ)
 
@@ -439,6 +458,8 @@ overall_score: {X}/100
 ## Medium priority
 
 - [product_pitch] 弊社の Next Engine 導入支援文言がない。リード文または H2-2 のどこかに「弊社は Next Engine の導入支援実績があり、初期セットアップから運用設計まで伴走可能です」と 1 文追加
+- [intent_fit] Transactional 記事なのに料金シミュレーションが無い。「受注 500 / 2,000 / 5,000 件時の月額」を表で追加
+- [cv_readiness] 「向いている人／向いていない人」セクションが無い。まとめ手前に H3 で「向いているケース」「別ツールが向くケース (代替名)」を追加。不安解消 (無料期間・解約条件) を FAQ か本文に 2 点
 - ...
 
 ## Low priority

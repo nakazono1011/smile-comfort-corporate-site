@@ -176,3 +176,17 @@ function normalizeFaqAnswer(raw: string): string {
     ? `${stripped.slice(0, FAQ_ANSWER_MAX - 3)}...`
     : stripped;
 }
+
+/**
+ * FAQPage JSON-LD 用の Q/A を解決する。
+ * 生成パイプラインは FAQ を frontmatter `faq`（{q, a}[]）に格納し本文には書かないため、
+ * frontmatter を最優先し、無い場合のみ本文の「よくある質問」セクションから抽出する。
+ */
+export function resolveFaqs(post: PostMeta, content: string): FaqPair[] {
+  if (post.faq && post.faq.length > 0) {
+    return post.faq
+      .filter((f) => f?.q && f?.a)
+      .map((f) => ({ question: f.q.trim(), answer: f.a.trim() }));
+  }
+  return extractFaqsFromMdx(content);
+}

@@ -1,17 +1,21 @@
 {
-  "version": "2",
-  "skill": "assign-affiliate-article-evaluator",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "3",
+  "ref": "ref-affiliate-article",
   "score_field": "quality.overall",
+  "description": "1Password / Bright Data / Next Engine アフィリエイト記事の採点軸定義。generator が満たす目標、evaluator が採点する契約。v3 で cv_readiness / intent_fit を追加（成約力と検索意図適合を独立軸に）。",
   "breakdown_keys": [
-    { "key": "seo",               "label": "SEO・構造 (title/summary/見出し/リンク)",          "threshold": 14, "weight": 20 },
-    { "key": "readability",       "label": "可読性・段落構造",                                  "threshold": 11, "weight": 15 },
-    { "key": "affiliate_fit",     "label": "アフィリエイト適性 (CTA配置・誇張なし・disclosure)", "threshold": 11, "weight": 15 },
-    { "key": "factual_accuracy",  "label": "事実関係・数値の正確性 (公式出典 URL 突合・X 引用実在検証)", "threshold": 11, "weight": 15 },
-    { "key": "x_embed",           "label": "X 埋め込みの妥当性",                                "threshold": 7,  "weight": 10 },
-    { "key": "product_pitch",     "label": "製品訴求の明確さ",                                  "threshold": 11, "weight": 15 },
-    { "key": "duplication",       "label": "既存記事との重複度",                                "threshold": 11, "weight": 15 },
-    { "key": "ja_en_parity",      "label": "ja/en 整合性",                                      "threshold": 7,  "weight": 10 },
-    { "key": "link_health",       "label": "リンクの健全性 (リンク切れ・脚注URL)",              "threshold": 8,  "weight": 10 }
+    { "key": "seo",               "label": "SEO・構造 (title/summary 字数/見出し/内部リンク)",          "threshold": 14, "weight": 20 },
+    { "key": "readability",       "label": "可読性・段落構造",                                          "threshold": 11, "weight": 15 },
+    { "key": "intent_fit",        "label": "検索意図適合 (SERP ブリーフ整合・意図別必須ブロック)",        "threshold": 7,  "weight": 10 },
+    { "key": "cv_readiness",      "label": "成約力 (向き不向き/不安解消/意思決定要素/CTA 検討段階整合)",   "threshold": 7,  "weight": 10 },
+    { "key": "affiliate_fit",     "label": "アフィリエイト適性 (CTA基準表適合・誇張なし・disclosure・author)", "threshold": 11, "weight": 15 },
+    { "key": "factual_accuracy",  "label": "事実関係・数値の正確性 (公式出典 URL 突合・X 引用実在検証)",    "threshold": 11, "weight": 15 },
+    { "key": "x_embed",           "label": "X 埋め込みの妥当性",                                        "threshold": 7,  "weight": 10 },
+    { "key": "product_pitch",     "label": "製品訴求の明確さ (USP・競合差・弊社事例)",                    "threshold": 11, "weight": 15 },
+    { "key": "duplication",       "label": "既存記事との重複度",                                        "threshold": 11, "weight": 15 },
+    { "key": "ja_en_parity",      "label": "ja/en 整合性 (数値・URL・固有名詞の一致。構成の直訳は不要)",    "threshold": 7,  "weight": 10 },
+    { "key": "link_health",       "label": "リンクの健全性 (脚注・外部 URL。AF リンクは除外)",             "threshold": 8,  "weight": 10 }
   ],
   "extras": {
     "feedback": "required",
@@ -21,8 +25,8 @@
     "link_checks": "required",
     "fact_checks": "required"
   },
-  "passing_rule": "(score / 125) * 100 >= 90",
+  "passing_rule": "(score / 145) * 100 >= 90",
   "ref": "ref-affiliate-article",
   "rubric": null,
-  "notes": "満点は 125 (factual_accuracy 軸を v2 で新規追加)。passing_rule は正規化後 90 点以上。factual_accuracy は Codex 経由で公式 URL の本文を取得して数値突合する。致命的な数値誤り (公式と異なる料金・件数等) が 1 件でもあれば threshold 割れで即不合格扱い。3 回ループで未達なら親 (run-affiliate-article) が判断 (打ち切り / 4 周目 / 人手介入)。link_health は HTTP HEAD で 2xx 以外を全て減点、致命 (>=2 件) なら threshold 割れで即不合格扱い。"
+  "notes": "満点は 145 (v3: intent_fit + cv_readiness を追加。max = 20+15+10+10+15+15+10+15+15+10+10)。passing_rule は正規化後 90 点以上。factual_accuracy は Codex 経由で公式 URL を取得し数値突合。捏造 (fabricated) が 1 件でもあれば threshold 割れで即不合格。link_health は AF ホスト (affiliate.ts の AFFILIATE_LINK_HOSTS) を curl 対象から除外し、config との文字列一致で正当性を検証する (クリック計測を汚さないため)。ja_en_parity は構成の直訳一致ではなく、数値・URL・固有名詞・製品名の一致のみを必須とする (en は英語圏の検索意図に合わせた独自構成を許容)。nextengine は ja 単独記事を許容し、その場合 ja_en_parity は満点固定 (対象外)。3 回ループで未達なら親 (run-affiliate-article) が判断 (打ち切り / 人手介入)。"
 }

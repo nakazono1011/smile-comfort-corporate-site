@@ -1,0 +1,108 @@
+{{!-- intent: comparative / category: vs-comp (BOFU) / 必須ブロック: 比較決定表 (製品×評価軸・一言根拠付き)・ケース別の勝者・向いている人/向いていない人 (ref-affiliate-article §4.2 Comparative, §3.11 cv_readiness) --}}
+
+---
+title: "{{title}}"
+date: "{{YYYY-MM-DD}}"
+updated: "{{YYYY-MM-DD}}"
+summary: "{{120字以内・主要KW含む}}"
+slug: "{{slug}}"
+lang: "{{ja|en}}"
+tags: ["{{Primary KW}}", "{{Intent}}", "{{Product}}", "{{Tool}}"]
+category: "media"
+cover: "https://img.smile-comfort.com/{{slug}}/cover.webp"
+heroImage: "https://img.smile-comfort.com/{{slug}}/cover.webp"
+ogImage: "https://img.smile-comfort.com/{{slug}}/og.webp"
+product: "{{1password|brightdata|nextengine}}"
+author: "smile-comfort"
+readTime: {{推定分数}}
+related: []
+xPosts: ["{{tweet_id_1}}", "{{tweet_id_2}}"]
+faq:
+  - q: "{{質問1}}"
+    a: "{{回答1}}"
+  - q: "{{質問2}}"
+    a: "{{回答2}}"
+  - q: "{{質問3}}"
+    a: "{{回答3}}"
+---
+
+{{FAQ は上記 frontmatter の faq のみに格納する。本文中に「## よくある質問」等を書かない (二重表示回避)。想定質問例: どちらが安いか / どちらが乗り換えやすいか / 併用は可能か}}
+
+{{en 版は voice-guide.md §3 (本文 1,800-2,500 words) に従い、H2 構成・必須ブロックを ja と同数・同順で踏襲する}}
+
+{{rel 属性は本文中のどのリンクにも書かない。affiliate.ts の AFFILIATE_LINK_HOSTS に一致する URL はサイト側 (mdx-components.tsx) が rel="sponsored nofollow noopener noreferrer" を自動付与する}}
+
+{{## リード文 (ja 150-200字 / en 80-120 words): 「{{product}} と {{競合A}}、どちらを選ぶべきか」に一言で答える結論ファースト + 比較軸が多くて選びにくいという悩み + このケース別診断で判断できるという約束}}
+
+{{## 本文 H2-1: なぜこの比較で迷うのか (対象読者・比較対象の前提)}}
+
+{{ja: 150-300字。比較対象2-3製品と、読者がどんな条件で迷っているかを整理}} [{{brand}}]({{af_url}}) {{のように自然に製品名リンクを埋め込む (AFインラインリンク 1/5、位置: H2-1 リードイン)}}
+
+{{## 本文 H2-2: 比較決定表 (必須ブロック: 製品×評価軸、一言根拠付き)}}
+
+{{◯△×だけで終わらせず、各セルに「なぜその評価か」の一言根拠を添える。評価軸は 料金/機能/サポート/導入難易度/セキュリティ等から4-6軸選ぶ。競合製品名にはAFリンクを貼らない}}
+
+| 評価軸 | {{product}} | {{競合A}} | {{競合B}} |
+|---|---|---|---|
+| {{評価軸1: 例 料金}} | {{評価 + 一言根拠}} | {{評価 + 一言根拠}} | {{評価 + 一言根拠}} |
+| {{評価軸2: 例 機能}} | {{評価 + 一言根拠}} | {{評価 + 一言根拠}} | {{評価 + 一言根拠}} |
+| {{評価軸3: 例 サポート}} | {{評価 + 一言根拠}} | {{評価 + 一言根拠}} | {{評価 + 一言根拠}} |
+| {{評価軸4: 例 導入難易度}} | {{評価 + 一言根拠}} | {{評価 + 一言根拠}} | {{評価 + 一言根拠}} |
+
+<Figure
+  src="https://img.smile-comfort.com/{{slug}}/figure-01.webp"
+  alt="{{ja: 比較決定表を視覚化した図解の具体的説明}}"
+  caption="{{ja: キャプション}}"
+/>
+
+{{## 本文 H2-3: ケース別の勝者 (必須ブロック: 「小規模ならA、SSO必須ならB」のような条件分岐提示)}}
+
+{{ja: 400-700字。読者の状況を2-4パターンに分け、パターンごとにどちらを推すか明言する}}
+
+- {{ケース1: 例 小規模・個人利用なら}} → {{推奨製品 + 理由}}
+- {{ケース2: 例 チーム・SSO必須なら}} → {{推奨製品 + 理由}}
+- {{ケース3}} → {{推奨製品 + 理由}}
+
+{{AFインラインリンク 2/5 (位置: ケース別の勝者を述べる文中):}} [{{brand}}]({{af_url}})
+
+<TweetCard id="{{tweet_id_1}}" />
+
+{{ja: 賛否両論を扱う比較記事では、肯定派・否定派どちらかの実体験を裏付けとして接続する1行 (同一ハンドル2個まで、両論あれば両方引用)}}
+
+<InlineCTA product="{{product}}" intent="primary" />
+{{配置: 本文30〜50%地点。H2-3の直後 (ref-affiliate-article §7 CTA基準表)}}
+
+{{## 本文 H2-4: {{product}}が向いている人・向いていない人 (必須ブロック)}}
+
+### {{H3-4-1: 向いている人}}
+
+{{ja: 箇条書き2-3点}}
+
+### {{H3-4-2: 向いていない人・代替案}}
+
+{{ja: 箇条書き2-3点。「向かない場合は{{競合A}}を検討」のように代替案を明示}}
+
+{{AFインラインリンク 3/5 (位置: 「向いている人」の説明文中):}} [{{brand}}]({{af_url}})
+
+{{## 本文 H2-5 (BD/NEのみ・関連成立時のみ): 弊社の運用実績}}
+{{条件分岐: product が brightdata または nextengine の場合のみこの H2 を書く。1password の記事ではこの H2 ブロックを丸ごと省略し、H2-4 の直後に H2-6 (まとめ) へ進む。1password は inline CTA を primary 1個のみとし、support/self-product は使わない (ref-affiliate-article §7 product別CTA基準表)}}
+
+{{ja: 200-400字。事実ベース1文 (ref-affiliate-article §11 の言及テンプレートを流用)。自社プロダクトの宣伝を主目的にしない}}
+
+{{AFインラインリンク 4/5 (位置: 弊社実績の説明文中):}} [{{brand}}]({{af_url}})
+
+<InlineCTA product="{{product}}" intent="support" />
+
+<InlineCTA intent="self-product" ownProduct="{{trabell|catamap}}" />
+
+{{## 本文 H2-6: まとめ}}
+
+{{ja: 150-300字。ケース別の勝者を再度一言でまとめ、次の一手 (無料で試す/相談する) を示す}}
+
+{{AFインラインリンク 5/5 (位置: まとめ冒頭の製品名):}} [{{brand}}]({{af_url}})
+
+---
+
+> ※情報は {{YYYY-MM-DD}} 時点の内容です。最新情報は公式サイトをご確認ください。
+
+> ※本記事には PR を含みます。

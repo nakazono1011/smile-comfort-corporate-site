@@ -1,5 +1,6 @@
+// fallow-ignore-next-line code-duplication
 import {
-  extractFaqsFromMdx,
+  resolveFaqs,
   getPost,
   getPostMeta,
   type PostMeta,
@@ -7,6 +8,7 @@ import {
 import { compileMDX } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
 import { ArticleHero } from "@/components/ui/ArticleHero";
+import { AffiliateDisclosure } from "@/components/ui/AffiliateDisclosure";
 import { TableOfContents } from "@/components/ui/TableOfContents";
 import { RelatedArticles } from "@/components/ui/RelatedArticles";
 import { InlineCTA } from "@/components/ui/InlineCTA";
@@ -18,6 +20,7 @@ import { ArticleJsonLd, FaqJsonLd } from "@/components/seo/JsonLd";
 import { OG_IMAGE } from "@/config/company";
 import { createMdxComponents } from "@/components/mdx/mdx-components";
 
+// fallow-ignore-next-line code-duplication
 const LOCALE = "en" as const;
 
 export async function generateStaticParams() {
@@ -108,7 +111,7 @@ export default async function PostPage({
     notFound();
   }
 
-  const faqs = extractFaqsFromMdx(content);
+  const faqs = resolveFaqs(post, content);
   const allPosts = await getPostMeta(LOCALE);
   const related = pickRelated(allPosts, post);
 
@@ -141,6 +144,8 @@ export default async function PostPage({
       <div className="container mx-auto px-5 py-12">
         <article className="mx-auto max-w-article">
           <ArticleHero post={post} locale="en" readingTime={readingTime} />
+
+          {post.product ? <AffiliateDisclosure locale="en" /> : null}
 
           <TableOfContents locale="en" variant="inline" />
 
