@@ -6,9 +6,12 @@ About: Web開発、データ分析、EC支援、自社SaaS（CataMap / Tra-bell 
 ## 主な自社プロダクト
 - CataMap: https://catamap.app/ — ECモール向けAIタグ自動補完
 - Tra-bell: https://www.tra-bell.com/ — ホテル価格監視
-## 日本語メディア (53件)
+## 日本語メディア (56件)
 - [Chrome のパスワードを 1Password に移行する手順 2026 - Google パスワード卒業ガイド](https://www.smile-comfort.com/media/1password-from-chrome-passwords): Chrome（Google パスワードマネージャー）保存のパスワードを 1Password へ移行する手順を、CSV エクスポート・インポート・平文ファイルの後始末・移らないカード/住所/パスキーの補完まで解説します。
+- [1Password vs Google パスワードマネージャー比較 2026｜乗り換えで選ぶ](https://www.smile-comfort.com/media/1password-vs-google-password-manager): 1Password と Google パスワードマネージャーを 2026 年時点で比較。ゼロ知識暗号化・料金・共有・乗り換えやすさを軸に、Google で足りる人と 1Password へ移行すべき人をケース別に整理します。
 - [ネクストエンジン初期設定 完全ガイド 2026 - アカウント開設からモール連携・在庫設定まで](https://www.smile-comfort.com/media/next-engine-initial-setup): ネクストエンジンの初期設定を、アカウント開設・モール連携・在庫/商品マスタ設定・運用フロー設計まで手順で解説。導入でつまずかないための準備チェックリストと実運用ノウハウ付き。
+- [ネクストエンジン在庫連動の設定手順 2026 - 引当・自動更新で売り越しを防ぐ](https://www.smile-comfort.com/media/next-engine-inventory-automation): ネクストエンジンの在庫自動連動を設定する手順を、在庫連動グループの作成から引当処理・在庫更新処理の起動、更新間隔（最短5分）まで実運用目線で解説。売り越しや在庫ズレを防ぐ運用設定とつまずき対処もまとめました。
+- [ネクストエンジンとShopifyの連携設定｜受注取込と在庫連動でつまずかない手順](https://www.smile-comfort.com/media/next-engine-shopify-integration): ネクストエンジンとShopifyの連携設定を、公式無料アプリの導入から受注自動取込・双方向の在庫連動・商品コード紐づけまで手順で解説。複数ロケーションや取込漏れといった落とし穴の対処と、やり直せる検証手順もまとめました。
 - [ネクストエンジン Yahoo!ショッピング連携の設定手順 - 在庫連動・受注自動取込・商品コード紐づけまで](https://www.smile-comfort.com/media/next-engine-yahoo-shopping-integration): ネクストエンジンとYahoo!ショッピングの連携設定を、API認可から商品コード紐づけ・在庫連動・受注自動取込まで手順で解説。連携できない時のチェックリストとやり直せる検証手順つき。
 - [Scrapy × Bright Data 連携実装ガイド 2026 - プロキシ設定からゾーン選択・大規模並行クロールまで](https://www.smile-comfort.com/media/bright-data-scrapy-integration): Scrapy に Bright Data を組み込む実装を、settings.py のプロキシ設定・DownloaderMiddleware・ゾーン選択・IP ローテーション・Web Unlocker 併用まで、動くコード片とコスト設計込みで解説します。
 - [1Password 監査ログ運用ガイド 2026 - Events API・SIEM 連携・SOC 2 / ISO 27001 証跡まで](https://www.smile-comfort.com/media/1password-audit-trail): 1Password Business の監査ログ運用を実務目線で整理。記録項目・Admin Console での閲覧・Events API での SIEM 連携・検知ルール設計から、SOC 2 / ISO 27001 / 内部統制の証跡化までを解説します。
@@ -61,8 +64,9 @@ About: Web開発、データ分析、EC支援、自社SaaS（CataMap / Tra-bell 
 - [Bright Data Web Unlocker 実践活用ガイド 2026 - CAPTCHA突破とコスト設計](https://www.smile-comfort.com/media/bright-data-web-unlocker-guide): Bright Data Web Unlocker でCloudflare・reCAPTCHA を突破する設計と運用、課金体系、Residential との使い分けを実装目線でまとめます。
 - [Bright Data Residential Proxy で価格モニタリング基盤を構築する方法](https://www.smile-comfort.com/media/brightdata-residential-price-monitoring): Bright Data の Residential Proxy で競合 EC の価格モニタリング基盤を構築する手順とコスト最適化、運用 Tips を弊社運用知見つきで解説。
 
-## English media (52 articles)
+## English media (53 articles)
 - [Move Chrome Passwords to 1Password: A 2026 Migration Guide](https://www.smile-comfort.com/en/media/1password-from-chrome-passwords): Move Chrome (Google Password Manager) logins to 1Password: export, import, CSV cleanup, and re-adding the cards, addresses, and passkeys Chrome skips.
+- [1Password vs Google Password Manager 2026: Which to Pick](https://www.smile-comfort.com/en/media/1password-vs-google-password-manager): 1Password vs Google Password Manager in 2026: zero-knowledge security, pricing, sharing, and migration ease, with a case-by-case verdict on which to pick.
 - [Next Engine Initial Setup Guide 2026: Account to Inventory Sync](https://www.smile-comfort.com/en/media/next-engine-initial-setup): A step-by-step Next Engine initial setup guide: account signup, marketplace integration, inventory and product-master configuration, and operational workflow design—with a readiness checklist and hands-on tips.
 - [Scrapy x Bright Data Integration Guide 2026: Proxy Setup, Zone Selection, and Large-Scale Crawling](https://www.smile-comfort.com/en/media/bright-data-scrapy-integration): Integrate Bright Data into a Scrapy project: settings.py proxy config, custom DownloaderMiddleware, Residential vs Datacenter zones, IP rotation, and Web Unlocker. Working code and cost design included.
 - [1Password Audit Log Operations 2026 — Events API, SIEM Integration, and SOC 2 / ISO 27001 Evidence](https://www.smile-comfort.com/en/media/1password-audit-trail): A practical guide to 1Password Business audit logs: recorded fields, Admin Console viewing, Events API SIEM integration, and SOC 2 / ISO 27001 evidence.
