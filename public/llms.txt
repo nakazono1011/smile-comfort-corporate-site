@@ -6,7 +6,9 @@ About: Web開発、データ分析、EC支援、自社SaaS（CataMap / Tra-bell 
 ## 主な自社プロダクト
 - CataMap: https://catamap.app/ — ECモール向けAIタグ自動補完
 - Tra-bell: https://www.tra-bell.com/ — ホテル価格監視
-## 日本語メディア (56件)
+## 日本語メディア (58件)
+- [1Password SCIM自動プロビジョニング設定手順 2026｜SCIM Bridge構築とIdP連携](https://www.smile-comfort.com/media/1password-scim-bridge-setup): 1Password の SCIM 自動プロビジョニング設定を、前提プラン・デプロイ方式の選び方・IdP 連携・つまずき早見表・検証まで手順で解説。ホスト型とセルフホスト SCIM Bridge の使い分けも整理します。
+- [ネクストエンジンとクロスモールを比較 2026 - 料金・在庫連携・選び方](https://www.smile-comfort.com/media/next-engine-vs-crossmall): EC 一元管理のネクストエンジンとクロスモール (CROSS MALL) を料金体系・在庫連携・対応モール・向き不向きで比較。受注件数の従量課金と月額固定制のどちらが得か、ケース別の勝者まで公式ソース付きで整理します。
 - [Chrome のパスワードを 1Password に移行する手順 2026 - Google パスワード卒業ガイド](https://www.smile-comfort.com/media/1password-from-chrome-passwords): Chrome（Google パスワードマネージャー）保存のパスワードを 1Password へ移行する手順を、CSV エクスポート・インポート・平文ファイルの後始末・移らないカード/住所/パスキーの補完まで解説します。
 - [1Password vs Google パスワードマネージャー比較 2026｜乗り換えで選ぶ](https://www.smile-comfort.com/media/1password-vs-google-password-manager): 1Password と Google パスワードマネージャーを 2026 年時点で比較。ゼロ知識暗号化・料金・共有・乗り換えやすさを軸に、Google で足りる人と 1Password へ移行すべき人をケース別に整理します。
 - [ネクストエンジン初期設定 完全ガイド 2026 - アカウント開設からモール連携・在庫設定まで](https://www.smile-comfort.com/media/next-engine-initial-setup): ネクストエンジンの初期設定を、アカウント開設・モール連携・在庫/商品マスタ設定・運用フロー設計まで手順で解説。導入でつまずかないための準備チェックリストと実運用ノウハウ付き。
@@ -64,7 +66,8 @@ About: Web開発、データ分析、EC支援、自社SaaS（CataMap / Tra-bell 
 - [Bright Data Web Unlocker 実践活用ガイド 2026 - CAPTCHA突破とコスト設計](https://www.smile-comfort.com/media/bright-data-web-unlocker-guide): Bright Data Web Unlocker でCloudflare・reCAPTCHA を突破する設計と運用、課金体系、Residential との使い分けを実装目線でまとめます。
 - [Bright Data Residential Proxy で価格モニタリング基盤を構築する方法](https://www.smile-comfort.com/media/brightdata-residential-price-monitoring): Bright Data の Residential Proxy で競合 EC の価格モニタリング基盤を構築する手順とコスト最適化、運用 Tips を弊社運用知見つきで解説。
 
-## English media (53 articles)
+## English media (54 articles)
+- [1Password SCIM Bridge Setup 2026: Automated Provisioning Guide](https://www.smile-comfort.com/en/media/1password-scim-bridge-setup): How to set up 1Password SCIM automated provisioning: plan requirements, hosted vs self-hosted SCIM Bridge, Okta/Entra ID wiring, and troubleshooting.
 - [Move Chrome Passwords to 1Password: A 2026 Migration Guide](https://www.smile-comfort.com/en/media/1password-from-chrome-passwords): Move Chrome (Google Password Manager) logins to 1Password: export, import, CSV cleanup, and re-adding the cards, addresses, and passkeys Chrome skips.
 - [1Password vs Google Password Manager 2026: Which to Pick](https://www.smile-comfort.com/en/media/1password-vs-google-password-manager): 1Password vs Google Password Manager in 2026: zero-knowledge security, pricing, sharing, and migration ease, with a case-by-case verdict on which to pick.
 - [Next Engine Initial Setup Guide 2026: Account to Inventory Sync](https://www.smile-comfort.com/en/media/next-engine-initial-setup): A step-by-step Next Engine initial setup guide: account signup, marketplace integration, inventory and product-master configuration, and operational workflow design—with a readiness checklist and hands-on tips.
