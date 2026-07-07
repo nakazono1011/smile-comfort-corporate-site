@@ -6,7 +6,10 @@ About: Web開発、データ分析、EC支援、自社SaaS（CataMap / Tra-bell 
 ## 主な自社プロダクト
 - CataMap: https://catamap.app/ — ECモール向けAIタグ自動補完
 - Tra-bell: https://www.tra-bell.com/ — ホテル価格監視
-## 日本語メディア (58件)
+## 日本語メディア (61件)
+- [1Password CLI でシークレットを扱う実践ガイド - op read/op run/op inject](https://www.smile-comfort.com/media/1password-cli-guide): 1Password CLI (op) でシークレットを安全に扱う手順を解説。op read の値取得、op run の環境変数注入、op inject のテンプレート差し込み、サービスアカウント設定とトラブル対処まで実践的に整理します。
+- [ネクストエンジンとBASE連携の始め方 - BASE全自動の設定と在庫連動トラブル対処](https://www.smile-comfort.com/media/next-engine-base-integration): ネクストエンジンとBASEの連携を、連携アプリ「BASE全自動」のインストールから商品コード紐づけ・在庫連動・受注自動取込まで手順で解説。料金と、連携できない時のチェックリスト・やり直し手順つき。
+- [ネクストエンジンでアパレル在庫を一元化した事例｜SKU爆発と売り越しを解決](https://www.smile-comfort.com/media/next-engine-case-apparel): 色×サイズでSKUが爆発するアパレルECの在庫管理を、ネクストエンジンで一元化したモデルケースをBefore/Afterで解説。複数モールの売り越しや死蔵在庫を減らす仕組みと導入判断の勘所、料金の目安までまとめます。
 - [1Password SCIM自動プロビジョニング設定手順 2026｜SCIM Bridge構築とIdP連携](https://www.smile-comfort.com/media/1password-scim-bridge-setup): 1Password の SCIM 自動プロビジョニング設定を、前提プラン・デプロイ方式の選び方・IdP 連携・つまずき早見表・検証まで手順で解説。ホスト型とセルフホスト SCIM Bridge の使い分けも整理します。
 - [ネクストエンジンとクロスモールを比較 2026 - 料金・在庫連携・選び方](https://www.smile-comfort.com/media/next-engine-vs-crossmall): EC 一元管理のネクストエンジンとクロスモール (CROSS MALL) を料金体系・在庫連携・対応モール・向き不向きで比較。受注件数の従量課金と月額固定制のどちらが得か、ケース別の勝者まで公式ソース付きで整理します。
 - [Chrome のパスワードを 1Password に移行する手順 2026 - Google パスワード卒業ガイド](https://www.smile-comfort.com/media/1password-from-chrome-passwords): Chrome（Google パスワードマネージャー）保存のパスワードを 1Password へ移行する手順を、CSV エクスポート・インポート・平文ファイルの後始末・移らないカード/住所/パスキーの補完まで解説します。
@@ -66,7 +69,8 @@ About: Web開発、データ分析、EC支援、自社SaaS（CataMap / Tra-bell 
 - [Bright Data Web Unlocker 実践活用ガイド 2026 - CAPTCHA突破とコスト設計](https://www.smile-comfort.com/media/bright-data-web-unlocker-guide): Bright Data Web Unlocker でCloudflare・reCAPTCHA を突破する設計と運用、課金体系、Residential との使い分けを実装目線でまとめます。
 - [Bright Data Residential Proxy で価格モニタリング基盤を構築する方法](https://www.smile-comfort.com/media/brightdata-residential-price-monitoring): Bright Data の Residential Proxy で競合 EC の価格モニタリング基盤を構築する手順とコスト最適化、運用 Tips を弊社運用知見つきで解説。
 
-## English media (54 articles)
+## English media (55 articles)
+- [1Password CLI Guide: op read, op run, op inject for Secrets](https://www.smile-comfort.com/en/media/1password-cli-guide): Handle secrets with the 1Password CLI (op): op read for values, op run for env vars, op inject for templates, plus service accounts and troubleshooting.
 - [1Password SCIM Bridge Setup 2026: Automated Provisioning Guide](https://www.smile-comfort.com/en/media/1password-scim-bridge-setup): How to set up 1Password SCIM automated provisioning: plan requirements, hosted vs self-hosted SCIM Bridge, Okta/Entra ID wiring, and troubleshooting.
 - [Move Chrome Passwords to 1Password: A 2026 Migration Guide](https://www.smile-comfort.com/en/media/1password-from-chrome-passwords): Move Chrome (Google Password Manager) logins to 1Password: export, import, CSV cleanup, and re-adding the cards, addresses, and passkeys Chrome skips.
 - [1Password vs Google Password Manager 2026: Which to Pick](https://www.smile-comfort.com/en/media/1password-vs-google-password-manager): 1Password vs Google Password Manager in 2026: zero-knowledge security, pricing, sharing, and migration ease, with a case-by-case verdict on which to pick.
