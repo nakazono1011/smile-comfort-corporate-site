@@ -6,7 +6,10 @@ About: Web開発、データ分析、EC支援、自社SaaS（CataMap / Tra-bell 
 ## 主な自社プロダクト
 - CataMap: https://catamap.app/ — ECモール向けAIタグ自動補完
 - Tra-bell: https://www.tra-bell.com/ — ホテル価格監視
-## 日本語メディア (64件)
+## 日本語メディア (67件)
+- [1Password Teams と Business の違い｜機能と料金で選ぶ](https://www.smile-comfort.com/media/1password-teams-vs-business): 1Password の Teams Starter Pack と Business の違いを、料金の損益分岐と SSO・SCIM・監査ログなどの機能差で整理。人数と要件のケース別にどちらを選ぶべきかを解説します。
+- [ネクストエンジンの受注同期エラー対処法 - 取込失敗の原因と直し方](https://www.smile-comfort.com/media/next-engine-order-sync-issue): ネクストエンジンの受注同期エラー(取込失敗)を、取込失敗一覧での原因特定から項目検証エラー・認証切れ・重複の直し方、再取込の検証とやり直し手順まで実務目線で解説。モール別のつまずきも早見表で整理します。
+- [EC一元管理ツール比較 2026｜ネクストエンジンと主要5社を規模別に選ぶ](https://www.smile-comfort.com/media/next-engine-tool-comparison): EC一元管理ツールをネクストエンジン基準で比較。クロスモール・TEMPOSTAR・ロジレス・助ネコを料金/対応モール/在庫連携/WMSで整理し、規模・モール構成別の選び方を解説します。
 - [1Password Watchtower で漏洩パスワードを監視する仕組みと使い方](https://www.smile-comfort.com/media/1password-watchtower-guide): 1Password の Watchtower は Have I Been Pwned と連携し漏洩・脆弱なパスワードを自動監視します。k-匿名性の仕組み、通知が来たときの対応手順、ダークウェブ監視との違いまで実務目線で解説します。
 - [エクセル在庫管理からネクストエンジンへ移行する手順 2026｜売り越しを防ぐ乗り換えガイド](https://www.smile-comfort.com/media/next-engine-from-excel-migration): エクセル(Excel)在庫管理の限界を感じたら乗り換えどき。ネクストエンジンへの移行手順・データ引き継ぎ・並行運用・費用感を、弊社の EC 導入支援の実運用目線で解説。売り越しを防ぐ一元管理への乗り換え判断に役立ちます。
 - [ネクストエンジン メルカリShops連携の設定手順｜在庫連動・受注取込](https://www.smile-comfort.com/media/next-engine-mercari-shops-integration): ネクストエンジンとメルカリShopsの連携手順を、APIアクセストークンの発行から在庫連動・受注取込・出荷通知の設定、つまずきやすいポイントの対処まで実運用目線で解説します。連携アプリは月額0円で始められます。
@@ -72,7 +75,8 @@ About: Web開発、データ分析、EC支援、自社SaaS（CataMap / Tra-bell 
 - [Bright Data Web Unlocker 実践活用ガイド 2026 - CAPTCHA突破とコスト設計](https://www.smile-comfort.com/media/bright-data-web-unlocker-guide): Bright Data Web Unlocker でCloudflare・reCAPTCHA を突破する設計と運用、課金体系、Residential との使い分けを実装目線でまとめます。
 - [Bright Data Residential Proxy で価格モニタリング基盤を構築する方法](https://www.smile-comfort.com/media/brightdata-residential-price-monitoring): Bright Data の Residential Proxy で競合 EC の価格モニタリング基盤を構築する手順とコスト最適化、運用 Tips を弊社運用知見つきで解説。
 
-## English media (56 articles)
+## English media (57 articles)
+- [1Password Teams vs Business: Pick by Headcount & Features](https://www.smile-comfort.com/en/media/1password-teams-vs-business): Compare 1Password Teams Starter Pack and Business by pricing break-even and feature gaps (SSO, SCIM, audit logs) to pick the right plan by headcount.
 - [1Password Watchtower: Monitor Compromised Passwords](https://www.smile-comfort.com/en/media/1password-watchtower-guide): 1Password Watchtower flags compromised and reused passwords via Have I Been Pwned. See how the private check works and what to do on a breach alert.
 - [1Password CLI Guide: op read, op run, op inject for Secrets](https://www.smile-comfort.com/en/media/1password-cli-guide): Handle secrets with the 1Password CLI (op): op read for values, op run for env vars, op inject for templates, plus service accounts and troubleshooting.
 - [1Password SCIM Bridge Setup 2026: Automated Provisioning Guide](https://www.smile-comfort.com/en/media/1password-scim-bridge-setup): How to set up 1Password SCIM automated provisioning: plan requirements, hosted vs self-hosted SCIM Bridge, Okta/Entra ID wiring, and troubleshooting.
