@@ -6,7 +6,10 @@ About: Web開発、データ分析、EC支援、自社SaaS（CataMap / Tra-bell 
 ## 主な自社プロダクト
 - CataMap: https://catamap.app/ — ECモール向けAIタグ自動補完
 - Tra-bell: https://www.tra-bell.com/ — ホテル価格監視
-## 日本語メディア (70件)
+## 日本語メディア (73件)
+- [iCloudキーチェーンから 1Password へ移行する方法 2026 - CSV 書き出しとパスキーの引き継ぎ](https://www.smile-comfort.com/media/1password-from-keychain-migration): iCloudキーチェーン（Apple の「パスワード」アプリ）から 1Password へ移行する手順を、Mac での CSV 書き出し・インポート・平文ファイルの後始末・移らないパスキー/カードの補完まで解説します。
+- [ネクストエンジンとau PAY マーケット連携の設定手順｜在庫連動・受注取込](https://www.smile-comfort.com/media/next-engine-au-pay-market-integration): ネクストエンジンとau PAY マーケット（旧Wowma）連携の設定手順を、一括出品CSVオプションとFTP登録の準備から在庫連動・受注自動取込まで解説。在庫がズレる原因の早見表とやり直せる検証手順つき。
+- [ネクストエンジンで食品ECの在庫を一元管理｜賞味期限・冷凍冷蔵・当日出荷の事例](https://www.smile-comfort.com/media/next-engine-case-food): 賞味期限・温度帯・当日出荷など食品ECならではの在庫管理の難しさを、ネクストエンジンで一元化したモデルケースでBefore/After整理。WMS/3PL連携やロット管理の現実解、導入判断の勘所までまとめます。
 - [1Password 家族共有の設定ガイド｜招待・共有ボールト・リカバリー手順](https://www.smile-comfort.com/media/1password-family-sharing-guide): 1Password ファミリーで家族とパスワードを安全に共有する方法を、招待手順・共有ボールト設計・リカバリー運用・つまずき対処までまとめました。個人プランとの違いや料金もあわせて整理します。
 - [ネクストエンジンのCSV商品一括登録 手順ガイド｜文字コード・必須項目・取込エラー対処](https://www.smile-comfort.com/media/next-engine-csv-bulk-registration): ネクストエンジンでCSVを使い商品を一括登録・更新する手順を解説。文字コード（Shift-JIS）や必須項目、代表商品コードでのバリエーション登録、取込エラーの直し方まで、実運用でつまずかないコツをまとめました。
 - [ネクストエンジンの在庫連携でズレる原因と対処 - 差分同期の直し方](https://www.smile-comfort.com/media/next-engine-inventory-mismatch): ネクストエンジンの在庫ズレは、増減分を反映していく仕組み上いったんズレると自動では直りにくいのが実情です。原因を設定・データ・タイミング・例外処理の4層で切り分け、商品コードの表記ゆれや引当処理の停止を特定し、手動リセットで直す手順を売り越し対策までまとめました。
@@ -78,7 +81,8 @@ About: Web開発、データ分析、EC支援、自社SaaS（CataMap / Tra-bell 
 - [Bright Data Web Unlocker 実践活用ガイド 2026 - CAPTCHA突破とコスト設計](https://www.smile-comfort.com/media/bright-data-web-unlocker-guide): Bright Data Web Unlocker でCloudflare・reCAPTCHA を突破する設計と運用、課金体系、Residential との使い分けを実装目線でまとめます。
 - [Bright Data Residential Proxy で価格モニタリング基盤を構築する方法](https://www.smile-comfort.com/media/brightdata-residential-price-monitoring): Bright Data の Residential Proxy で競合 EC の価格モニタリング基盤を構築する手順とコスト最適化、運用 Tips を弊社運用知見つきで解説。
 
-## English media (58 articles)
+## English media (59 articles)
+- [Import iCloud Keychain into 1Password: 2026 How-To](https://www.smile-comfort.com/en/media/1password-from-keychain-migration): Move passwords from iCloud Keychain (Apple Passwords) to 1Password: CSV export on a Mac, import, plaintext cleanup, and handling passkeys and cards.
 - [1Password Families Setup Guide: Sharing, Vaults & Recovery](https://www.smile-comfort.com/en/media/1password-family-sharing-guide): Set up 1Password Families: invite members, design shared vs private vaults, plan account recovery, and avoid common pitfalls — pricing and setup included.
 - [1Password Teams vs Business: Pick by Headcount & Features](https://www.smile-comfort.com/en/media/1password-teams-vs-business): Compare 1Password Teams Starter Pack and Business by pricing break-even and feature gaps (SSO, SCIM, audit logs) to pick the right plan by headcount.
 - [1Password Watchtower: Monitor Compromised Passwords](https://www.smile-comfort.com/en/media/1password-watchtower-guide): 1Password Watchtower flags compromised and reused passwords via Have I Been Pwned. See how the private check works and what to do on a breach alert.
