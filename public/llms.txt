@@ -6,7 +6,10 @@ About: Web開発、データ分析、EC支援、自社SaaS（CataMap / Tra-bell 
 ## 主な自社プロダクト
 - CataMap: https://catamap.app/ — ECモール向けAIタグ自動補完
 - Tra-bell: https://www.tra-bell.com/ — ホテル価格監視
-## 日本語メディア (73件)
+## 日本語メディア (76件)
+- [1Passwordで2段階認証コード(TOTP)を管理する手順｜設定と安全な運用](https://www.smile-comfort.com/media/1password-totp-2fa-guide): 1Passwordは2段階認証のワンタイムパスワード(TOTP)を管理できます。QRコードでの登録手順、コードが合わない時の対処、同一Vault保管のリスクと安全な運用の判断軸まで実運用目線で解説します。
+- [ネクストエンジンの権限設定とIP制限｜最小権限で守るセキュリティ設計](https://www.smile-comfort.com/media/next-engine-access-control): ネクストエンジンの権限設定・IP制限・2段階認証を実務目線で解説。最小権限の設計、権限グループの作り方、固定IP制限や2FAの有効範囲、退職者アカウントの無効化まで、情報漏洩と内部統制のリスクを下げる運用のコツを整理します。
+- [ネクストエンジンで家具・大型商品を回す運用ガイド｜在庫・送料・出荷の設計](https://www.smile-comfort.com/media/next-engine-case-furniture): 回転の遅い家具・大型商品のEC運用は在庫スペース・送料・出荷体制がボトルネック。ネクストエンジンで在庫一元管理・サイズ別配送の出し分け・出荷自動化を設計する実務手順を、導入の勘所とあわせて整理します。
 - [iCloudキーチェーンから 1Password へ移行する方法 2026 - CSV 書き出しとパスキーの引き継ぎ](https://www.smile-comfort.com/media/1password-from-keychain-migration): iCloudキーチェーン（Apple の「パスワード」アプリ）から 1Password へ移行する手順を、Mac での CSV 書き出し・インポート・平文ファイルの後始末・移らないパスキー/カードの補完まで解説します。
 - [ネクストエンジンとau PAY マーケット連携の設定手順｜在庫連動・受注取込](https://www.smile-comfort.com/media/next-engine-au-pay-market-integration): ネクストエンジンとau PAY マーケット（旧Wowma）連携の設定手順を、一括出品CSVオプションとFTP登録の準備から在庫連動・受注自動取込まで解説。在庫がズレる原因の早見表とやり直せる検証手順つき。
 - [ネクストエンジンで食品ECの在庫を一元管理｜賞味期限・冷凍冷蔵・当日出荷の事例](https://www.smile-comfort.com/media/next-engine-case-food): 賞味期限・温度帯・当日出荷など食品ECならではの在庫管理の難しさを、ネクストエンジンで一元化したモデルケースでBefore/After整理。WMS/3PL連携やロット管理の現実解、導入判断の勘所までまとめます。
@@ -81,7 +84,8 @@ About: Web開発、データ分析、EC支援、自社SaaS（CataMap / Tra-bell 
 - [Bright Data Web Unlocker 実践活用ガイド 2026 - CAPTCHA突破とコスト設計](https://www.smile-comfort.com/media/bright-data-web-unlocker-guide): Bright Data Web Unlocker でCloudflare・reCAPTCHA を突破する設計と運用、課金体系、Residential との使い分けを実装目線でまとめます。
 - [Bright Data Residential Proxy で価格モニタリング基盤を構築する方法](https://www.smile-comfort.com/media/brightdata-residential-price-monitoring): Bright Data の Residential Proxy で競合 EC の価格モニタリング基盤を構築する手順とコスト最適化、運用 Tips を弊社運用知見つきで解説。
 
-## English media (59 articles)
+## English media (60 articles)
+- [1Password TOTP: How to Manage 2FA Codes Safely](https://www.smile-comfort.com/en/media/1password-totp-2fa-guide): 1Password doubles as a TOTP authenticator. Add two-factor codes by QR or setup key, fix codes that won't match, and know when to split passwords and 2FA.
 - [Import iCloud Keychain into 1Password: 2026 How-To](https://www.smile-comfort.com/en/media/1password-from-keychain-migration): Move passwords from iCloud Keychain (Apple Passwords) to 1Password: CSV export on a Mac, import, plaintext cleanup, and handling passkeys and cards.
 - [1Password Families Setup Guide: Sharing, Vaults & Recovery](https://www.smile-comfort.com/en/media/1password-family-sharing-guide): Set up 1Password Families: invite members, design shared vs private vaults, plan account recovery, and avoid common pitfalls — pricing and setup included.
 - [1Password Teams vs Business: Pick by Headcount & Features](https://www.smile-comfort.com/en/media/1password-teams-vs-business): Compare 1Password Teams Starter Pack and Business by pricing break-even and feature gaps (SSO, SCIM, audit logs) to pick the right plan by headcount.
