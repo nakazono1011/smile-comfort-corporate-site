@@ -1,8 +1,10 @@
 import { resend } from "@/lib/resend";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { CONTACT_TOPICS } from "@/components/lp/content";
 
 const schema = z.object({
+  topics: z.array(z.enum(CONTACT_TOPICS)).default([]),
   name: z.string().min(1),
   email: z.string().email(),
   company: z.string().optional(),
@@ -47,7 +49,8 @@ async function verifyTurnstile(token: string, remoteip?: string | null) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, company, message, turnstileToken } = schema.parse(body);
+    const { topics, name, email, company, message, turnstileToken } =
+      schema.parse(body);
 
     const remoteip =
       request.headers.get("cf-connecting-ip") ??
@@ -77,6 +80,9 @@ ${email}
 
 ■ 会社名
 ${company || "記入なし"}
+
+■ 相談したい業務
+${topics.length > 0 ? topics.join("、") : "選択なし"}
 
 ■ お問い合わせ内容
 ${message}

@@ -7,7 +7,7 @@ export const COMPANY_INFO = {
   nameEn: "Smile Comfort LLC",
   corporateNumber: "9020003027311",
   address: {
-    full: "東京都目黒区下目黒１丁目１番１４号 コノトラビル７Ｆ",
+    full: "東京都目黒区下目黒1丁目1番14号 コノトラビル7F",
     postalCode: "153-0064",
   },
   representative: "中園 啓佑",
@@ -25,7 +25,7 @@ export const OG_IMAGE = {
   url: "/og-default.png",
   width: 1200,
   height: 630,
-  alt: "合同会社スマイルコンフォート",
+  alt: "ECの課題を、AIで解決する。合同会社スマイルコンフォート",
 } as const;
 
 /** 外部 URL（自社プロダクト・SNS）。JSON-LD sameAs / リンク群で共通参照 */
