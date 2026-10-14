@@ -137,13 +137,16 @@ function StatusMessage({ status }: { status: Status }) {
   );
 }
 
-async function postContact(payload: Record<string, unknown>) {
+/** 送信して、画面に出す状態を返す。ロボット確認に落ちた (403) ときは確認のやり直しを促す */
+async function postContact(payload: Record<string, unknown>): Promise<Status> {
   const res = await fetch("/api/contact", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
-  });
-  if (!res.ok) throw new Error("送信に失敗しました");
+  }).catch(() => null);
+  if (!res) return "error";
+  if (res.status === 403) return "captcha";
+  return res.ok ? "success" : "error";
 }
 
 /** フォームの状態と送信処理。ロボット確認 (Turnstile) のトークンがないと送らない */
@@ -158,24 +161,26 @@ function useContactForm() {
   const toggleTopic = (t: ContactTopic) =>
     setTopics((cur) => (cur.includes(t) ? cur.filter((x) => x !== t) : [...cur, t]));
 
+  // 入力を変えたら、前回の送信結果の表示を消す (失敗の表示が残り続けないように)
+  const clearStatus = () => setStatus("idle");
+
   const onSubmit = async (values: FormValues) => {
     if (!token) {
       setStatus("captcha");
       return;
     }
+    setStatus("idle");
     setSubmitting(true);
-    try {
-      await postContact({ ...values, topics, turnstileToken: token });
-      setStatus("success");
+    const result = await postContact({ ...values, topics, turnstileToken: token });
+    setStatus(result);
+    if (result === "success") {
       form.reset();
       setTopics([]);
-    } catch {
-      setStatus("error");
-    } finally {
-      setSubmitting(false);
-      setToken(null);
-      turnstileRef.current?.reset();
     }
+    setSubmitting(false);
+    // トークンは 1 回しか使えないので、成否にかかわらず確認をやり直す
+    setToken(null);
+    turnstileRef.current?.reset();
   };
 
   const onVerified = (t: string) => {
@@ -189,10 +194,11 @@ function useContactForm() {
     submitting,
     topics,
     toggleTopic,
+    clearStatus,
     turnstileRef,
     onVerified,
     clearToken: () => setToken(null),
-    submit: form.handleSubmit(onSubmit),
+    onSubmit,
     disabled: submitting || (Boolean(turnstileSiteKey) && !token),
   };
 }
@@ -260,7 +266,14 @@ export function Contact() {
           </div>
         </div>
 
-        <form onSubmit={c.submit} noValidate data-reveal style={d(0.1)} className="lg:col-span-7 lg:col-start-6">
+        <form
+          onSubmit={c.form.handleSubmit(c.onSubmit)}
+          onChange={c.clearStatus}
+          noValidate
+          data-reveal
+          style={d(0.1)}
+          className="lg:col-span-7 lg:col-start-6"
+        >
           <TopicPicker topics={c.topics} onToggle={c.toggleTopic} />
 
           <div className="mt-12 grid gap-10 sm:grid-cols-2">
