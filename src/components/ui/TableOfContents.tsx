@@ -48,6 +48,8 @@ export function TableOfContents({
       };
     });
 
+    // 見出しは描画後の DOM からしか読めないため、マウント後に一度だけ state へ写す
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHeadings(data);
     if (data.length === 0) return;
 

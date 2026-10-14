@@ -14,6 +14,8 @@ export default {
       fontFamily: {
         sans: ["Zen Kaku Gothic New", "Hiragino Sans", "sans-serif"],
         display: ["Outfit", "Zen Kaku Gothic New", "sans-serif"],
+        jp: ["var(--font-jp-display)", "var(--font-body)", "sans-serif"],
+        wide: ["var(--font-wide)", "var(--font-body)", "sans-serif"],
       },
       fontSize: {
         "body-lg": ["18px", { lineHeight: "1.7" }],
@@ -24,6 +26,14 @@ export default {
         article: "1112px",
       },
       colors: {
+        /** コーポレート (LP / ヘッダー / フッター) のテーマ色。値は globals.css の --c-* */
+        sc: {
+          bg: "rgb(var(--c-bg) / <alpha-value>)",
+          fg: "rgb(var(--c-fg) / <alpha-value>)",
+          surface: "rgb(var(--c-surface) / <alpha-value>)",
+          accent: "rgb(var(--c-accent) / <alpha-value>)",
+          signal: "rgb(var(--c-signal) / <alpha-value>)",
+        },
         brand: {
           green: "#3eb991",
           teal: "#2fb5a3",

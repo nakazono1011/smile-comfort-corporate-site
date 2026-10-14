@@ -6,10 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "postbuild": "next-sitemap && node scripts/generate-llms.mjs",
-    "gen:static-assets": "node scripts/generate-hero-og.mjs",
+    "gen:og": "node scripts/generate-og.mjs",
     "validate:articles": "node scripts/validate-articles.mjs",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -21,6 +21,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^11.15.0",
     "gray-matter": "^4.0.3",
+    "lenis": "^1.3.11",
     "lucide-react": "^0.469.0",
     "next": "^16.0.10",
     "next-intl": "^4.6.0",

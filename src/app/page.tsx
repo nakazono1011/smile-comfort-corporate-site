@@ -1,41 +1,64 @@
 import type { Metadata } from "next";
-import { HeroSection } from "@/components/sections/Hero";
-import { MissionSection } from "@/components/sections/Mission";
-import { ServicesSection } from "@/components/sections/Services";
-import { ProductsSection } from "@/components/sections/Products";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
-import { CompanySection } from "@/components/sections/Company";
-import { ContactSection } from "@/components/sections/Contact";
+import { PageEffects } from "@/components/lp/PageEffects";
+import { DialStage } from "@/components/lp/dial/DialStage";
+import { Hero } from "@/components/lp/sections/Hero";
+import { Statement } from "@/components/lp/sections/Statement";
+import { Services } from "@/components/lp/sections/Services";
+import { Climax } from "@/components/lp/sections/Climax";
+import { Scope } from "@/components/lp/sections/Scope";
+import { Approach } from "@/components/lp/sections/Approach";
+import { Works } from "@/components/lp/sections/Works";
+import { Faq } from "@/components/lp/sections/Faq";
+import { Company } from "@/components/lp/sections/Company";
+import { Contact } from "@/components/lp/sections/Contact";
 import { OG_IMAGE } from "@/config/company";
 
+const title =
+  "ECの課題をAIで解決｜出品・併売・問い合わせ対応・ページ改善｜合同会社スマイルコンフォート";
+const description =
+  "自社EC・国内モール・海外モールの課題を、AIと仕組みで解決します。出品業務、併売、問い合わせ対応、ページ改善まで、業務の棚卸しから開発・運用まで伴走する合同会社スマイルコンフォート。";
+
 export const metadata: Metadata = {
-  title: "アイデアをプロダクトに | 合同会社スマイルコンフォート",
-  description:
-    "AIでアイデアが形になる時代。自社プロダクト開発から受託AI開発・EC運営支援まで、少数精鋭のエンジニアチームが構想を現実にする合同会社スマイルコンフォート。",
+  title: { absolute: title },
+  description,
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "アイデアをプロダクトに | 合同会社スマイルコンフォート",
-    description:
-      "自社プロダクト開発から受託開発まで。少数精鋭のエンジニアチームが構想を現実にします。",
+    type: "website",
+    locale: "ja_JP",
+    siteName: "合同会社スマイルコンフォート",
+    url: "/",
+    title,
+    description,
     images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
+    title,
+    description,
     images: [OG_IMAGE.url],
   },
 };
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="sc-root min-h-screen" data-theme="light">
+      <PageEffects />
       <SiteHeader />
       <main>
-        <HeroSection />
-        <ServicesSection />
-        <ProductsSection />
-        <MissionSection />
-        <CompanySection />
-        <ContactSection />
+        <DialStage>
+          <Hero />
+          <Statement />
+          <Services />
+          <Climax />
+        </DialStage>
+        <Scope />
+        <Approach />
+        <Works />
+        <Faq />
+        <Company />
+        <Contact />
       </main>
       <SiteFooter />
     </div>

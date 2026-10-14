@@ -1,190 +1,112 @@
-"use client";
-
-import { motion, useReducedMotion } from "framer-motion";
-import { COMPANY_INFO, EXTERNAL_LINKS } from "@/config/company";
+import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { COMPANY_INFO, EXTERNAL_LINKS } from "@/config/company";
 
-const navigation = [
-  { name: "サービス", href: "#services" },
-  { name: "プロダクト", href: "#products" },
-  { name: "会社概要", href: "#company" },
-  { name: "お問い合わせ", href: "#contact" },
-] as const;
+const SERVICE_LINKS = [
+  { label: "出品業務", href: "/#service-listing" },
+  { label: "併売", href: "/#service-channel" },
+  { label: "問い合わせ対応", href: "/#service-support" },
+  { label: "ページ改善", href: "/#service-page" },
+];
 
-const serviceLinks = [
-  { name: "AI開発", href: "#services" },
-  { name: "EC構築・運営支援", href: "#services" },
-] as const;
+const COMPANY_LINKS = [
+  { label: "対応範囲", href: "/#scope" },
+  { label: "進め方", href: "/#approach" },
+  { label: "実績", href: "/#works" },
+  { label: "会社概要", href: "/#company" },
+  { label: "お問い合わせ", href: "/#contact" },
+];
+
+const EXTERNAL = [
+  { label: "メディア", href: "/media", internal: true },
+  { label: "CataMap", href: EXTERNAL_LINKS.catamap },
+  { label: "note", href: EXTERNAL_LINKS.note },
+];
+
+function Column({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <div>
+      <p className="t-kicker text-[11px] text-sc-fg/60">{title}</p>
+      <ul className="mt-5 space-y-3 text-sm font-bold">{children}</ul>
+    </div>
+  );
+}
 
 export function SiteFooter() {
-  const prefersReducedMotion = useReducedMotion();
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
-    <footer className="relative bg-brand-deep text-white overflow-hidden">
-      {/* 装飾的な背景 */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-green/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-brand-blue/10 rounded-full blur-3xl" />
-
-      <div className="relative container mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-          {/* ロゴと会社情報 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="md:col-span-4 space-y-6"
-          >
-            <Link href="/" className="inline-flex items-center gap-3 group">
-              <div className="relative w-12 h-12">
-                <Image
-                  src="/logo.png"
-                  alt="Smile Comfort"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-              <span className="font-display font-bold text-xl text-white group-hover:text-brand-green transition-colors">
-                Smile Comfort
+    <footer data-section-theme="dark" className="sc-dark relative overflow-hidden">
+      <div className="sc-wrap pt-24 lg:pt-32">
+        <div className="grid gap-16 border-b border-sc-fg/15 pb-20 lg:grid-cols-12">
+          <div className="lg:col-span-6">
+            <p className="t-h2 !text-[clamp(1.875rem,3.6vw,3.25rem)]">
+              ECの課題を、
+              <br />
+              AIで<span className="text-sc-accent">解決する</span>。
+            </p>
+            <Link href="/#contact" className="sc-btn mt-10">
+              <span className="sc-btn-label">相談する</span>
+              <span className="sc-btn-icon">
+                <ArrowRight className="h-4 w-4" aria-hidden />
               </span>
             </Link>
-            <p className="text-white/60 leading-relaxed max-w-sm">
-              AI開発・EC支援で、中小企業のDXを加速する技術パートナー。
-            </p>
-            <p className="text-white/40 text-sm">{COMPANY_INFO.name}</p>
-          </motion.div>
-
-          {/* ナビゲーション */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="md:col-span-3 space-y-6"
-          >
-            <h3 className="font-display font-bold text-white">Navigation</h3>
-            <ul className="space-y-3">
-              {navigation.map((item) => (
-                <li key={item.name}>
-                  <a
-                    href={item.href}
-                    className="group flex items-center gap-2 text-white/60 hover:text-brand-green transition-colors"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-brand-green/50 group-hover:bg-brand-green transition-colors" />
-                    {item.name}
-                  </a>
+          </div>
+          <nav aria-label="フッターメニュー" className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:col-span-6">
+            <Column title="Services">
+              {SERVICE_LINKS.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="sc-link">
+                    {l.label}
+                  </Link>
                 </li>
               ))}
-            </ul>
-          </motion.div>
-
-          {/* サービス・リンク */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="md:col-span-3 space-y-6"
-          >
-            <h3 className="font-display font-bold text-white">Services</h3>
-            <ul className="space-y-3">
-              {serviceLinks.map((item) => (
-                <li key={item.name}>
-                  <a
-                    href={item.href}
-                    className="group flex items-center gap-2 text-white/60 hover:text-brand-green transition-colors"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan/50 group-hover:bg-brand-cyan transition-colors" />
-                    {item.name}
-                  </a>
+            </Column>
+            <Column title="Company">
+              {COMPANY_LINKS.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="sc-link">
+                    {l.label}
+                  </Link>
                 </li>
               ))}
-            </ul>
-          </motion.div>
-
-          {/* リンク */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="md:col-span-2 space-y-6"
-          >
-            <h3 className="font-display font-bold text-white">Links</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  href="/media"
-                  className="group flex items-center gap-2 text-white/60 hover:text-brand-green transition-colors"
-                >
-                  メディア
-                  <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </Link>
-              </li>
-              <li>
-                <a
-                  href={EXTERNAL_LINKS.note}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-2 text-white/60 hover:text-brand-green transition-colors"
-                >
-                  note
-                  <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </a>
-              </li>
-            </ul>
-
-            {/* トップに戻るボタン */}
-            <motion.button
-              onClick={scrollToTop}
-              className="mt-8 inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/20 text-white/60 hover:text-white hover:border-brand-green/50 hover:bg-brand-green/10 transition-all duration-300"
-              whileHover={{ y: -2 }}
-              whileTap={{ y: 0 }}
-            >
-              <span>トップに戻る</span>
-              <motion.span
-                animate={prefersReducedMotion ? { y: 0 } : { y: [0, -3, 0] }}
-                transition={
-                  prefersReducedMotion
-                    ? { duration: 0 }
-                    : { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
-                }
-              >
-                ↑
-              </motion.span>
-            </motion.button>
-          </motion.div>
+            </Column>
+            <Column title="Links">
+              {EXTERNAL.map((l) => (
+                <li key={l.href}>
+                  {l.internal ? (
+                    <Link href={l.href} className="sc-link">
+                      {l.label}
+                    </Link>
+                  ) : (
+                    <a href={l.href} target="_blank" rel="noopener noreferrer" className="sc-link inline-flex items-center gap-1">
+                      {l.label}
+                      <ArrowUpRight className="h-3.5 w-3.5 text-sc-fg/60" aria-hidden />
+                    </a>
+                  )}
+                </li>
+              ))}
+            </Column>
+          </nav>
         </div>
 
-        {/* 区切り線 */}
-        <motion.div
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="my-12 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
-        />
-
-        {/* コピーライト */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-col md:flex-row justify-between items-center gap-4"
-        >
-          <p className="text-sm text-white/40">
-            &copy; {new Date().getFullYear()} {COMPANY_INFO.name}. All rights
-            reserved.
-          </p>
-        </motion.div>
+        <div className="flex flex-col gap-6 py-8 text-xs leading-relaxed text-sc-fg/60 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex items-center gap-4">
+            <Image src="/logo.png" alt="" width={40} height={40} className="h-10 w-10" />
+            <p>
+              {COMPANY_INFO.name}
+              <br />〒{COMPANY_INFO.address.postalCode} {COMPANY_INFO.address.full}
+            </p>
+          </div>
+          <p className="t-wide">© {new Date().getFullYear()} {COMPANY_INFO.nameEn}</p>
+        </div>
       </div>
+      <p
+        aria-hidden
+        className="t-wide pointer-events-none select-none whitespace-nowrap px-[1.5vw] text-center text-[10.4vw] font-bold leading-[0.78] tracking-[-0.04em] text-sc-fg/[0.07]"
+      >
+        Smile Comfort
+      </p>
     </footer>
   );
 }

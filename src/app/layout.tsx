@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, Zen_Kaku_Gothic_New } from "next/font/google";
+import { Archivo, Murecho, Outfit, Zen_Kaku_Gothic_New } from "next/font/google";
 import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
 import Providers from "@/app/providers";
@@ -13,6 +13,20 @@ const outfit = Outfit({
   weight: ["400", "500", "600", "700"],
 });
 
+const murecho = Murecho({
+  subsets: ["latin"],
+  variable: "--font-jp-display",
+  display: "swap",
+  weight: ["700", "800"],
+});
+
+const archivo = Archivo({
+  subsets: ["latin"],
+  variable: "--font-wide",
+  display: "swap",
+  axes: ["wdth"],
+});
+
 const zenKaku = Zen_Kaku_Gothic_New({
   subsets: ["latin"],
   variable: "--font-body",
@@ -23,15 +37,13 @@ const zenKaku = Zen_Kaku_Gothic_New({
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default:
-      "合同会社スマイルコンフォート | Web開発・データ分析・EC支援のDXパートナー",
+    default: "合同会社スマイルコンフォート | ECの課題をAIで解決",
     template: "%s | 合同会社スマイルコンフォート",
   },
   description:
-    "DXでビジネスを加速させませんか？生成AI・Webアプリ開発・データ分析で、売上アップと業務効率化を実現。個人事業主・中小企業の経営者様に、確かな実績と豊富な経験で、コスト効果の高いDXソリューションをご提案。まずはお気軽にご相談ください。",
+    "出品業務、併売、問い合わせ対応、ページ改善。ECの現場で毎日くり返す作業を、AIと仕組みで軽くする合同会社スマイルコンフォート。業務の棚卸しから開発・運用まで伴走します。",
   alternates: {
     canonical: "/",
-    languages: { ja: "/", en: "/en" },
   },
   openGraph: {
     type: "website",
@@ -52,7 +64,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja" className={`${outfit.variable} ${zenKaku.variable}`}>
+    <html
+      lang="ja"
+      className={`${outfit.variable} ${zenKaku.variable} ${murecho.variable} ${archivo.variable}`}
+    >
       <head>
         <OrganizationJsonLd />
       </head>

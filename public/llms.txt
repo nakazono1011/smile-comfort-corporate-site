@@ -1,11 +1,17 @@
 # 合同会社スマイルコンフォート (Smile Comfort LLC)
 
 Base URL: https://www.smile-comfort.com
-About: Web開発、データ分析、EC支援、自社SaaS（CataMap / Tra-bell 等）
+About: EC × AI で、自社EC・国内モール・海外モールの課題を解決（出品業務・併売・問い合わせ対応・ページ改善）。自社SaaS CataMap の開発・運営
+
+## サービス (EC × AI の業務改善支援。自社EC・国内モール・海外モールに対応)
+- 出品業務: 商品名・説明文・画像から、売り場ごとのカテゴリや属性をAIで判定して入力。説明文の下書き、海外モール向けの翻訳、モール別CSVの作成まで自動化 (https://www.smile-comfort.com/#service-listing)
+- 併売: 自社EC・楽天市場・Yahoo!ショッピング・Amazon・海外モールの在庫と受注をひとつの流れにまとめる。一元管理ツールの導入から連携開発まで (https://www.smile-comfort.com/#service-channel)
+- 問い合わせ対応: 問い合わせの自動仕分けと、注文情報を参照した返信の下書き。多言語の問い合わせにも対応。送信前に担当者が確認する運用が基本 (https://www.smile-comfort.com/#service-support)
+- ページ改善: 商品ページ・レビュー・競合ページをAIで分析し、改善点を優先度順に提案。タイトル・説明文の改善案から効果の確認まで (https://www.smile-comfort.com/#service-page)
+- 相談窓口: https://www.smile-comfort.com/#contact
 
 ## 主な自社プロダクト
 - CataMap: https://catamap.app/ — ECモール向けAIタグ自動補完
-- Tra-bell: https://www.tra-bell.com/ — ホテル価格監視
 ## 日本語メディア (79件)
 - [1Password マスターパスワード復旧手順｜Secret Key・復元コード](https://www.smile-comfort.com/media/1password-master-password-recovery): 1Password のマスターパスワードを忘れても、サインイン中の端末・事前生成した復元コード・Family/Team の管理者回復のいずれかで入り直せます。Secret Key や Emergency Kit は単独では復旧できない補助資産です。
 - [中小企業のパスワード運用を1Passwordで固める - Vault3層設計と退職者対応](https://www.smile-comfort.com/media/1password-smb-security-operations): 従業員10〜50名の中小企業が1Passwordでパスワード管理を回す運用設計をまとめました。Vaultの3層分割・退職者の即日無効化・Watchtowerでの漏洩監視・定期変更不要の根拠まで実務目線で解説します。

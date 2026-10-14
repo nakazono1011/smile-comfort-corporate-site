@@ -1,8 +1,10 @@
-import { resend } from "@/lib/resend";
+import { getResend } from "@/lib/resend";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { CONTACT_TOPICS } from "@/components/lp/content";
 
 const schema = z.object({
+  topics: z.array(z.enum(CONTACT_TOPICS)).default([]),
   name: z.string().min(1),
   email: z.string().email(),
   company: z.string().optional(),
@@ -44,29 +46,23 @@ async function verifyTurnstile(token: string, remoteip?: string | null) {
   }
 }
 
-export async function POST(request: Request) {
-  try {
-    const body = await request.json();
-    const { name, email, company, message, turnstileToken } = schema.parse(body);
+type ContactInput = z.infer<typeof schema>;
 
-    const remoteip =
-      request.headers.get("cf-connecting-ip") ??
-      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-      null;
+/** 本文が JSON でない、または項目が想定外なら null (呼び出し側で 400 を返す) */
+async function parseInput(request: Request): Promise<ContactInput | null> {
+  const body: unknown = await request.json().catch(() => null);
+  const parsed = schema.safeParse(body);
+  return parsed.success ? parsed.data : null;
+}
 
-    const isHuman = await verifyTurnstile(turnstileToken, remoteip);
-    if (!isHuman) {
-      return NextResponse.json(
-        { error: "ボット検証に失敗しました。再度お試しください。" },
-        { status: 403 }
-      );
-    }
+/** Cloudflare 経由なら cf-connecting-ip、それ以外は x-forwarded-for の先頭 */
+function clientIp(request: Request) {
+  const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  return request.headers.get("cf-connecting-ip") ?? forwarded ?? null;
+}
 
-    const result = await resend.emails.send({
-      from: "お問い合わせフォーム <onboarding@resend.dev>",
-      to: [process.env.CONTACT_EMAIL || "your-email@example.com"],
-      subject: `[お問い合わせ] ${name}様より`,
-      text: `
+function mailText({ topics, name, email, company, message }: ContactInput) {
+  return `
 お問い合わせがありました。
 
 ■ お名前
@@ -78,27 +74,40 @@ ${email}
 ■ 会社名
 ${company || "記入なし"}
 
+■ 相談したい業務
+${topics.length > 0 ? topics.join("、") : "選択なし"}
+
 ■ お問い合わせ内容
 ${message}
 
 ※ このメールは自動送信されています。
-      `.trim(),
+  `.trim();
+}
+
+const errorResponse = (error: string, status: number) => NextResponse.json({ error }, { status });
+
+export async function POST(request: Request) {
+  const input = await parseInput(request);
+  if (!input) return errorResponse("入力内容を確認してください", 400);
+
+  try {
+    const isHuman = await verifyTurnstile(input.turnstileToken, clientIp(request));
+    if (!isHuman) return errorResponse("ボット検証に失敗しました。再度お試しください。", 403);
+
+    const result = await getResend().emails.send({
+      from: "お問い合わせフォーム <onboarding@resend.dev>",
+      to: [process.env.CONTACT_EMAIL || "your-email@example.com"],
+      subject: `[お問い合わせ] ${input.name}様より`,
+      text: mailText(input),
     });
 
-    if (!result || result.error) {
-      console.error("Resend API Error:", result?.error);
-      return NextResponse.json(
-        { error: "メール送信に失敗しました" },
-        { status: 400 }
-      );
+    if (result.error) {
+      console.error("Resend API Error:", result.error);
+      return errorResponse("メール送信に失敗しました", 400);
     }
-
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Contact API Error:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+    return errorResponse("Internal Server Error", 500);
   }
 }

@@ -5,12 +5,9 @@ import {
   OG_IMAGE,
 } from "@/config/company";
 import type { FaqPair, PostMeta } from "@/lib/mdx";
+import { CHANNELS, SERVICES } from "@/components/lp/content";
 
-const ORG_SAME_AS = [
-  EXTERNAL_LINKS.note,
-  EXTERNAL_LINKS.traBell,
-  EXTERNAL_LINKS.catamap,
-] as const;
+const ORG_SAME_AS = [EXTERNAL_LINKS.note, EXTERNAL_LINKS.catamap] as const;
 
 const mediaUrl = (slug: string, lang: "ja" | "en") =>
   lang === "en" ? `${BASE_URL}/en/media/${slug}` : `${BASE_URL}/media/${slug}`;
@@ -26,6 +23,28 @@ export function OrganizationJsonLd() {
     alternateName: COMPANY_INFO.nameEn,
     url: BASE_URL,
     logo: `${BASE_URL}/logo.png`,
+    description:
+      "自社EC・国内モール・海外モールの課題を、AIと仕組みで解決する会社。出品業務、併売、問い合わせ対応、ページ改善の効率化を、業務の棚卸しから開発・運用まで支援する。",
+    knowsAbout: [
+      "EC運営",
+      "生成AI",
+      ...SERVICES.map((s) => s.title),
+      ...CHANNELS.map((c) => c.title),
+    ],
+    areaServed: { "@type": "Country", name: "Japan" },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "EC × AI の業務改善支援",
+      itemListElement: SERVICES.map((s) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: s.title,
+          description: `${s.lead}${s.body}`,
+          url: `${BASE_URL}/#service-${s.key}`,
+        },
+      })),
+    },
     address: {
       "@type": "PostalAddress",
       streetAddress: COMPANY_INFO.address.full,
@@ -51,11 +70,27 @@ export function OrganizationJsonLd() {
     sameAs: [...ORG_SAME_AS],
   };
 
+  const website = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: COMPANY_INFO.name,
+    alternateName: COMPANY_INFO.nameEn,
+    url: BASE_URL,
+    inLanguage: "ja",
+    publisher: { "@type": "Organization", name: COMPANY_INFO.name },
+  };
+
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }}
+      />
+    </>
   );
 }
 
