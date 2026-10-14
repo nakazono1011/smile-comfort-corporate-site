@@ -8,13 +8,9 @@ type TweetCardProps = {
 };
 
 async function TweetCardContent({ id, className }: TweetCardProps) {
-  try {
-    const tweet = await getTweet(id);
-    if (!tweet) return <TweetNotFound id={id} />;
-    return <MagicTweet tweet={tweet} className={className} />;
-  } catch {
-    return <TweetNotFound id={id} />;
-  }
+  const tweet = await getTweet(id).catch(() => undefined);
+  if (!tweet) return <TweetNotFound id={id} />;
+  return <MagicTweet tweet={tweet} className={className} />;
 }
 
 export function TweetCard(props: TweetCardProps) {
