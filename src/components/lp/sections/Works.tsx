@@ -3,6 +3,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { EXTERNAL_LINKS } from "@/config/company";
 import { WORKS } from "../content";
 import { CatamapVisual } from "../visuals/CatamapVisual";
+import { ReuseVisual } from "../visuals/ReuseVisual";
 
 const d = (n: number) => ({ "--d": n }) as CSSProperties;
 
@@ -76,6 +77,40 @@ export function Works() {
                 className="sc-btn sc-btn-ghost"
               >
                 <span className="sc-btn-label">CataMapを見る</span>
+                <span className="sc-btn-icon">
+                  <ArrowUpRight className="h-4 w-4" aria-hidden />
+                </span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article
+          data-reveal
+          aria-labelledby="reuse-title"
+          className="mt-8 grid overflow-hidden rounded-[4px] bg-sc-surface ring-1 ring-sc-fg/10 lg:mt-10 lg:grid-cols-12"
+        >
+          <div className="relative min-h-[18rem] overflow-hidden bg-sc-fg/[0.04] lg:col-span-7">
+            <ReuseVisual />
+            <span className="absolute bottom-3 right-4 text-[11px] font-bold text-sc-fg/60">機能のイメージ図</span>
+          </div>
+          <div className="flex flex-col p-8 sm:p-10 lg:col-span-5 lg:p-12">
+            <p className="t-kicker text-sc-fg/60">Our product</p>
+            <h3 id="reuse-title" className="t-h3 mt-6 !text-[clamp(2rem,3.4vw,3rem)]">
+              Catamap Reuse DB
+            </h3>
+            <p className="t-lead mt-4">AI時代の相場検索。</p>
+            <p className="mt-5 text-[15px] leading-[2] text-sc-fg/70">
+              メルカリ、ヤフオク!、楽天市場、Yahoo!ショッピングで売れた中古品の価格から、時計・バッグ・カメラの状態別の相場と、今いちばん安い出品を調べられる相場検索サービスです。仕入れや値付けの前のリサーチに使えます。100万件を超える出品データを集めて整える、データ収集と分析の技術をそのまま形にしました。
+            </p>
+            <div className="mt-10 lg:mt-auto lg:pt-10">
+              <a
+                href={EXTERNAL_LINKS.catamapReuse}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="sc-btn sc-btn-ghost"
+              >
+                <span className="sc-btn-label">Catamap Reuse DBを見る</span>
                 <span className="sc-btn-icon">
                   <ArrowUpRight className="h-4 w-4" aria-hidden />
                 </span>

@@ -31,6 +31,7 @@ export const OG_IMAGE = {
 /** 外部 URL（自社プロダクト・SNS）。JSON-LD sameAs / リンク群で共通参照 */
 export const EXTERNAL_LINKS = {
   catamap: "https://catamap.app/",
+  catamapReuse: "https://reuse.catamap.app/",
   traBell: "https://www.tra-bell.com",
   note: "https://note.com/smilecomfort",
 } as const;
@@ -90,7 +91,7 @@ const CAPABILITIES: Record<CapabilityKey, CapabilityInfo> = {
  * 自社プロダクト。記事内では「広告」ではなく「弊社運用事例」として控えめに言及する。
  * 関連性が薄い記事には登場させない。
  */
-export type OwnProductKey = "trabell" | "catamap";
+export type OwnProductKey = "trabell" | "catamap" | "catamapReuse";
 
 export interface OwnProductInfo {
   key: OwnProductKey;
@@ -134,5 +135,20 @@ export const OWN_PRODUCTS: Record<OwnProductKey, OwnProductInfo> = {
     },
     relatedAffiliateProducts: ["nextengine"],
     capabilities: ["ai-contract", "ec-ops"],
+  },
+  catamapReuse: {
+    key: "catamapReuse",
+    name: "Catamap Reuse DB",
+    url: EXTERNAL_LINKS.catamapReuse,
+    tagline: {
+      ja: "メルカリ・ヤフオク!・楽天・Yahoo! の売れた価格から中古相場を調べる相場検索",
+      en: "Resale price search built from sold prices on Mercari, Yahoo! Auctions, Rakuten and Yahoo! Shopping",
+    },
+    blurb: {
+      ja: "弊社が自社で運用している中古相場検索サービス。4 モールの売れた価格を集めて状態別の相場と最安出品を出す。100 万件超の出品データを集めるスクレイピング・データ基盤の上で動いている。",
+      en: "Our in-house resale price search. It aggregates sold prices across four marketplaces into condition-based price ranges and the cheapest live listing, on top of a scraping and data pipeline covering over a million listings.",
+    },
+    relatedAffiliateProducts: ["brightdata"],
+    capabilities: ["scraping", "data-platform"],
   },
 };

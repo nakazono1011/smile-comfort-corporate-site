@@ -41,7 +41,7 @@ const lines = [
   `# 合同会社スマイルコンフォート (Smile Comfort LLC)`,
   ``,
   `Base URL: ${baseUrl}`,
-  `About: EC × AI で、自社EC・国内モール・海外モールの課題を解決（出品業務・併売・問い合わせ対応・ページ改善）。自社SaaS CataMap の開発・運営`,
+  `About: EC × AI で、自社EC・国内モール・海外モールの課題を解決（出品業務・併売・問い合わせ対応・ページ改善）。自社プロダクト CataMap / Catamap Reuse DB の開発・運営`,
   ``,
   `## サービス (EC × AI の業務改善支援。自社EC・国内モール・海外モールに対応)`,
   // 文言は src/components/lp/content.ts の SERVICES と揃える
@@ -53,6 +53,8 @@ const lines = [
   ``,
   `## 主な自社プロダクト`,
   `- CataMap: https://catamap.app/ — ECモール向けAIタグ自動補完`,
+  `- Catamap Reuse DB: https://reuse.catamap.app/ — 中古の相場検索。メルカリ・ヤフオク!・楽天市場・Yahoo!ショッピングで売れた価格から、時計・バッグ・カメラの状態別相場と最安出品を調べられる`,
+  ``,
   `## 日本語メディア (${ja.length}件)`,
   ...ja.map((p) =>
     `- [${p.title}](${baseUrl}/media/${p.slug}): ${p.summary || ""}`.trim(),
