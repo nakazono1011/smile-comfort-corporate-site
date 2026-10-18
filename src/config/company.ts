@@ -141,12 +141,12 @@ export const OWN_PRODUCTS: Record<OwnProductKey, OwnProductInfo> = {
     name: "Catamap Reuse DB",
     url: EXTERNAL_LINKS.catamapReuse,
     tagline: {
-      ja: "メルカリ・ヤフオク!・楽天・Yahoo! の売れた価格から中古相場を調べる相場検索",
-      en: "Resale price search built from sold prices on Mercari, Yahoo! Auctions, Rakuten and Yahoo! Shopping",
+      ja: "AI が一点物の違いを揃え、本当に比較できる中古相場を作る相場検索",
+      en: "Resale price search where AI normalizes one-of-a-kind differences to build truly comparable prices",
     },
     blurb: {
-      ja: "弊社が自社で運用している中古相場検索サービス。4 モールの売れた価格を集めて状態別の相場と最安出品を出す。100 万件超の出品データを集めるスクレイピング・データ基盤の上で動いている。",
-      en: "Our in-house resale price search. It aggregates sold prices across four marketplaces into condition-based price ranges and the cheapest live listing, on top of a scraping and data pipeline covering over a million listings.",
+      ja: "弊社が自社で運用している中古相場検索サービス。AI が型番・状態・傷・付属品・素材の違いを一点ずつ解析して揃え、比較できる個体だけから相場を出す。スクレイピング・データ基盤の上で動いている。",
+      en: "Our in-house resale price search. AI analyzes each item for model number, condition, scratches, accessories and material, aligns those differences, and derives prices only from truly comparable items, on top of our scraping and data pipeline.",
     },
     relatedAffiliateProducts: ["brightdata"],
     capabilities: ["scraping", "data-platform"],

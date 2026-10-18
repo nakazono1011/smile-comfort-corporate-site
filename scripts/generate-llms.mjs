@@ -53,7 +53,7 @@ const lines = [
   ``,
   `## 主な自社プロダクト`,
   `- CataMap: https://catamap.app/ — ECモール向けAIタグ自動補完`,
-  `- Catamap Reuse DB: https://reuse.catamap.app/ — 中古の相場検索。メルカリ・ヤフオク!・楽天市場・Yahoo!ショッピングで売れた価格から、時計・バッグ・カメラの状態別相場と最安出品を調べられる`,
+  `- Catamap Reuse DB: https://reuse.catamap.app/ — 中古の相場検索。AI が型番・状態・傷・付属品・素材の違いを一点ずつ解析して揃え、本当に比較できる個体から相場を出す`,
   ``,
   `## 日本語メディア (${ja.length}件)`,
   ...ja.map((p) =>

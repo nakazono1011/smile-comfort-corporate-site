@@ -12,7 +12,7 @@ About: EC × AI で、自社EC・国内モール・海外モールの課題を�
 
 ## 主な自社プロダクト
 - CataMap: https://catamap.app/ — ECモール向けAIタグ自動補完
-- Catamap Reuse DB: https://reuse.catamap.app/ — 中古の相場検索。メルカリ・ヤフオク!・楽天市場・Yahoo!ショッピングで売れた価格から、時計・バッグ・カメラの状態別相場と最安出品を調べられる
+- Catamap Reuse DB: https://reuse.catamap.app/ — 中古の相場検索。AI が型番・状態・傷・付属品・素材の違いを一点ずつ解析して揃え、本当に比較できる個体から相場を出す
 
 ## 日本語メディア (79件)
 - [1Password マスターパスワード復旧手順｜Secret Key・復元コード](https://www.smile-comfort.com/media/1password-master-password-recovery): 1Password のマスターパスワードを忘れても、サインイン中の端末・事前生成した復元コード・Family/Team の管理者回復のいずれかで入り直せます。Secret Key や Emergency Kit は単独では復旧できない補助資産です。

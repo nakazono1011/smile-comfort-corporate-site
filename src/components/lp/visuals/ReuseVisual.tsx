@@ -1,18 +1,20 @@
 import Image from "next/image";
 
-const GRADES = [
-  { grade: "S", label: "未使用", price: "¥148,000", w: 100 },
-  { grade: "A", label: "美品", price: "¥121,000", w: 82 },
-  { grade: "B", label: "使用感あり", price: "¥98,000", w: 66 },
-  { grade: "C", label: "傷あり", price: "¥74,000", w: 50 },
+const PARSED = [
+  { k: "型番", v: "AB-1234" },
+  { k: "状態", v: "A・小傷あり" },
+  { k: "付属品", v: "箱・保証書" },
+  { k: "素材", v: "SS・革ベルト" },
 ];
 
-const CHEAPEST = [
-  { mall: "メルカリ", price: "¥109,800" },
-  { mall: "ヤフオク!", price: "¥112,000" },
+const COMPARABLES = [
+  { label: "同条件の個体", price: "¥118,000", match: true },
+  { label: "同条件の個体", price: "¥121,500", match: true },
+  { label: "付属品なし", price: "¥96,000", match: false },
+  { label: "別型番", price: "¥158,000", match: false },
 ];
 
-/** Catamap Reuse DB が何をするか (売れた価格から状態別の相場と最安出品を出す) を、サイトの配色で描いた機能イメージ */
+/** Catamap Reuse DB が何をするか (AI が一点ずつ解析して違いを揃え、比較できる個体だけから相場を出す) を、サイトの配色で描いた機能イメージ */
 export function ReuseVisual() {
   return (
     <div aria-hidden className="vis-grid relative flex h-full items-center justify-center p-6 sm:p-10">
@@ -23,32 +25,34 @@ export function ReuseVisual() {
         <div className="min-w-0">
           <p className="flex items-center gap-2 text-xs font-bold text-sc-fg/60">
             <span className="h-2 w-2 rounded-full bg-sc-signal" />
-            売れた価格の中央値
+            AIが一点ずつ解析
           </p>
-          <p className="mt-1 text-[22px] font-bold leading-none tracking-tight sm:text-[26px]">
-            ¥112,000
-            <span className="ml-2 text-[11px] font-bold text-sc-fg/60">成約 1,284件</span>
-          </p>
-          <ul className="mt-3 space-y-1.5">
-            {GRADES.map((g) => (
-              <li key={g.grade} className="grid grid-cols-[1.1rem_1fr_auto] items-center gap-2 text-[11px] font-bold">
-                <span className="text-sc-fg/60">{g.grade}</span>
-                <span className="h-1.5 overflow-hidden rounded-full bg-sc-fg/10">
-                  <span className="block h-full rounded-full bg-sc-signal/70" style={{ width: `${g.w}%` }} />
-                </span>
-                <span className="tabular-nums">{g.price}</span>
+          <ul className="mt-2 flex flex-wrap gap-1.5">
+            {PARSED.map((p) => (
+              <li
+                key={p.k}
+                className="rounded-[3px] bg-sc-signal/15 px-2 py-0.5 text-[12px] font-bold leading-relaxed text-sc-fg/85"
+              >
+                <span className="text-sc-fg/55">{p.k} </span>
+                {p.v}
               </li>
             ))}
           </ul>
-          <dl className="mt-4 space-y-1.5 border-t border-sc-fg/10 pt-3">
-            <dt className="text-[11px] font-bold text-sc-fg/60">今いちばん安い出品</dt>
-            {CHEAPEST.map((c) => (
-              <dd key={c.mall} className="flex items-baseline justify-between text-[12px] font-bold leading-snug">
-                <span>{c.mall}</span>
+          <ul className="mt-3 space-y-1 border-t border-sc-fg/10 pt-3">
+            {COMPARABLES.map((c, i) => (
+              <li
+                key={i}
+                className={`flex items-baseline justify-between text-[12px] font-bold leading-snug ${c.match ? "" : "text-sc-fg/35 line-through decoration-sc-fg/30"}`}
+              >
+                <span>{c.label}</span>
                 <span className="tabular-nums">{c.price}</span>
-              </dd>
+              </li>
             ))}
-          </dl>
+          </ul>
+          <p className="mt-3 flex items-baseline justify-between border-t border-sc-fg/10 pt-3">
+            <span className="text-[11px] font-bold text-sc-fg/60">比較できる個体の相場</span>
+            <span className="text-[20px] font-bold leading-none tracking-tight tabular-nums sm:text-[22px]">¥119,000</span>
+          </p>
         </div>
       </div>
     </div>
