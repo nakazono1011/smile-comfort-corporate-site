@@ -31,6 +31,7 @@ export const OG_IMAGE = {
 /** 外部 URL（自社プロダクト・SNS）。JSON-LD sameAs / リンク群で共通参照 */
 export const EXTERNAL_LINKS = {
   catamap: "https://catamap.app/",
+  catamapReuse: "https://reuse.catamap.app/",
   traBell: "https://www.tra-bell.com",
   note: "https://note.com/smilecomfort",
 } as const;
@@ -90,7 +91,7 @@ const CAPABILITIES: Record<CapabilityKey, CapabilityInfo> = {
  * 自社プロダクト。記事内では「広告」ではなく「弊社運用事例」として控えめに言及する。
  * 関連性が薄い記事には登場させない。
  */
-export type OwnProductKey = "trabell" | "catamap";
+export type OwnProductKey = "trabell" | "catamap" | "catamapReuse";
 
 export interface OwnProductInfo {
   key: OwnProductKey;
@@ -134,5 +135,20 @@ export const OWN_PRODUCTS: Record<OwnProductKey, OwnProductInfo> = {
     },
     relatedAffiliateProducts: ["nextengine"],
     capabilities: ["ai-contract", "ec-ops"],
+  },
+  catamapReuse: {
+    key: "catamapReuse",
+    name: "Catamap Reuse DB",
+    url: EXTERNAL_LINKS.catamapReuse,
+    tagline: {
+      ja: "AI が一点物の違いを揃え、本当に比較できる中古相場を作る相場検索",
+      en: "Resale price search where AI normalizes one-of-a-kind differences to build truly comparable prices",
+    },
+    blurb: {
+      ja: "弊社が自社で運用している中古相場検索サービス。AI が型番・状態・傷・付属品・素材の違いを一点ずつ解析して揃え、比較できる個体だけから相場を出す。スクレイピング・データ基盤の上で動いている。",
+      en: "Our in-house resale price search. AI analyzes each item for model number, condition, scratches, accessories and material, aligns those differences, and derives prices only from truly comparable items, on top of our scraping and data pipeline.",
+    },
+    relatedAffiliateProducts: ["brightdata"],
+    capabilities: ["scraping", "data-platform"],
   },
 };

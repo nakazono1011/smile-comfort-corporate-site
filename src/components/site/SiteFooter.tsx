@@ -22,6 +22,7 @@ const COMPANY_LINKS = [
 const EXTERNAL = [
   { label: "メディア", href: "/media", internal: true },
   { label: "CataMap", href: EXTERNAL_LINKS.catamap },
+  { label: "Catamap Reuse DB", href: EXTERNAL_LINKS.catamapReuse },
   { label: "note", href: EXTERNAL_LINKS.note },
 ];
 

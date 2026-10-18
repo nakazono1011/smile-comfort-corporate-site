@@ -7,7 +7,7 @@ import {
 import type { FaqPair, PostMeta } from "@/lib/mdx";
 import { CHANNELS, SERVICES } from "@/components/lp/content";
 
-const ORG_SAME_AS = [EXTERNAL_LINKS.note, EXTERNAL_LINKS.catamap] as const;
+const ORG_SAME_AS = [EXTERNAL_LINKS.note, EXTERNAL_LINKS.catamap, EXTERNAL_LINKS.catamapReuse] as const;
 
 const mediaUrl = (slug: string, lang: "ja" | "en") =>
   lang === "en" ? `${BASE_URL}/en/media/${slug}` : `${BASE_URL}/media/${slug}`;
