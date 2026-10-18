@@ -14,6 +14,7 @@ import { Faq } from "@/components/lp/sections/Faq";
 import { Company } from "@/components/lp/sections/Company";
 import { Contact } from "@/components/lp/sections/Contact";
 import { OG_IMAGE } from "@/config/company";
+import { ProductsJsonLd } from "@/components/seo/JsonLd";
 
 const title =
   "ECの課題をAIで解決｜出品・併売・問い合わせ対応・ページ改善｜合同会社スマイルコンフォート";
@@ -44,6 +45,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <div className="sc-root min-h-screen" data-theme="light">
+      <ProductsJsonLd />
       <PageEffects />
       <SiteHeader />
       <main>
