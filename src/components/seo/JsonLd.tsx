@@ -90,6 +90,22 @@ export function OrganizationJsonLd() {
     publisher: { "@id": ORG_ID },
   };
 
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }}
+      />
+    </>
+  );
+}
+
+/** 自社プロダクトの構造化データ。製品を載せているトップページだけで出す (全ページに出すと表示内容と合わない) */
+export function ProductsJsonLd() {
   const products = LP_PRODUCTS.map((p) => ({
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -105,14 +121,6 @@ export function OrganizationJsonLd() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }}
-      />
       {products.map((p) => (
         <script
           key={p["@id"]}
