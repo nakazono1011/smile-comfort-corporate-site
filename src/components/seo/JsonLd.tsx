@@ -3,11 +3,18 @@ import {
   COMPANY_INFO,
   EXTERNAL_LINKS,
   OG_IMAGE,
+  OWN_PRODUCTS,
 } from "@/config/company";
 import type { FaqPair, PostMeta } from "@/lib/mdx";
 import { CHANNELS, SERVICES } from "@/components/lp/content";
 
-const ORG_SAME_AS = [EXTERNAL_LINKS.note, EXTERNAL_LINKS.catamap, EXTERNAL_LINKS.catamapReuse] as const;
+/** sameAs は「同じ会社を指す別ページ」だけを並べる。自社プロダクトのサイトは入れず、下の WebApplication で表す */
+const ORG_SAME_AS = [EXTERNAL_LINKS.note] as const;
+
+const ORG_ID = `${BASE_URL}/#organization`;
+
+/** トップページに載せている自社プロダクト。会社 (ORG_ID) が提供するアプリケーションとして記述する */
+const LP_PRODUCTS = [OWN_PRODUCTS.catamap, OWN_PRODUCTS.catamapReuse];
 
 const mediaUrl = (slug: string, lang: "ja" | "en") =>
   lang === "en" ? `${BASE_URL}/en/media/${slug}` : `${BASE_URL}/media/${slug}`;
@@ -19,6 +26,7 @@ export function OrganizationJsonLd() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": ORG_ID,
     name: COMPANY_INFO.name,
     alternateName: COMPANY_INFO.nameEn,
     url: BASE_URL,
@@ -30,6 +38,8 @@ export function OrganizationJsonLd() {
       "生成AI",
       ...SERVICES.map((s) => s.title),
       ...CHANNELS.map((c) => c.title),
+      "中古相場",
+      "価格リサーチ",
     ],
     areaServed: { "@type": "Country", name: "Japan" },
     hasOfferCatalog: {
@@ -77,8 +87,21 @@ export function OrganizationJsonLd() {
     alternateName: COMPANY_INFO.nameEn,
     url: BASE_URL,
     inLanguage: "ja",
-    publisher: { "@type": "Organization", name: COMPANY_INFO.name },
+    publisher: { "@id": ORG_ID },
   };
+
+  const products = LP_PRODUCTS.map((p) => ({
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "@id": `${p.url}#app`,
+    name: p.name,
+    url: p.url,
+    description: p.tagline.ja,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    inLanguage: "ja",
+    publisher: { "@id": ORG_ID },
+  }));
 
   return (
     <>
@@ -90,6 +113,13 @@ export function OrganizationJsonLd() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }}
       />
+      {products.map((p) => (
+        <script
+          key={p["@id"]}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(p) }}
+        />
+      ))}
     </>
   );
 }

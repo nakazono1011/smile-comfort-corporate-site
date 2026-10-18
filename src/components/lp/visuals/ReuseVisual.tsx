@@ -17,7 +17,8 @@ const COMPARABLES = [
 /** Catamap Reuse DB が何をするか (AI が一点ずつ解析して違いを揃え、比較できる個体だけから相場を出す) を、サイトの配色で描いた機能イメージ */
 export function ReuseVisual() {
   return (
-    <div aria-hidden className="vis-grid relative flex h-full items-center justify-center p-6 sm:p-10">
+    // 架空の値 (価格・型番・タグ) を検索結果の抜粋や AI の回答に使わせない
+    <div aria-hidden data-nosnippet className="vis-grid relative flex h-full items-center justify-center p-6 sm:p-10">
       <div className="grid w-full max-w-[560px] grid-cols-[38%_1fr] gap-4 rounded-[6px] bg-sc-bg p-4 shadow-[0_0_0_1px_rgb(var(--c-fg)/0.1),0_2rem_3rem_-1.8rem_rgb(0_0_0/0.6)] sm:gap-5 sm:p-5">
         <div className="relative aspect-square overflow-hidden rounded-[4px] bg-[#E4EAE7]">
           <Image src="/lp/products/watch.webp" alt="" fill sizes="220px" className="object-cover" />
