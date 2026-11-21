@@ -50,3 +50,13 @@ export function captureAttribution(url: URL): void {
     // ストレージが使えない環境では記録しない
   }
 }
+
+/** メール本文の流入元セクション。記録が無ければ「記録なし」 */
+export function attributionMailSection(a?: Attribution): string {
+  if (!a || Object.values(a).every((v) => !v)) return "流入元: 記録なし";
+  const none = "なし";
+  return `流入元: ${a.source || none} / ${a.medium || none}
+マス: ${a.campaign || none}
+記事ID: ${a.content || none}
+最初に開いたページ: ${a.landing || none}`;
+}

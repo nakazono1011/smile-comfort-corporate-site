@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef, useState, type CSSProperties, type ReactNode, type RefObject } from "react";
+import { useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { useForm, type FieldErrors } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { cn } from "@/lib/utils";
+import { readAttribution } from "@/lib/attribution";
 import { CONTACT_TOPICS, type ContactTopic } from "../content";
 
 const schema = z.object({
@@ -149,17 +150,27 @@ async function postContact(payload: Record<string, unknown>): Promise<Status> {
   return res.ok ? "success" : "error";
 }
 
+const subscribeNever = () => () => {};
+
+/** /?topic=<業務名>#contact で来たとき、その業務を最初からチェックしておく。CONTACT_TOPICS 以外は無視 */
+function topicFromUrl(): ContactTopic | undefined {
+  const wanted = new URLSearchParams(window.location.search).get("topic");
+  return CONTACT_TOPICS.find((t) => t === wanted);
+}
+
 /** フォームの状態と送信処理。ロボット確認 (Turnstile) のトークンがないと送らない */
 function useContactForm() {
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [token, setToken] = useState<string | null>(null);
-  const [topics, setTopics] = useState<ContactTopic[]>([]);
+  const presetTopic = useSyncExternalStore(subscribeNever, topicFromUrl, () => undefined);
+  const [picked, setPicked] = useState<ContactTopic[] | null>(null);
+  const topics = picked ?? (presetTopic ? [presetTopic] : []);
   const turnstileRef = useRef<TurnstileInstance | null>(null);
   const form = useForm<FormValues>({ resolver: zodResolver(schema) });
 
   const toggleTopic = (t: ContactTopic) =>
-    setTopics((cur) => (cur.includes(t) ? cur.filter((x) => x !== t) : [...cur, t]));
+    setPicked(topics.includes(t) ? topics.filter((x) => x !== t) : [...topics, t]);
 
   // 入力を変えたら、前回の送信結果の表示を消す (失敗の表示が残り続けないように)
   const clearStatus = () => setStatus("idle");
@@ -171,11 +182,11 @@ function useContactForm() {
     }
     setStatus("idle");
     setSubmitting(true);
-    const result = await postContact({ ...values, topics, turnstileToken: token });
+    const result = await postContact({ ...values, topics, turnstileToken: token, attribution: readAttribution() });
     setStatus(result);
     if (result === "success") {
       form.reset();
-      setTopics([]);
+      setPicked([]);
     }
     setSubmitting(false);
     // トークンは 1 回しか使えないので、成否にかかわらず確認をやり直す

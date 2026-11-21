@@ -2,6 +2,7 @@ import { getResend } from "@/lib/resend";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { CONTACT_TOPICS } from "@/components/lp/content";
+import { attributionMailSection, attributionSchema } from "@/lib/attribution";
 
 const schema = z.object({
   topics: z.array(z.enum(CONTACT_TOPICS)).default([]),
@@ -10,6 +11,7 @@ const schema = z.object({
   company: z.string().optional(),
   message: z.string().min(1),
   turnstileToken: z.string().min(1),
+  attribution: attributionSchema.optional(),
 });
 
 const TURNSTILE_VERIFY_URL =
@@ -61,7 +63,7 @@ function clientIp(request: Request) {
   return request.headers.get("cf-connecting-ip") ?? forwarded ?? null;
 }
 
-function mailText({ topics, name, email, company, message }: ContactInput) {
+function mailText({ topics, name, email, company, message, attribution }: ContactInput) {
   return `
 お問い合わせがありました。
 
@@ -79,6 +81,8 @@ ${topics.length > 0 ? topics.join("、") : "選択なし"}
 
 ■ お問い合わせ内容
 ${message}
+
+${attributionMailSection(attribution)}
 
 ※ このメールは自動送信されています。
   `.trim();
