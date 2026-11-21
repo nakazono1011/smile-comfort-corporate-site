@@ -59,7 +59,7 @@ export async function getCase(slug: string): Promise<CaseStudy | null> {
   const figureSrc = `/cases/${slug}/${figure}.png`;
   const body = content
     .slice(0, consult.index)
-    .replace(`](${figure})`, `](${figureSrc})`)
+    .replace(/\]\(([A-Z]-[A-Z]{2}-\d{2})\)/g, (_, id: string) => `](/cases/${slug}/${id}.png)`)
     .trimEnd();
 
   return {
