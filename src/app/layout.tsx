@@ -3,6 +3,7 @@ import { Archivo, Murecho, Outfit, Zen_Kaku_Gothic_New } from "next/font/google"
 import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
 import Providers from "@/app/providers";
+import { AttributionCapture } from "@/components/AttributionCapture";
 import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 import { ANALYTICS, BASE_URL, OG_IMAGE } from "@/config/company";
 
@@ -72,6 +73,7 @@ export default function RootLayout({
         <OrganizationJsonLd />
       </head>
       <body className={zenKaku.className} suppressHydrationWarning>
+        <AttributionCapture />
         <div className="min-h-screen flex flex-col">
           <div className="flex-grow">
             <Providers locale="ja">{children}</Providers>
