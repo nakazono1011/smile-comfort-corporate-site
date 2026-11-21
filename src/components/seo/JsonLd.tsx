@@ -140,6 +140,10 @@ interface ArticleJsonLdProps {
   lang: "ja" | "en";
   tags?: string[];
   cover?: string;
+  /** 更新日。省略時は date */
+  dateModified?: string;
+  /** /media/<slug> 以外のページ (事例など) のパス。省略時は media の URL */
+  urlPath?: string;
 }
 
 export function ArticleJsonLd({
@@ -150,8 +154,10 @@ export function ArticleJsonLd({
   lang,
   tags,
   cover,
+  dateModified,
+  urlPath,
 }: ArticleJsonLdProps) {
-  const url = mediaUrl(slug, lang);
+  const url = urlPath ? absoluteUrl(urlPath) : mediaUrl(slug, lang);
 
   const schema = {
     "@context": "https://schema.org",
@@ -160,7 +166,7 @@ export function ArticleJsonLd({
     description,
     url,
     datePublished: date,
-    dateModified: date,
+    dateModified: dateModified ?? date,
     inLanguage: lang === "en" ? "en-US" : "ja-JP",
     image: absoluteUrl(cover ?? OG_IMAGE.url),
     keywords: tags?.join(", "),
