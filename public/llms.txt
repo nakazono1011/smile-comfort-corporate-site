@@ -14,6 +14,9 @@ About: EC × AI で、自社EC・国内モール・海外モールの課題を�
 - CataMap: https://catamap.app/ — ECモール向けAIタグ自動補完
 - Catamap Reuse DB: https://reuse.catamap.app/ — 中古の相場検索。AI が型番・状態・傷・付属品・素材の違いを一点ずつ解析して揃え、本当に比較できる個体から相場を出す
 
+## 事例 (1件)
+- [ネクストエンジンの商品をShopeeシンガポールに出すには？](https://www.smile-comfort.com/cases/ne-shopee-sg): 中古アパレル1万点規模の店舗と、ネクストエンジンからShopeeシンガポールへAIで出品する仕組みを作っています。価格の決め方、在庫のそろえ方、店舗が決める3つの設定をまとめました。
+
 ## 日本語メディア (79件)
 - [1Password マスターパスワード復旧手順｜Secret Key・復元コード](https://www.smile-comfort.com/media/1password-master-password-recovery): 1Password のマスターパスワードを忘れても、サインイン中の端末・事前生成した復元コード・Family/Team の管理者回復のいずれかで入り直せます。Secret Key や Emergency Kit は単独では復旧できない補助資産です。
 - [中小企業のパスワード運用を1Passwordで固める - Vault3層設計と退職者対応](https://www.smile-comfort.com/media/1password-smb-security-operations): 従業員10〜50名の中小企業が1Passwordでパスワード管理を回す運用設計をまとめました。Vaultの3層分割・退職者の即日無効化・Watchtowerでの漏洩監視・定期変更不要の根拠まで実務目線で解説します。

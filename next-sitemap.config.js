@@ -54,7 +54,25 @@ const buildLastmodMap = () => {
       }
     }
   }
+  addCaseLastmods(map);
   return map;
+};
+
+/** 事例ページ /cases/<slug> の lastmod は frontmatter の updated */
+const addCaseLastmods = (map) => {
+  const dir = path.join(CONTENT_ROOT, "ja", "cases");
+  let files = [];
+  try {
+    files = fs.readdirSync(dir);
+  } catch {
+    return;
+  }
+  for (const file of files) {
+    if (!file.endsWith(".md")) continue;
+    const { data } = matter(fs.readFileSync(path.join(dir, file), "utf8"));
+    const iso = toIso(data.updated);
+    if (iso) map[`/cases/${file.replace(/\.md$/, "")}`] = iso;
+  }
 };
 
 let lastmodByPath = null;

@@ -34,6 +34,25 @@ async function readPosts(lang, subdir) {
   return out.sort((a, b) => +new Date(b.date) - +new Date(a.date));
 }
 
+async function readCases() {
+  const dir = path.join(root, "src", "lib", "content", "ja", "cases");
+  const files = (await fs.readdir(dir).catch(() => [])).filter((f) =>
+    f.endsWith(".md"),
+  );
+  const out = [];
+  for (const file of files) {
+    const { data } = matter(await fs.readFile(path.join(dir, file), "utf8"));
+    out.push({
+      slug: file.replace(".md", ""),
+      title: data.title,
+      description: data.description,
+      updated: data.updated,
+    });
+  }
+  return out.sort((a, b) => +new Date(b.updated) - +new Date(a.updated));
+}
+
+const cases = await readCases();
 const ja = await readPosts("ja", "media");
 const en = await readPosts("en", "media");
 
@@ -54,6 +73,11 @@ const lines = [
   `## 主な自社プロダクト`,
   `- CataMap: https://catamap.app/ — ECモール向けAIタグ自動補完`,
   `- Catamap Reuse DB: https://reuse.catamap.app/ — 中古の相場検索。AI が型番・状態・傷・付属品・素材の違いを一点ずつ解析して揃え、本当に比較できる個体から相場を出す`,
+  ``,
+  `## 事例 (${cases.length}件)`,
+  ...cases.map((c) =>
+    `- [${c.title}](${baseUrl}/cases/${c.slug}): ${c.description || ""}`.trim(),
+  ),
   ``,
   `## 日本語メディア (${ja.length}件)`,
   ...ja.map((p) =>
