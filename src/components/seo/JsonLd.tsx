@@ -14,7 +14,7 @@ const ORG_SAME_AS = [EXTERNAL_LINKS.note] as const;
 const ORG_ID = `${BASE_URL}/#organization`;
 
 /** トップページに載せている自社プロダクト。会社 (ORG_ID) が提供するアプリケーションとして記述する */
-const LP_PRODUCTS = [OWN_PRODUCTS.catamap, OWN_PRODUCTS.catamapReuse];
+const LP_PRODUCTS = [OWN_PRODUCTS.catamap];
 
 const mediaUrl = (slug: string, lang: "ja" | "en") =>
   lang === "en" ? `${BASE_URL}/en/media/${slug}` : `${BASE_URL}/media/${slug}`;
@@ -38,7 +38,6 @@ export function OrganizationJsonLd() {
       "生成AI",
       ...SERVICES.map((s) => s.title),
       ...CHANNELS.map((c) => c.title),
-      "中古相場",
       "価格リサーチ",
     ],
     areaServed: { "@type": "Country", name: "Japan" },
