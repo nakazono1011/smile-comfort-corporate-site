@@ -9,7 +9,7 @@ const CATEGORIES = [
   { mall: "メルカリShops", icon: "mercari", path: "メンズ › トップス › シャツ" },
 ];
 
-/** CataMap が何をするか (商品情報からタグとモール別カテゴリを補完) を、サイトの配色で描いた機能イメージ */
+/** CataMap が何をするか (商品に合わせた属性タグと、モールごとのカテゴリ) を、サイトの配色で描いた機能イメージ。出品業務の章の図になる */
 export function CatamapVisual() {
   return (
     // 架空の値 (価格・型番・タグ) を検索結果の抜粋や AI の回答に使わせない

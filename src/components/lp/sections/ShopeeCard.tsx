@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
-import { EXTERNAL_LINKS } from "@/config/company";
+import { OWN_PRODUCTS } from "@/config/company";
+
+const SHOPEE = OWN_PRODUCTS.shopeeApp;
 
 /** 併売の章の終わりに置く、自社アプリ「Shopee連携」の紹介 */
 export function ShopeeCard() {
@@ -29,15 +31,15 @@ export function ShopeeCard() {
       <div className="p-7 sm:p-10">
         <p className="t-kicker text-sc-fg/60">Our product</p>
         <h4 id="shopee-title" className="t-h3 mt-5 !text-[clamp(1.75rem,2.6vw,2.375rem)]">
-          Shopee連携
+          {SHOPEE.name}
         </h4>
         <p className="t-lead mt-3">ネクストエンジンから、すぐにShopeeへ出品。</p>
         <p className="mt-4 text-[15px] leading-[1.95] text-sc-fg/70">
           ネクストエンジンの商品を、Shopeeに出品するアプリです。英語の商品名と説明をAIが下書きし、為替と送料を含めた売価の計算、まとめての出品、在庫の連携までを引き受けます。
         </p>
         <div className="mt-8">
-          <a href={EXTERNAL_LINKS.shopeeApp} target="_blank" rel="noopener noreferrer" className="sc-btn sc-btn-ghost">
-            <span className="sc-btn-label">Shopee連携を見る</span>
+          <a href={SHOPEE.url} target="_blank" rel="noopener noreferrer" className="sc-btn sc-btn-ghost">
+            <span className="sc-btn-label">{SHOPEE.name}を見る</span>
             <span className="sc-btn-icon">
               <ArrowUpRight className="h-4 w-4" aria-hidden />
             </span>
