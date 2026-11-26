@@ -38,8 +38,8 @@ export const SERVICES: Service[] = [
       "モール別CSVの一括作成",
     ],
     works: [
-      "ECモールのカテゴリ・スペック・商品属性の自動付与アプリ",
       "自社SaaS「CataMap」の開発・運営",
+      "ネクストエンジンのアプリ「Shopee連携」の開発・運営",
     ],
     tasks: ["商品登録", "属性の入力", "説明文づくり"],
   },
@@ -214,12 +214,6 @@ export const WORKS = [
     title: "ECサイトのカスタマー返信自動化アプリ",
     href: "#service-support",
     cta: "問い合わせ対応を見る",
-  },
-  {
-    area: "出品業務",
-    title: "ECモールのカテゴリ・スペック・商品属性の自動付与アプリ",
-    href: "#service-listing",
-    cta: "出品業務を見る",
   },
   {
     area: "ページ改善",

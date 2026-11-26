@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import Image from "next/image";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { EXTERNAL_LINKS } from "@/config/company";
 import { WORKS } from "../content";
@@ -76,6 +77,54 @@ export function Works() {
                 className="sc-btn sc-btn-ghost"
               >
                 <span className="sc-btn-label">CataMapを見る</span>
+                <span className="sc-btn-icon">
+                  <ArrowUpRight className="h-4 w-4" aria-hidden />
+                </span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article
+          data-reveal
+          aria-labelledby="shopee-title"
+          className="mt-8 grid overflow-hidden rounded-[4px] bg-sc-surface ring-1 ring-sc-fg/10 lg:mt-10 lg:grid-cols-12"
+        >
+          <div className="relative min-h-[18rem] overflow-hidden bg-sc-fg/[0.04] lg:col-span-7">
+            {/* Shopee連携の紹介ページ冒頭と同じ地図の絵。明るい地の絵なので、CataMap の図と同じく浮いた枠に収めて暗い地になじませる */}
+            <div className="vis-grid relative flex h-full items-center justify-center p-6 sm:p-10">
+              <figure className="w-full max-w-[560px] overflow-hidden rounded-[6px] bg-[#FEF6F2] shadow-[0_0_0_1px_rgb(var(--c-fg)/0.1),0_2rem_3rem_-1.8rem_rgb(0_0_0/0.6)]">
+                <Image
+                  src="/lp/shopee-map.webp"
+                  alt=""
+                  width={1200}
+                  height={800}
+                  sizes="(min-width: 1024px) 560px, 100vw"
+                  className="h-auto w-full"
+                />
+                <figcaption className="pb-3 text-center text-[12px] font-bold text-[#555] sm:pb-4 sm:text-[13px]">
+                  日本から東南アジア・台湾へ
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+          <div className="flex flex-col p-8 sm:p-10 lg:col-span-5 lg:p-12">
+            <p className="t-kicker text-sc-fg/60">Our product</p>
+            <h3 id="shopee-title" className="t-h3 mt-6 !text-[clamp(2rem,3.4vw,3rem)]">
+              Shopee連携
+            </h3>
+            <p className="t-lead mt-4">ネクストエンジンから、すぐにShopeeへ出品。</p>
+            <p className="mt-5 text-[15px] leading-[2] text-sc-fg/70">
+              ネクストエンジンの商品を、Shopeeに出品するアプリです。英語の商品名と説明をAIが下書きし、為替と送料を含めた売価の計算、まとめての出品、在庫の連携までを引き受けます。
+            </p>
+            <div className="mt-10 lg:mt-auto lg:pt-10">
+              <a
+                href={EXTERNAL_LINKS.shopeeApp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="sc-btn sc-btn-ghost"
+              >
+                <span className="sc-btn-label">Shopee連携を見る</span>
                 <span className="sc-btn-icon">
                   <ArrowUpRight className="h-4 w-4" aria-hidden />
                 </span>

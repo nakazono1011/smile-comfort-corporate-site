@@ -31,6 +31,7 @@ export const OG_IMAGE = {
 /** 外部 URL（自社プロダクト・SNS）。JSON-LD sameAs / リンク群で共通参照 */
 export const EXTERNAL_LINKS = {
   catamap: "https://catamap.app/",
+  shopeeApp: "https://shopee.catamap.app/about",
   traBell: "https://www.tra-bell.com",
   note: "https://note.com/smilecomfort",
 } as const;
@@ -90,7 +91,7 @@ const CAPABILITIES: Record<CapabilityKey, CapabilityInfo> = {
  * 自社プロダクト。記事内では「広告」ではなく「弊社運用事例」として控えめに言及する。
  * 関連性が薄い記事には登場させない。
  */
-export type OwnProductKey = "trabell" | "catamap";
+export type OwnProductKey = "trabell" | "catamap" | "shopeeApp";
 
 export interface OwnProductInfo {
   key: OwnProductKey;
@@ -131,6 +132,21 @@ export const OWN_PRODUCTS: Record<OwnProductKey, OwnProductInfo> = {
     blurb: {
       ja: "EC 運用支援の知見から生まれた、楽天市場 / Yahoo! ショッピングの商品属性・カテゴリマッピングを AI で補完する SaaS。",
       en: "An EC-ops-born SaaS that uses AI to fill in product attributes and category mappings for Rakuten and Yahoo! Shopping.",
+    },
+    relatedAffiliateProducts: ["nextengine"],
+    capabilities: ["ai-contract", "ec-ops"],
+  },
+  shopeeApp: {
+    key: "shopeeApp",
+    name: "Shopee連携",
+    url: EXTERNAL_LINKS.shopeeApp,
+    tagline: {
+      ja: "ネクストエンジンの商品を Shopee に出品するアプリ",
+      en: "An app that lists Next Engine products on Shopee",
+    },
+    blurb: {
+      ja: "弊社が提供するネクストエンジンのアプリ。ネクストエンジンの商品から AI が英語の商品名と説明を下書きし、設定した為替と送料で売価を計算して、選んだ商品を Shopee にまとめて出品する。在庫連携にも対応。",
+      en: "Our Next Engine app. AI drafts English product titles and descriptions from Next Engine products, prices are calculated from your exchange rate and shipping settings, and selected products are listed on Shopee in bulk, with optional inventory sync.",
     },
     relatedAffiliateProducts: ["nextengine"],
     capabilities: ["ai-contract", "ec-ops"],
