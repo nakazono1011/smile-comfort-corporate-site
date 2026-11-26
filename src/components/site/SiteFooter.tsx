@@ -14,7 +14,6 @@ const SERVICE_LINKS = [
 const COMPANY_LINKS = [
   { label: "対応範囲", href: "/#scope" },
   { label: "進め方", href: "/#approach" },
-  { label: "実績", href: "/#works" },
   { label: "会社概要", href: "/#company" },
   { label: "お問い合わせ", href: "/#contact" },
 ];

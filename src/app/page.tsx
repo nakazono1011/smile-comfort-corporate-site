@@ -9,7 +9,6 @@ import { Services } from "@/components/lp/sections/Services";
 import { Climax } from "@/components/lp/sections/Climax";
 import { Scope } from "@/components/lp/sections/Scope";
 import { Approach } from "@/components/lp/sections/Approach";
-import { Works } from "@/components/lp/sections/Works";
 import { Faq } from "@/components/lp/sections/Faq";
 import { Company } from "@/components/lp/sections/Company";
 import { Contact } from "@/components/lp/sections/Contact";
@@ -57,7 +56,6 @@ export default function Home() {
         </DialStage>
         <Scope />
         <Approach />
-        <Works />
         <Faq />
         <Company />
         <Contact />

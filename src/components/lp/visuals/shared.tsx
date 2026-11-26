@@ -122,6 +122,7 @@ export function VisualFrame({
   children,
   className,
   narrowScale = 26,
+  link,
 }: {
   label: string;
   caption: string;
@@ -129,21 +130,32 @@ export function VisualFrame({
   className?: string;
   /** 幅が狭いとき、枠の幅を何emとみなすか (大きいほど文字が小さい) */
   narrowScale?: number;
+  /** 図そのものを外部ページへのリンクにする。中身は aria-hidden なので、リンクの名前は label で渡す */
+  link?: { href: string; label: string };
 }) {
+  const stage = (
+    <div
+      className={cn(
+        "vis-stage relative overflow-hidden rounded-[4px] bg-sc-surface ring-1 ring-sc-fg/10",
+        className
+      )}
+      style={{ "--vis-n": narrowScale } as React.CSSProperties}
+      aria-hidden
+      // 架空の文言 (模擬の問い合わせなど) を検索結果の抜粋に使わせない
+      data-nosnippet
+    >
+      {children}
+    </div>
+  );
   return (
     <figure className="vis">
-      <div
-        className={cn(
-          "vis-stage relative overflow-hidden rounded-[4px] bg-sc-surface ring-1 ring-sc-fg/10",
-          className
-        )}
-        style={{ "--vis-n": narrowScale } as React.CSSProperties}
-        aria-hidden
-        // 架空の文言 (模擬の問い合わせなど) を検索結果の抜粋に使わせない
-        data-nosnippet
-      >
-        {children}
-      </div>
+      {link ? (
+        <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label} className="group block">
+          {stage}
+        </a>
+      ) : (
+        stage
+      )}
       <figcaption className="mt-4 flex flex-col gap-1 text-[13px] leading-[1.9] text-sc-fg/65 sm:flex-row sm:gap-4">
         <span className="t-kicker mt-[0.45em] shrink-0 text-sc-accent">{label}</span>
         <span>{caption}</span>

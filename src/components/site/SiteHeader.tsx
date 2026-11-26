@@ -11,7 +11,6 @@ const NAV = [
   { label: "サービス", id: "services" },
   { label: "対応範囲", id: "scope" },
   { label: "進め方", id: "approach" },
-  { label: "実績", id: "works" },
   { label: "会社概要", id: "company" },
 ] as const;
 

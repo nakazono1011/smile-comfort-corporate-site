@@ -126,12 +126,12 @@ export const OWN_PRODUCTS: Record<OwnProductKey, OwnProductInfo> = {
     name: "CataMap",
     url: EXTERNAL_LINKS.catamap,
     tagline: {
-      ja: "楽天・Yahoo! の商品属性・カテゴリを AI で自動マッピング",
-      en: "AI-driven category and attribute mapping for Rakuten and Yahoo! marketplaces",
+      ja: "AI による出品・ページ最適化（楽天市場・Yahoo!ショッピングほか）",
+      en: "AI-optimized listings and product pages for Rakuten, Yahoo! Shopping, and more",
     },
     blurb: {
-      ja: "EC 運用支援の知見から生まれた、楽天市場 / Yahoo! ショッピングの商品属性・カテゴリマッピングを AI で補完する SaaS。",
-      en: "An EC-ops-born SaaS that uses AI to fill in product attributes and category mappings for Rakuten and Yahoo! Shopping.",
+      ja: "EC 運用支援の知見から生まれた SaaS。商品画像と価格から、楽天市場・Yahoo!ショッピングの登録仕様に合わせた商品名・説明文・カテゴリ・属性を AI で作り、出品中の商品もストアから読み込んでカテゴリや商品属性を整えて反映する。",
+      en: "An EC-ops-born SaaS. From product images and a price, AI drafts titles, descriptions, categories, and attributes that follow Rakuten and Yahoo! Shopping listing rules, and it can load live listings from your store to fix their categories and attributes.",
     },
     relatedAffiliateProducts: ["nextengine"],
     capabilities: ["ai-contract", "ec-ops"],

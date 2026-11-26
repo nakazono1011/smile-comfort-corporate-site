@@ -52,7 +52,7 @@ const lines = [
   `- 相談窓口: ${baseUrl}/#contact`,
   ``,
   `## 主な自社プロダクト`,
-  `- CataMap: https://catamap.app/ — ECモール向けAIタグ自動補完`,
+  `- CataMap: https://catamap.app/ — AIによる出品・ページ最適化。商品画像と価格から、楽天市場・Yahoo!ショッピングの登録仕様に合わせた商品名・説明文・カテゴリ・属性を作成。出品中の商品もストアから読み込み、カテゴリや商品属性を整えて反映`,
   `- Shopee連携: https://shopee.catamap.app/about — ネクストエンジンの商品を Shopee に出品するアプリ。英語の商品名・説明の AI 下書き、送料込みの売価計算、まとめて出品、在庫連携`,
   ``,
   `## 日本語メディア (${ja.length}件)`,
