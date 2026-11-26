@@ -41,7 +41,7 @@ const lines = [
   `# 合同会社スマイルコンフォート (Smile Comfort LLC)`,
   ``,
   `Base URL: ${baseUrl}`,
-  `About: EC × AI で、自社EC・国内モール・海外モールの課題を解決（出品業務・併売・問い合わせ対応・ページ改善）。自社SaaS CataMap の開発・運営`,
+  `About: EC × AI で、自社EC・国内モール・海外モールの課題を解決（出品業務・併売・問い合わせ対応・ページ改善）。自社プロダクト CataMap / Shopee連携 の開発・運営`,
   ``,
   `## サービス (EC × AI の業務改善支援。自社EC・国内モール・海外モールに対応)`,
   // 文言は src/components/lp/content.ts の SERVICES と揃える
@@ -53,6 +53,7 @@ const lines = [
   ``,
   `## 主な自社プロダクト`,
   `- CataMap: https://catamap.app/ — ECモール向けAIタグ自動補完`,
+  `- Shopee連携: https://shopee.catamap.app/about — ネクストエンジンの商品を Shopee に出品するアプリ。英語の商品名・説明の AI 下書き、送料込みの売価計算、まとめて出品、在庫連携`,
   ``,
   `## 日本語メディア (${ja.length}件)`,
   ...ja.map((p) =>

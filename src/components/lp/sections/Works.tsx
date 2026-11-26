@@ -3,6 +3,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { EXTERNAL_LINKS } from "@/config/company";
 import { WORKS } from "../content";
 import { CatamapVisual } from "../visuals/CatamapVisual";
+import { ShopeeVisual } from "../visuals/ShopeeVisual";
 
 const d = (n: number) => ({ "--d": n }) as CSSProperties;
 
@@ -76,6 +77,40 @@ export function Works() {
                 className="sc-btn sc-btn-ghost"
               >
                 <span className="sc-btn-label">CataMapを見る</span>
+                <span className="sc-btn-icon">
+                  <ArrowUpRight className="h-4 w-4" aria-hidden />
+                </span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article
+          data-reveal
+          aria-labelledby="shopee-title"
+          className="mt-8 grid overflow-hidden rounded-[4px] bg-sc-surface ring-1 ring-sc-fg/10 lg:mt-10 lg:grid-cols-12"
+        >
+          <div className="relative min-h-[18rem] overflow-hidden bg-sc-fg/[0.04] lg:col-span-7">
+            <ShopeeVisual />
+            <span className="absolute bottom-3 right-4 text-[11px] font-bold text-sc-fg/60">機能のイメージ図</span>
+          </div>
+          <div className="flex flex-col p-8 sm:p-10 lg:col-span-5 lg:p-12">
+            <p className="t-kicker text-sc-fg/60">Our product</p>
+            <h3 id="shopee-title" className="t-h3 mt-6 !text-[clamp(2rem,3.4vw,3rem)]">
+              Shopee連携
+            </h3>
+            <p className="t-lead mt-4">ネクストエンジンから、すぐにShopeeへ出品。</p>
+            <p className="mt-5 text-[15px] leading-[2] text-sc-fg/70">
+              ネクストエンジンの商品を、Shopeeに出品するアプリです。英語の商品名と説明をAIが下書きし、為替と送料を含めた売価の計算、まとめての出品、在庫の連携までを引き受けます。
+            </p>
+            <div className="mt-10 lg:mt-auto lg:pt-10">
+              <a
+                href={EXTERNAL_LINKS.shopeeApp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="sc-btn sc-btn-ghost"
+              >
+                <span className="sc-btn-label">Shopee連携を見る</span>
                 <span className="sc-btn-icon">
                   <ArrowUpRight className="h-4 w-4" aria-hidden />
                 </span>

@@ -40,6 +40,7 @@ export const SERVICES: Service[] = [
     works: [
       "ECモールのカテゴリ・スペック・商品属性の自動付与アプリ",
       "自社SaaS「CataMap」の開発・運営",
+      "ネクストエンジンのアプリ「Shopee連携」の開発・運営",
     ],
     tasks: ["商品登録", "属性の入力", "説明文づくり"],
   },

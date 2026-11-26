@@ -22,6 +22,7 @@ const COMPANY_LINKS = [
 const EXTERNAL = [
   { label: "メディア", href: "/media", internal: true },
   { label: "CataMap", href: EXTERNAL_LINKS.catamap },
+  { label: "Shopee連携", href: EXTERNAL_LINKS.shopeeApp },
   { label: "note", href: EXTERNAL_LINKS.note },
 ];
 

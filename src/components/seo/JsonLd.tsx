@@ -14,7 +14,7 @@ const ORG_SAME_AS = [EXTERNAL_LINKS.note] as const;
 const ORG_ID = `${BASE_URL}/#organization`;
 
 /** トップページに載せている自社プロダクト。会社 (ORG_ID) が提供するアプリケーションとして記述する */
-const LP_PRODUCTS = [OWN_PRODUCTS.catamap];
+const LP_PRODUCTS = [OWN_PRODUCTS.catamap, OWN_PRODUCTS.shopeeApp];
 
 const mediaUrl = (slug: string, lang: "ja" | "en") =>
   lang === "en" ? `${BASE_URL}/en/media/${slug}` : `${BASE_URL}/media/${slug}`;
