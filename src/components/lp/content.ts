@@ -216,12 +216,6 @@ export const WORKS = [
     cta: "問い合わせ対応を見る",
   },
   {
-    area: "出品業務",
-    title: "ECモールのカテゴリ・スペック・商品属性の自動付与アプリ",
-    href: "#service-listing",
-    cta: "出品業務を見る",
-  },
-  {
     area: "ページ改善",
     title: "競合サイトAI分析ツール",
     href: "#service-page",
