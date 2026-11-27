@@ -32,15 +32,14 @@ export const SERVICES: Service[] = [
     lead: "商品登録を、1件ずつの手入力から解放する。",
     body: "商品名や説明文、画像から、売り場ごとのカテゴリや属性をAIが判定して入力します。説明文の下書き、海外モール向けの翻訳、モール別のCSV作成までまとめて自動化します。",
     builds: [
-      "カテゴリ・属性の自動入力",
-      "商品説明文の下書き生成",
+      "各モールに合わせたAI最適化",
+      "画像だけで複数のモールに一元出品",
+      "商品ページの作成",
       "海外モール向けの翻訳・現地化",
       "モール別CSVの一括作成",
     ],
-    works: [
-      "自社SaaS「CataMap」の開発・運営",
-      "ネクストエンジンのアプリ「Shopee連携」の開発・運営",
-    ],
+    // 出品業務の実績は、章の図 (自社SaaS「CataMap」) で見せる
+    works: [],
     tasks: ["商品登録", "属性の入力", "説明文づくり"],
   },
   {
@@ -206,31 +205,3 @@ export const SCOPE: Record<ServiceKey, [string, string, string]> = {
     "現地の競合ページと比べて改善",
   ],
 };
-
-/** これまでの実績。各行から対応する業務の章 (Services) へ移動できる */
-export const WORKS = [
-  {
-    area: "問い合わせ対応",
-    title: "ECサイトのカスタマー返信自動化アプリ",
-    href: "#service-support",
-    cta: "問い合わせ対応を見る",
-  },
-  {
-    area: "ページ改善",
-    title: "競合サイトAI分析ツール",
-    href: "#service-page",
-    cta: "ページ改善を見る",
-  },
-  {
-    area: "併売",
-    title: "併売ツールの導入支援",
-    href: "#service-channel",
-    cta: "併売を見る",
-  },
-  {
-    area: "分析・効率化",
-    title: "分析・業務効率化ツールの開発",
-    href: "#service-channel",
-    cta: "併売を見る",
-  },
-] as const;

@@ -1,22 +1,30 @@
 import type { ComponentType, CSSProperties } from "react";
 import { SERVICES, type Service, type ServiceKey } from "../content";
 import { MiniDial } from "../dial/MiniDial";
+import { CatamapShowcase } from "../visuals/CatamapShowcase";
 import { ChannelVisual } from "../visuals/ChannelVisual";
-import { ListingVisual } from "../visuals/ListingVisual";
 import { PageVisual } from "../visuals/PageVisual";
 import { SupportVisual } from "../visuals/SupportVisual";
+import { ShopeeCard } from "./ShopeeCard";
 
 const VISUALS: Record<ServiceKey, ComponentType> = {
-  listing: ListingVisual,
+  listing: CatamapShowcase,
   channel: ChannelVisual,
   support: SupportVisual,
   page: PageVisual,
+};
+
+/** 章の終わりに置く自社プロダクトの紹介 */
+const PRODUCTS: Partial<Record<ServiceKey, ComponentType>> = {
+  channel: ShopeeCard,
 };
 
 const d = (n: number) => ({ "--d": n }) as CSSProperties;
 
 function Chapter({ service, index }: { service: Service; index: number }) {
   const Visual = VISUALS[service.key];
+  const Product = PRODUCTS[service.key];
+  const hasWorks = service.works.length > 0;
   return (
     <article
       id={`service-${service.key}`}
@@ -44,7 +52,7 @@ function Chapter({ service, index }: { service: Service; index: number }) {
           <Visual />
         </div>
 
-        <div className="mt-12 grid gap-10 sm:grid-cols-2 sm:gap-8">
+        <div className={hasWorks ? "mt-12 grid gap-10 sm:grid-cols-2 sm:gap-8" : "mt-12"}>
           <div data-reveal>
             <p className="text-xs font-bold text-sc-fg/60">つくるもの・整えるもの</p>
             <ul className="mt-4 border-t border-sc-fg/10">
@@ -56,17 +64,21 @@ function Chapter({ service, index }: { service: Service; index: number }) {
               ))}
             </ul>
           </div>
-          <div data-reveal style={d(0.08)}>
-            <p className="text-xs font-bold text-sc-fg/60">これまでの実績</p>
-            <ul className="mt-4 border-t border-sc-fg/10">
-              {service.works.map((w) => (
-                <li key={w} className="border-b border-sc-fg/10 py-3 text-[15px] leading-relaxed text-sc-fg/80">
-                  {w}
-                </li>
-              ))}
-            </ul>
-          </div>
+          {hasWorks && (
+            <div data-reveal style={d(0.08)}>
+              <p className="text-xs font-bold text-sc-fg/60">これまでの実績</p>
+              <ul className="mt-4 border-t border-sc-fg/10">
+                {service.works.map((w) => (
+                  <li key={w} className="border-b border-sc-fg/10 py-3 text-[15px] leading-relaxed text-sc-fg/80">
+                    {w}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
+
+        {Product && <Product />}
       </div>
     </article>
   );
